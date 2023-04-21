@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "581317164247",
+    "project_id": "flutter-mentalapp",
+    "storage_bucket": "flutter-mentalapp.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:581317164247:android:72724b90ed240575534492",
+        "android_client_info": {
+          "package_name": "com.example.flutter_application_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "581317164247-mjk8uoqdrv1gougoafjj9rbj2atdjpu2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAlXYxant_FlUASoWh0dHdu_bL1M45ei3k"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "581317164247-mjk8uoqdrv1gougoafjj9rbj2atdjpu2.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "581317164247-28mit3kadrmh0p3lb8rp0sah4niir0e2.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.flutterApplicationApp"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
