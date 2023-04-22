@@ -55,12 +55,19 @@ class _HomeState extends State<Home> {
       body: FutureBuilder(
         future: getPersonas(),         // <-llama a la funcion declarada en la carpeta servicion
         builder:(context, snapshot){ //<-snapshot recibe getPersonas()
-          return ListView.builder(
+        if(snapshot.hasData){//<-snapshot si no esta NULL lo muestra
+             return ListView.builder(
             itemCount: snapshot.data?.length,
             itemBuilder: (context, index){
               return Text(snapshot.data?[index]['apellido']); //<-- [saca el dato de la base]
             },
           );
+          
+        } else{return const Center(//<-snapshot si esta NULL 
+          child: CircularProgressIndicator(),//<-pinta un circulo
+        );
+        }
+      
         }),
 
 
