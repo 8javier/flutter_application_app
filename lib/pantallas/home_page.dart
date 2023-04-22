@@ -36,8 +36,10 @@ class _HomeState extends State<Home> {
         }
         }),
         floatingActionButton: FloatingActionButton(
-            onPressed: (){
-            Navigator.pushNamed(context, '/add');
+            onPressed: ()async{                      //<-agrega un async por que se interactua con la base de datos
+            await Navigator.pushNamed(context, '/add');//<-agrega await para que pause la sincronia con la base y hace una actualizacion de los datos que hay en la base
+            print('sigo ejecutando el Home');  //<-compruevo si paro en la debug console
+            setState(() {});   //<-- actualiza la info del Home_page para que muestre los datos da la base de datos
         },
         child: const Icon(Icons.add),
         ),
