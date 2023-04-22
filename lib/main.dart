@@ -13,8 +13,8 @@ void main() async {
   await Firebase.initializeApp(
     //options: DefaultFirebaseOptions.android, // if you're using windows emulator
     //options: DefaultFirebaseOptions.ios, // para plataforma ios
-   // options: DefaultFirebaseOptions.currentPlatform, // usa la actual
-     options: DefaultFirebaseOptions.web,
+    options: DefaultFirebaseOptions.currentPlatform, // no usen la opcion windows solo web o android
+     //options: DefaultFirebaseOptions.web, 
   );
   runApp(const MyApp()); // <-----Arranca la App
 }
@@ -29,7 +29,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const MaterialApp(
-        title: 'Flutter Demo',
+        title: 'Flutter AppMental',
         home: Home()
         
         );
@@ -54,11 +54,11 @@ class _HomeState extends State<Home> {
       
       body: FutureBuilder(
         future: getPersonas(),         // <-llama a la funcion declarada en la carpeta servicion
-        builder:(context, snapshot){ //<-snapshot recibe getPersonas
+        builder:(context, snapshot){ //<-snapshot recibe getPersonas()
           return ListView.builder(
             itemCount: snapshot.data?.length,
             itemBuilder: (context, index){
-              return Text(snapshot.data?[index]['apellido']); //<-- hay q arreglar [saca el dato de la base]
+              return Text(snapshot.data?[index]['apellido']); //<-- [saca el dato de la base]
             },
           );
         }),

@@ -1,4 +1,3 @@
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 // funciones para la administracion en firebase
@@ -12,9 +11,9 @@ CollectionReference collectionReferencePersonas = db.collection('pacientes');// 
 
 QuerySnapshot queryPacientes = await collectionReferencePersonas.get();// <-- pide todos los pacientes
 
-queryPacientes.docs.forEach((element) { 
+for (var element in queryPacientes.docs) { 
   personas.add(element.data());
-});
+}
 return personas;
 }
 
