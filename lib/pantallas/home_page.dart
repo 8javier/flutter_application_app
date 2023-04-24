@@ -15,17 +15,30 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('data')
+      appBar: AppBar(title: const Text('Personas')
       ),
       
       body: FutureBuilder(
-        future: getPersonas(),         // <-llama a la funcion declarada en la carpeta servicion
+        future: getPersonas(),         // <-llama a la funcion declarada en la carpeta servicios que trae los datos de la base de datos
         builder:(context, snapshot){ //<-snapshot recibe getPersonas()
         if(snapshot.hasData){//<-snapshot si no esta NULL lo muestra
              return ListView.builder(
             itemCount: snapshot.data?.length,
             itemBuilder: (context, index){
-              return Text(snapshot.data?[index]['apellido']); //<-- [saca el dato de la base]
+              return ListTile(
+               title: Text(snapshot.data?[index]['apellido']), //<-- [saca el dato de la base]
+              onTap: (() async{
+                await Navigator.pushNamed(context, '/edit',arguments: 
+                {
+                  "apellido": snapshot.data?[index]['apellido'],
+                  "nombre": snapshot.data?[index]['nombre'],
+                  "uid":snapshot.data?[index]['uid'],//<-- [saca el ID de la base]
+                });
+                setState(() {
+                  //<--  A ctualiza los cambios con los de la base
+                });
+              })
+              );
             },
           );
           
