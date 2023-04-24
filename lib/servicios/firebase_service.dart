@@ -32,5 +32,8 @@ Future<void> addPaciente(String name, String apellido)async{
 // -----funcion que Actualiza Pacientes en la base-----------
 Future<void>actualizaPersonas(String uid,String newApellido,String newNombre)async{
   await db.collection('pacientes').doc(uid).set({'apellido':newApellido,'nombre':newNombre});
-
+}
+// -----funcion que Borra Pacientes en la base-----------
+Future<void>borradoPersona(String uid) async{
+await db.collection('pacientes').doc(uid).delete();
 }
