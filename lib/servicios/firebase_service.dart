@@ -3,6 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 // funciones para la administracion en firebase
 
 FirebaseFirestore db = FirebaseFirestore.instance;
+
 //------- Funcion q carga Pacientes de la base
 Future<List>getPersonas() async{
 List personas = [];// <-- variable para almacenar lista de datos pedidos

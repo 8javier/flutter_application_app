@@ -49,7 +49,6 @@ class _editPacientePageState extends State<editPacientePage> {// <-el cuerpo de 
             Navigator.pop(context);
             } );
           }, 
-          
           child: const Text('Actualizar'))
         ],
         ),
