@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 //--------------  Paquetes que usa para la conexion a Firebase
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter_application_app/pantallas/edit_paciente_page.dart';
 import 'firebase_options.dart';
 //-------------- ------------------------------------------------------
 //  Paginas
@@ -34,6 +35,7 @@ class MyApp extends StatelessWidget {
         routes: {
           '/':(context)=>const Home(),
          '/add':(context)=>const AddPacientePage(),
+         '/edit':(context)=>const editPacientePage(),
         },
         
         );
