@@ -1,3 +1,5 @@
+
+//BORRADOR    Clase para las opciones de las preguntas
 class Opcion {
   String texto;
   bool esCorrecta;

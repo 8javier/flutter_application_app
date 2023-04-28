@@ -1,5 +1,7 @@
+
 import 'Pregunta.dart';
 
+//BORRADOR    Clase para las encuestas dinamicas
 class EncuestaDinamica {
   String titulo;
   String descripcion;

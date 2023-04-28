@@ -1,5 +1,6 @@
 import 'Opcion.dart';
 
+//BORRADOR      Clase para las preguntas de las encuestas
 class Pregunta {
   String enunciado;
   List<Opcion> opciones;
