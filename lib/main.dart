@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 //--------------  Paquetes que usa para la conexion a Firebase
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter_application_app/pantallas/add_pacientes_page.dart';
+import 'package:flutter_application_app/pantallas/add_profesional_page.dart';
 import 'package:flutter_application_app/pantallas/edit_paciente_page.dart';
+import 'package:flutter_application_app/pantallas/lista_profesionales.dart';
 import 'firebase_options.dart';
 //-------------- ------------------------------------------------------
 //  Paginas
@@ -31,11 +34,15 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
         title: 'Flutter AppMental',
+        debugShowCheckedModeBanner: false,
         initialRoute:  '/', // <--- se arma la Ruta de las Paginas
         routes: {
           '/':(context)=>const Home(),
          '/add':(context)=>const AddPacientePage(),
          '/edit':(context)=>const editPacientePage(),
+         '/addProfesional':(context)=>const AddProfesionalPage(),
+          '/addPaciente':(context)=>const AddPacientesPage(),
+          '/lisProfesional':(context)=>const ListaProfesionales(),
         },
         
         );

@@ -89,11 +89,27 @@ class _HomeState extends State<Home> {
         }),
         floatingActionButton: FloatingActionButton(
             onPressed: ()async{                      //<-agrega un async por que se interactua con la base de datos
-            await Navigator.pushNamed(context, '/add');//<-agrega await para que pause la sincronia con la base y hace una actualizacion de los datos que hay en la base
+            await Navigator.pushNamed(context, '/addProfesional');//<-agrega await para que pause la sincronia con la base y hace una actualizacion de los datos que hay en la base aca va '/add' de paciente
             print('sigo ejecutando el Home');  //<-compruevo si paro en la debug console
             setState(() {});   //<-- actualiza la info del Home_page para que muestre los datos da la base de datos
         },
         child: const Icon(Icons.add),
+        ),
+        
+        bottomSheet: FloatingActionButton(
+          onPressed:()async{
+            await Navigator.pushNamed(context, '/addPaciente');
+            print('sigo ejecutando el Home');  //<-compruevo si paro en la debug console
+         setState(() {}); 
+        },child: const Icon(Icons.accessibility_new),
+        ),
+
+        bottomNavigationBar: FloatingActionButton.large(onPressed: ()async {
+        
+          await Navigator.pushNamed(context, '/lisProfesional');
+           setState(() {}); 
+        },
+        child: const Icon(Icons.list_alt_sharp),
         ),
         
     );
