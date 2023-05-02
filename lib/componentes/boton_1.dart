@@ -1,16 +1,12 @@
 import 'package:flutter/material.dart';
 class Boton extends StatelessWidget {
+  final Function()? onTap;
    const Boton({super.key, required this.onTap});
-
-final Function()? onTap;
-
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {
-        
-      },
+      onTap:onTap,
       child: Container(
         padding: const EdgeInsets.all(25),
         margin:const EdgeInsets.symmetric(horizontal: 25) ,

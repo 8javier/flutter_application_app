@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_application_app/pantallas/add_pacientes_page.dart';
 import 'package:flutter_application_app/pantallas/add_profesional_page.dart';
+import 'package:flutter_application_app/pantallas/auth_page.dart';
 import 'package:flutter_application_app/pantallas/edit_paciente_page.dart';
 import 'package:flutter_application_app/pantallas/lista_profesionales.dart';
 import 'package:flutter_application_app/pantallas/login_page.dart';
@@ -36,7 +37,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
         title: 'Flutter AppMental',
         debugShowCheckedModeBanner: false,
-        initialRoute:  '/', // <--- se arma la Ruta de las Paginas
+        initialRoute:  '/auth_page', // <--- se arma la Ruta de las Paginas
         routes: {
           '/login':(context) => LoginPage(),
           '/':(context)=>const Home(),
@@ -45,6 +46,7 @@ class MyApp extends StatelessWidget {
          '/addProfesional':(context)=>const AddProfesionalPage(),
           '/addPaciente':(context)=>const AddPacientesPage(),
           '/lisProfesional':(context)=> const ListaProfesionales(),
+          '/auth_page':(context) => const AuthPage(),
         },
         
         );

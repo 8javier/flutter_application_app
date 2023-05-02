@@ -1,19 +1,65 @@
 import 'dart:js_util';
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_app/componentes/boton_1.dart';
 import 'package:flutter_application_app/componentes/campo_texto.dart';
 import 'package:flutter_application_app/componentes/encuadre_img.dart';
 
-class LoginPage extends StatelessWidget {
-  LoginPage({super.key});
-  // ----------------[ Controladores de Texto]
+class LoginPage extends StatefulWidget {
+ //  final Function()? onTap;
 
-  final usernameController = TextEditingController();
+
+  const LoginPage({super.key,});
+
+
+  @override
+  State<LoginPage> createState() => _LoginPageState();
+}
+
+class _LoginPageState extends State<LoginPage> {
+  // ----------------[ Controladores de Texto]
+  final emailController = TextEditingController();
+
   final passwordController = TextEditingController();
-  // -------- signuserIn metodo -----------
-  void signUserIn() {}
-  // -------- signUserIn metodo-----------
+
+  // -------- signUserIn metodo -----------
+  void signUserIn() async {
+    // muestra un circulo de espera hasta q responda la base
+    showDialog(context: context, builder: (context){
+      return const Center(
+        child: CircularProgressIndicator(),
+      );
+    });
+    // trata de hacer el logging
+    try{
+        await FirebaseAuth.instance.signInWithEmailAndPassword(
+      email: emailController.text,
+      password: passwordController.text,
+    );
+    Navigator.pop(context);
+    } on FirebaseAuthException catch(e){
+         Navigator.pop(context);
+         // Email Error
+      if(e.code == 'user-not-found'){
+        errorMensaje(e.code);
+      }
+       // Password Error
+      else if(e.code == 'wrong-password'){
+         errorMensaje(e.code);
+      }
+    } 
+  }  // <------- signUserIn fin-----------
+
+  // ------ funcion Mensaje de Alerta -----------
+  void errorMensaje(String mensaje){
+    showDialog(context: context, builder: (context){
+          return   AlertDialog( backgroundColor: Color.fromARGB(255, 231, 165, 222),
+              title: Center(
+                child: Text( mensaje, style: const TextStyle(color:Colors.purple),), ),);
+          },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +68,7 @@ class LoginPage extends StatelessWidget {
       body: SafeArea(
         child: Center(
           child: SingleChildScrollView(
-            child: Column( 
+            child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 const SizedBox(height: 50),
@@ -31,7 +77,7 @@ class LoginPage extends StatelessWidget {
                   Icons.lock,
                   size: 100,
                 ),
-          
+
                 const SizedBox(height: 50),
                 // texto de bienvenida-------------------------
                 Text(
@@ -39,10 +85,10 @@ class LoginPage extends StatelessWidget {
                   style: TextStyle(color: Colors.grey[700], fontSize: 16),
                 ),
                 const SizedBox(height: 25),
-                // user textfield------------------------------
+                // email textfield------------------------------
                 CampoTexto(
-                  controller: usernameController,
-                  hinttext: 'Nombre de Usuario',
+                  controller: emailController,
+                  hinttext: 'email',
                   textObscuro: false,
                 ),
                 const SizedBox(height: 10),
@@ -82,20 +128,29 @@ class LoginPage extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: const [
                     EncuadreImg(imagenesPath: 'lib/imagenes/google.png'),
-                      SizedBox(height: 10),
+                    SizedBox(height: 10),
                   ],
                 ),
-                 const SizedBox(height: 10),
-          
+                const SizedBox(height: 10),
+
                 // registrar
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text('No Registrado',style: TextStyle(color: Colors.grey[700]),),
-                       const SizedBox(width: 4),
-                       const Text('Registrate ahora',
-                       style: TextStyle(color: Colors.blue,fontWeight: FontWeight.bold),)
-                    ],
+                  children: [
+                    Text(
+                      'No Registrado',
+                      style: TextStyle(color: Colors.grey[700]),
+                    ),
+                    const SizedBox(width: 4),
+                    GestureDetector(  //<------ HYA HAY Q HACER EL METODO!!!
+                      // te onTap: Widget.onTap,
+                      child: const Text(
+                        'Registrate ahora',
+                        style: TextStyle(
+                            color: Colors.blue, fontWeight: FontWeight.bold),
+                      ),
+                    )
+                  ],
                 ),
               ],
             ),

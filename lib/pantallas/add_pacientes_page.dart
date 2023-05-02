@@ -21,7 +21,6 @@ class _AddPacientesPageState extends State<AddPacientesPage> {
 
   @override
   Widget build(BuildContext context) {
-    String data;
     return Scaffold(
         appBar: AppBar(
           title: const Text('Registrar a Paciente'),

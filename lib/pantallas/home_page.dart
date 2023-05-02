@@ -2,6 +2,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_app/servicios/firebase_service.dart';
 
+import '../componentes/boton_1.dart';
+
 class Home extends StatefulWidget {// <-es una extraccion de home:home()
   const Home({
     super.key,
@@ -77,15 +79,17 @@ class _HomeState extends State<Home> {
                   });
                 })
                 ),
+
+                
               );
             },
           );
           
-        } else{return const Center(//<-snapshot si esta NULL 
-          child: CircularProgressIndicator(),//<-pinta un circulo
-        );
-        
-        }
+        }   else{return const Center(//<-snapshot si esta NULL 
+                  child: CircularProgressIndicator(),//<-pinta un circulo
+                      );
+           
+            }
         }),
         floatingActionButton: FloatingActionButton(
             onPressed: ()async{                      //<-agrega un async por que se interactua con la base de datos
@@ -103,6 +107,8 @@ class _HomeState extends State<Home> {
          setState(() {}); 
         },child: const Icon(Icons.accessibility_new),
         ),
+  
+        
 
         bottomNavigationBar: FloatingActionButton.large(onPressed: ()async {
         
