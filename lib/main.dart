@@ -5,6 +5,7 @@ import 'package:flutter_application_app/pantallas/add_pacientes_page.dart';
 import 'package:flutter_application_app/pantallas/add_profesional_page.dart';
 import 'package:flutter_application_app/pantallas/edit_paciente_page.dart';
 import 'package:flutter_application_app/pantallas/lista_profesionales.dart';
+import 'package:flutter_application_app/pantallas/login_page.dart';
 import 'firebase_options.dart';
 //-------------- ------------------------------------------------------
 //  Paginas
@@ -37,12 +38,13 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         initialRoute:  '/', // <--- se arma la Ruta de las Paginas
         routes: {
+          '/login':(context) => LoginPage(),
           '/':(context)=>const Home(),
          '/add':(context)=>const AddPacientePage(),
          '/edit':(context)=>const editPacientePage(),
          '/addProfesional':(context)=>const AddProfesionalPage(),
           '/addPaciente':(context)=>const AddPacientesPage(),
-          '/lisProfesional':(context)=>const ListaProfesionales(),
+          '/lisProfesional':(context)=> const ListaProfesionales(),
         },
         
         );
