@@ -1,7 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_app/pantallas/home_inicio.dart';
+import 'package:flutter_application_app/pantallas/login_or_register.dart';
 import 'package:flutter_application_app/pantallas/login_page.dart';
+import 'package:flutter_application_app/pantallas/register_page.dart';
 
 
 //---------[ Pagina para verificar si el usuario esta logeado o no ]
@@ -21,7 +23,7 @@ class AuthPage extends StatelessWidget {
 
             //-- user No logged in
             else {
-              return const LoginPage();
+              return const LoginOrRegisterPage();
             }
           },
         ),

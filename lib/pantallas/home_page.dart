@@ -2,8 +2,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_app/servicios/firebase_service.dart';
 
-import '../componentes/boton_1.dart';
-
 class Home extends StatefulWidget {// <-es una extraccion de home:home()
   const Home({
     super.key,

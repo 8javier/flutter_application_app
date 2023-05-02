@@ -1,34 +1,39 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_application_app/componentes/boton_1.dart';
 import 'package:flutter_application_app/componentes/campo_texto.dart';
 import 'package:flutter_application_app/componentes/encuadre_img.dart';
 
-class LoginPage extends StatefulWidget {
+class RegisterPage extends StatefulWidget {
   final Function()? onTap;
-  const LoginPage({super.key,required this.onTap});
-
+  const RegisterPage({super.key,required this.onTap,}); 
   @override
-  State<LoginPage> createState() => _LoginPageState();
+  State<RegisterPage> createState() => _RegisterPageState();
 }
-class _LoginPageState extends State<LoginPage> {
+class _RegisterPageState extends State<RegisterPage> {
   // ----------------[ Controladores de Texto]-----------
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
-  // -------- sign_User_In metodo -----------
-  void signUserIn() async {
+    final confirmarPasswordController = TextEditingController();
+  // -------- Crear_Usuario_Up metodo -----------
+  void signUserUp() async {
     // muestra un circulo de espera hasta q responda la base
     showDialog(context: context, builder: (context){
       return const Center(
         child: CircularProgressIndicator(),
       );
     });
-    // trata de hacer el logging
+    // trata de Registro un nuevo usuario
     try{
-        await FirebaseAuth.instance.signInWithEmailAndPassword(
-      email: emailController.text,
-      password: passwordController.text,
+       // confirma la Password ingresada
+        if(passwordController.text == confirmarPasswordController.text){
+                   await FirebaseAuth.instance.createUserWithEmailAndPassword(
+                    email: emailController.text,
+                    password: passwordController.text,
     );
+        }else{ // si son distintas mostrar Error de Password
+              errorMensaje('La contraseñas no coinciden');
+        }
     Navigator.pop(context);
     } on FirebaseAuthException catch(e){
          Navigator.pop(context);
@@ -51,6 +56,8 @@ class _LoginPageState extends State<LoginPage> {
           },
     );
   }
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -61,17 +68,16 @@ class _LoginPageState extends State<LoginPage> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                const SizedBox(height: 50),
+                const SizedBox(height: 25),
                 // logo----------------------------------------
                 const Icon(
                   Icons.lock,
-                  size: 100,
+                  size: 50,
                 ),
-
-                const SizedBox(height: 50),
+                const SizedBox(height: 25),
                 // texto de bienvenida-------------------------
                 Text(
-                  'Bienvenido',
+                  'Crea tu cuenta',
                   style: TextStyle(color: Colors.grey[700], fontSize: 16),
                 ),
                 const SizedBox(height: 25),
@@ -89,24 +95,18 @@ class _LoginPageState extends State<LoginPage> {
                   textObscuro: true,
                 ),
                 const SizedBox(height: 10),
-                // forgot password----------------------------
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 25),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: const [
-                      Text(
-                        'Olvido su contraseña',
-                        style: TextStyle(color: Colors.amber),
-                      ),
-                    ],
-                  ),
+                  // Confirmar password textfield--------------------------
+                CampoTexto(
+                  controller: confirmarPasswordController,
+                  hinttext: 'Confirmar contraseña',
+                  textObscuro: true,
                 ),
                 const SizedBox(height: 10),
+           
                 // sing in boton------------------------------
                 Boton(
-                  texto:'Sing in',
-                  onTap: signUserIn,
+                  texto: 'Sing Up',
+                  onTap: signUserUp,
                 ),
                 const SizedBox(height: 10),
                 // o continuar con...------------------------
@@ -129,18 +129,16 @@ class _LoginPageState extends State<LoginPage> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      'No Registrado',
+                      'Ya tienes una cuenta?',
                       style: TextStyle(color: Colors.grey[700]),
                     ),
                     const SizedBox(width: 4),
-                    GestureDetector(  
-                       onTap: widget.onTap,
-                       child:  const Text(
+                    GestureDetector( 
+                      onTap: widget.onTap,
+                      child: const Text(
                         'Registrate ahora',
                         style: TextStyle(
-                            color: Colors.blue, 
-                            fontWeight: FontWeight.bold,
-                            ),
+                            color: Colors.blue, fontWeight: FontWeight.bold),
                       ),
                     ),
                   ],
