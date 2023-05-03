@@ -4,6 +4,8 @@ import 'package:flutter_application_app/componentes/boton_1.dart';
 import 'package:flutter_application_app/componentes/campo_texto.dart';
 import 'package:flutter_application_app/componentes/encuadre_img.dart';
 
+import '../servicios/auth_service.dart';
+
 class RegisterPage extends StatefulWidget {
   final Function()? onTap;
   const RegisterPage({super.key,required this.onTap,}); 
@@ -117,9 +119,11 @@ class _RegisterPageState extends State<RegisterPage> {
                 // google \\ o otros
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
-                  children: const [
-                    EncuadreImg(imagenesPath: 'lib/imagenes/google.png'),
-                    SizedBox(height: 10),
+                  children: [
+                    EncuadreImg(
+                    onTap: () => AuthService().registroConGoogle(),
+                    imagenesPath: 'lib/imagenes/google.png'),
+                    const SizedBox(height: 10),
                   ],
                 ),
                 const SizedBox(height: 10),

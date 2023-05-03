@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_application_app/componentes/boton_1.dart';
 import 'package:flutter_application_app/componentes/campo_texto.dart';
 import 'package:flutter_application_app/componentes/encuadre_img.dart';
+import 'package:flutter_application_app/pantallas/auth_page.dart';
+import 'package:flutter_application_app/servicios/auth_service.dart';
 
 class LoginPage extends StatefulWidget {
   final Function()? onTap;
@@ -114,17 +116,21 @@ class _LoginPageState extends State<LoginPage> {
                   thickness: 5,
                   color: Colors.pinkAccent,
                 ),
-                // google \\ o otros
+                // Registro con google ------------------------
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
-                  children: const [
-                    EncuadreImg(imagenesPath: 'lib/imagenes/google.png'),
-                    SizedBox(height: 10),
+                  children: [
+                    //Boton de Google
+                    EncuadreImg(
+                      onTap: () => AuthService().registroConGoogle(),
+                      imagenesPath: 'lib/imagenes/google.png'),
+                    const SizedBox(height: 10),
                   ],
                 ),
+                //  ---------------------------------------------------
                 const SizedBox(height: 10),
 
-                // registrar
+                // registrar nuevo usuario
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
