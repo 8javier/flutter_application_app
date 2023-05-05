@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_app/servicios/firebase_service.dart';
 
+
+// <-----------------------------[ ESTA PAGINA SE BORRARA ES SOLO PARA PROBAR FUNCIONES DE EDITADO ]
+
 class editPacientePage extends StatefulWidget { // <-creo una pagina con StatefulWidget
   const editPacientePage({super.key});
 
@@ -21,10 +24,8 @@ class _editPacientePageState extends State<editPacientePage> {// <-el cuerpo de 
         final Map arguments2=ModalRoute.of(context)!.settings.arguments as Map;
 // ---------------------------------------------------------------------------------
     apellidoController.text=arguments['apellido'];//<--- le paso el campo del objeto persona a la variable apellidoController
-    nameController.text=arguments2['nombre'];     //<---
-    print(nameController.text);    //<--- controlo q cargue y no este vacio la variable o se rompe todo!!!
-    print(apellidoController.text);
-
+    nameController.text=arguments2['nombre'];     
+ 
     return Scaffold(
       appBar: AppBar(title: const Text('Modificar Datos'),
       ),

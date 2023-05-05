@@ -3,6 +3,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_app/servicios/firebase_service.dart';
 
+
+// <-----------------------------[ ESTA PAGINA SE MUESTRA LA LISTA DE PROFESIONALES SOLO PARA PROBAR LAS FUNCIONES PARA TRAER DATOS DE LA BASE] ------------------------
 class ListaProfesionales extends StatefulWidget {
   const ListaProfesionales({super.key});
 

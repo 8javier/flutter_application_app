@@ -46,7 +46,7 @@ Future<List>getProfesionles()async{
       return profesionales;
 }
 // ---------------------------------------------------[Funciones para uso de pruevas]-----------------------------------
-// -----funcion que guarda Pacientes en la base-----------PARA TESTING---------
+// -----funcion que guarda Pacientes en la base-----------PARA TESTING---------  
 Future<void> addPaciente(String name, String apellido)async{
   await db.collection('pacientes').add({'nombre':name,'apellido':apellido},);
 }
@@ -77,7 +77,7 @@ Future<void> addPacientes(String name, String apellido,String celular,String dni
 Future<void>borradoPaciente(String uid) async{
 await db.collection('Pacientess').doc(uid).delete();
 }
-// -----funcion que Borra Profecional en la base-----------
+// -----funcion que Borra Profesional en la base-----------
 Future<void>borradoProfesional(String uid) async{
 await db.collection('Profesional').doc(uid).delete();
 }

@@ -36,11 +36,11 @@ class _LoginPageState extends State<LoginPage> {
          Navigator.pop(context);
          // Email Error
       if(e.code == 'user-not-found'){
-        errorMensaje(e.code);
+        errorMensaje(e.code.toString());
       }
        // Password Error
       else if(e.code == 'wrong-password'){
-         errorMensaje(e.code);
+         errorMensaje(e.code.toString());
       }
     } 
   }  

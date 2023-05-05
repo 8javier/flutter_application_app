@@ -7,11 +7,10 @@ import 'package:flutter_application_app/pantallas/auth_page.dart';
 import 'package:flutter_application_app/pantallas/edit_paciente_page.dart';
 import 'package:flutter_application_app/pantallas/lista_profesionales.dart';
 import 'package:flutter_application_app/pantallas/login_or_register.dart';
-import 'package:flutter_application_app/pantallas/login_page.dart';
+import 'package:flutter_application_app/pantallas/test_page.dart';
 import 'firebase_options.dart';
 //-------------- ------------------------------------------------------
 //  Paginas
-import 'package:flutter_application_app/pantallas/add_paciente_page.dart';
 import 'package:flutter_application_app/pantallas/home_page.dart';
 // --------------------------------------------------------
 void main() async {
@@ -26,7 +25,8 @@ void main() async {
   runApp(const MyApp()); // <-----Arranca la App
 }
 
-// -----------------------------------------------------------
+// -----------------------------------------------
+// ------------
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 // --------------ROOT APP--------------------------------------
@@ -42,13 +42,13 @@ class MyApp extends StatelessWidget {
         routes: {
     //      '/login':(context) => const LoginPage(),
           '/':(context)=>const Home(),
-         '/add':(context)=>const AddPacientePage(),
          '/edit':(context)=>const editPacientePage(),
          '/addProfesional':(context)=>const AddProfesionalPage(),
           '/addPaciente':(context)=>const AddPacientesPage(),
           '/lisProfesional':(context)=> const ListaProfesionales(),
           '/auth_page':(context) => const AuthPage(),
           '/loginOrRegister':(context) => const LoginOrRegisterPage(),
+           '/test_page':(context) =>  testPage(),
         },
         
         );

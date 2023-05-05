@@ -1,5 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+
+
+//========================[  Crear la Pantalla para el registro de Google]---------!!!!Hay BUG ACA NO FUNCIONA EL REGISTRO POR WEB SOLO POR ANDROID!!!! HAY QUE MODIFICAR LA LOGICA
 class AuthService{
 // Google Sing In
 registroConGoogle() async{
@@ -22,3 +25,4 @@ return await FirebaseAuth.instance.signInWithCredential(credencial);
 
 
 
+ 

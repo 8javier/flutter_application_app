@@ -18,6 +18,7 @@ class _RegisterPageState extends State<RegisterPage> {
   final passwordController = TextEditingController();
     final confirmarPasswordController = TextEditingController();
   // -------- Crear_Usuario_Up metodo -----------
+
   void signUserUp() async {
     // muestra un circulo de espera hasta q responda la base
     showDialog(context: context, builder: (context){
@@ -25,7 +26,9 @@ class _RegisterPageState extends State<RegisterPage> {
         child: CircularProgressIndicator(),
       );
     });
+  
     // trata de Registro un nuevo usuario
+  
     try{
        // confirma la Password ingresada
         if(passwordController.text == confirmarPasswordController.text){

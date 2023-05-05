@@ -6,7 +6,7 @@ import 'package:flutter_application_app/pantallas/login_page.dart';
 import 'package:flutter_application_app/pantallas/register_page.dart';
 
 
-//---------[ Pagina para verificar si el usuario esta logeado o no ]
+//---------[ Pagina para verificar si el usuario esta logeado o no ,Y LO REDIRECCIONA A LA PAGINA QUE LE CORRESPONDA]
 class AuthPage extends StatelessWidget {
   const AuthPage({super.key});
 
