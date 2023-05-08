@@ -65,7 +65,7 @@ Widget _botonAceptar(double _height, double _width) {
     padding: EdgeInsets.all(0),
   );
   return TextButton(
-    /* style: flatButtonStyle, */
+    style: flatButtonStyle,
     onPressed: () {},
     child: Text("Registrar", style: TextStyle(color: Color(0xffffffff))),
   );
