@@ -17,6 +17,7 @@ void main() async {
     options: DefaultFirebaseOptions.currentPlatform, // no usen la opcion windows solo web o android
      //options: DefaultFirebaseOptions.web, 
   );
+
   runApp(const MyApp()); // <-----Arranca la App
 }
 
