@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_application_app/servicios/firebase_service.dart';
 
 // <-----------------------------[ ESTA PAGINA ES SE MUESTRA SOLO SI INICIO SESION ] ------------------------
 class HomeInicio extends StatelessWidget {
@@ -11,7 +12,6 @@ class HomeInicio extends StatelessWidget {
 void signUserOut(){
   FirebaseAuth.instance.signOut();
 }
-
 final user = FirebaseAuth.instance.currentUser!;
 //--------------------
   @override
@@ -35,7 +35,7 @@ final user = FirebaseAuth.instance.currentUser!;
                          const SizedBox(height:5),
                       Text( "Correo:" + user.email!, style:  const TextStyle(fontSize: 17)),
                      const SizedBox(height: 5),
-                      Text('Nombre:'+user.displayName.toString()!,style:   const TextStyle(fontSize: 17)),
+                      Text('Nombre:'+user.displayName.toString(),style:   const TextStyle(fontSize: 17)),
                            const SizedBox(height: 5),
                        Text('Uid: '+user.uid.toString(), style:     const TextStyle(fontSize: 17,)),
                     ],

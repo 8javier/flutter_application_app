@@ -17,7 +17,7 @@ class _LoginPageState extends State<LoginPage> {
   // ----------------[ Controladores de Texto]-----------
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
-  // -------- sign_User_In metodo -----------
+  // -------- sign_User_In metodo ---------------------------------
   void signUserIn() async {
     // muestra un circulo de espera hasta q responda la base
     showDialog(context: context, builder: (context){
@@ -30,18 +30,11 @@ class _LoginPageState extends State<LoginPage> {
         await FirebaseAuth.instance.signInWithEmailAndPassword(
       email: emailController.text,
       password: passwordController.text,
-    );
-    Navigator.pop(context);
+    ); Navigator.pop(context);
     } on FirebaseAuthException catch(e){
          Navigator.pop(context);
-         // Email Error
-      if(e.code == 'user-not-found'){
-        errorMensaje(e.code.toString());
-      }
-       // Password Error
-      else if(e.code == 'wrong-password'){
-         errorMensaje(e.code.toString());
-      }
+         // si hay error
+        errorMensaje(e.code);
     } 
   }  
   // ------ funcion Mensaje de Alerta -----------
@@ -107,7 +100,7 @@ class _LoginPageState extends State<LoginPage> {
                 const SizedBox(height: 10),
                 // sing in boton------------------------------
                 Boton(
-                  texto:'Sing in',
+                  texto:'Ingresar',
                   onTap: signUserIn,
                 ),
                 const SizedBox(height: 10),
@@ -142,7 +135,7 @@ class _LoginPageState extends State<LoginPage> {
                     GestureDetector(  
                        onTap: widget.onTap,
                        child:  const Text(
-                        'Registrate ahora',
+                        'Registrarse ahora',
                         style: TextStyle(
                             color: Colors.blue, 
                             fontWeight: FontWeight.bold,

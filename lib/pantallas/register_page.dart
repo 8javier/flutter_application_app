@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_application_app/componentes/boton_1.dart';
@@ -12,11 +13,16 @@ class RegisterPage extends StatefulWidget {
   @override
   State<RegisterPage> createState() => _RegisterPageState();
 }
+
 class _RegisterPageState extends State<RegisterPage> {
   // ----------------[ Controladores de Texto]-----------
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
-    final confirmarPasswordController = TextEditingController();
+  final confirmarPasswordController = TextEditingController();
+  final nombreController= TextEditingController();
+  final apellidoController=TextEditingController();
+  final celularController = TextEditingController();
+  final dniController = TextEditingController();
   // -------- Crear_Usuario_Up metodo -----------
 
   void signUserUp() async {
@@ -26,42 +32,52 @@ class _RegisterPageState extends State<RegisterPage> {
         child: CircularProgressIndicator(),
       );
     });
-  
     // trata de Registro un nuevo usuario
-  
     try{
-       // confirma la Password ingresada
+       // confirma q la Password ingresadas coinciden y lo manda a la base a cargar los datos ingresados
         if(passwordController.text == confirmarPasswordController.text){
                    await FirebaseAuth.instance.createUserWithEmailAndPassword(
                     email: emailController.text,
-                    password: passwordController.text,
+                    password: passwordController.text,           
     );
+     addUserData(
+          nombreController.text, 
+          apellidoController.text, 
+          celularController.text, 
+          int.parse(dniController.text) , 
+          emailController.text,
+          );    Navigator.pop(context);
         }else{ // si son distintas mostrar Error de Password
-              errorMensaje('La contraseñas no coinciden');
+              errorMensaje('Las contraseñas no coinciden');
         }
-    Navigator.pop(context);
+
     } on FirebaseAuthException catch(e){
          Navigator.pop(context);
-         // Email Error
-      if(e.code == 'user-not-found'){
-        errorMensaje(e.code);
-      }
-       // Password Error
-      else if(e.code == 'wrong-password'){
          errorMensaje(e.code);
-      }
     } 
+;
   }  
+ 
+   // ------ funcion Agrega los datos del usuario a la base -----------
+  Future addUserData(String nombre,String apellido,String celular,int dni,String email)async{
+    await FirebaseFirestore.instance.collection("Profesionales").add({
+     'nombre':nombre ,
+     'apellido':apellido ,
+     'celular': celular,
+     'dni': dni,
+     'email': email,
+    });
+  }
+ 
   // ------ funcion Mensaje de Alerta -----------
   void errorMensaje(String mensaje){
     showDialog(context: context, builder: (context){
-          return   AlertDialog( backgroundColor: Color.fromARGB(255, 231, 165, 222),
+          return   AlertDialog( backgroundColor: const Color.fromARGB(255, 231, 165, 222),
               title: Center(
                 child: Text( mensaje, style: const TextStyle(color:Colors.purple),), ),);
           },
     );
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -86,6 +102,27 @@ class _RegisterPageState extends State<RegisterPage> {
                   style: TextStyle(color: Colors.grey[700], fontSize: 16),
                 ),
                 const SizedBox(height: 25),
+                  // email textfield------------------------------
+                CampoTexto(
+                  controller: nombreController,
+                  hinttext: 'Nombre',
+                  textObscuro: false,
+                ),
+                const SizedBox(height: 10),
+                  // email textfield------------------------------
+                CampoTexto(
+                  controller: apellidoController,
+                  hinttext: 'Apellido',
+                  textObscuro: false,
+                ),
+                const SizedBox(height: 10),
+                  // email textfield------------------------------
+                CampoTexto(
+                  controller: celularController,
+                  hinttext: 'Celular',
+                  textObscuro: false,
+                ),
+                const SizedBox(height: 10),
                 // email textfield------------------------------
                 CampoTexto(
                   controller: emailController,
@@ -103,14 +140,14 @@ class _RegisterPageState extends State<RegisterPage> {
                   // Confirmar password textfield--------------------------
                 CampoTexto(
                   controller: confirmarPasswordController,
-                  hinttext: 'Confirmar contraseña',
+                  hinttext: 'Repetir contraseña',
                   textObscuro: true,
                 ),
                 const SizedBox(height: 10),
            
                 // sing in boton------------------------------
                 Boton(
-                  texto: 'Sing Up',
+                  texto: 'Registrarse',
                   onTap: signUserUp,
                 ),
                 const SizedBox(height: 10),
@@ -143,7 +180,7 @@ class _RegisterPageState extends State<RegisterPage> {
                     GestureDetector( 
                       onTap: widget.onTap,
                       child: const Text(
-                        'Registrate ahora',
+                        'Registrarse ahora',
                         style: TextStyle(
                             color: Colors.blue, fontWeight: FontWeight.bold),
                       ),
