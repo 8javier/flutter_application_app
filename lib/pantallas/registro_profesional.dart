@@ -1,16 +1,24 @@
 import 'package:flutter/material.dart';
 
 
-class RegistroProfesional extends StatelessWidget {
-  bool _acceptedTerms = false;
+class RegistroProfesional extends StatefulWidget {
+
+  @override
+  _RegistroProfesionalState createState() => _RegistroProfesionalState();
   
+}
+class _RegistroProfesionalState extends State<RegistroProfesional>{
+  bool? _acceptedTerms = false;
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return MaterialApp(
+      home: Scaffold(
       appBar: AppBar(
         title: Text('Registro'),
       ),
-      body: Center(
+      body: ListView(
+        children: <Widget>[
+          Center(
         child: Padding(
           padding: const EdgeInsets.all(16.0),
           child: Column(
@@ -52,13 +60,13 @@ class RegistroProfesional extends StatelessWidget {
               ),
 
               CheckboxListTile(
-                title: Text('Acepto los términos y Condiciones'),
-                value: _acceptedTerms,
-                onChanged: (bool newValue) {
-                  setState(() {
-                    _acceptedTerms = newValue;
-                  });
-                },
+                title: const Text('GeeksforGeeks'),
+                  value: _acceptedTerms,
+                  onChanged: (bool? newValue) {
+                    setState(() {
+                      _acceptedTerms = newValue;
+                    });
+                  },
               ),
               SizedBox(height: 42.0),
               ElevatedButton(
@@ -71,6 +79,10 @@ class RegistroProfesional extends StatelessWidget {
           ),
         ),
       ),
+        ],
+      )
+      
+    )
     );
   }
 }
