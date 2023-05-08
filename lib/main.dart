@@ -38,7 +38,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
         title: 'Flutter AppMental',
         debugShowCheckedModeBanner: false,
-        initialRoute: '/auth_page', // <--- se elige la Pagina de inicial de la App
+        initialRoute: '/google', // <--- se elige la Pagina de inicial de la App
         routes: {
                   //      '/login':(context) => const LoginPage(),
                         '/':(context)=>const Home(),
@@ -49,7 +49,7 @@ class MyApp extends StatelessWidget {
                         '/auth_page':(context) => const AuthPage(),
                         '/loginOrRegister':(context) => const LoginOrRegisterPage(),
                    //    '/testpage':(context) =>  testPage(),
-                   '/google':(context) => const SignInDemo(),
+                   '/google':(context) => const SignInDemo(),// <---hay que camviar el puerto a 5000 para que andecon el comando[ flutter run -d chrome --web-hostname localhost --web-port 5000 ]
                 },
                       
         );
