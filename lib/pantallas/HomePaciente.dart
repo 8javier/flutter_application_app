@@ -24,9 +24,74 @@ class _HomePacienteState extends State<HomePaciente> {
                     size: 100,
                   )),
               const Text(
-                "Nombre de Usuario",
+                "Nombre Paciente",
                 style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
-              )
+              ),
+              Container(
+                margin: const EdgeInsets.all(10),
+                decoration: BoxDecoration(
+                    color: Color(0x11838282),
+                    borderRadius: BorderRadius.circular(10)),
+                height: 50,
+                padding: const EdgeInsets.all(10),
+                width: 350,
+                child: Text(
+                  "Notificaciones",
+                ),
+              ),
+              Container(
+                margin: const EdgeInsets.all(10),
+                decoration: BoxDecoration(
+                    color: Color(0x11838282),
+                    borderRadius: BorderRadius.circular(10)),
+                height: 50,
+                padding: const EdgeInsets.all(12),
+                width: 350,
+                child: Text(
+                  "Historial",
+                ),
+              ),
+              Container(
+                margin: const EdgeInsets.all(10),
+                decoration: BoxDecoration(
+                    color: Color(0x11838282),
+                    borderRadius: BorderRadius.circular(10)),
+                height: 50,
+                padding: const EdgeInsets.all(10),
+                width: 350,
+                child: Text(
+                  "datos del usuario",
+                ),
+              ),
+              Container(
+                margin: const EdgeInsets.all(10),
+                decoration: BoxDecoration(
+                    color: Color(0x11838282),
+                    borderRadius: BorderRadius.circular(10)),
+                height: 50,
+                padding: const EdgeInsets.all(10),
+                width: 350,
+                child: Text(
+                  "cerrar sesión",
+                ),
+              ),
+            InkWell(
+                child: Container(
+                  margin: const EdgeInsets.all(10),
+                  decoration: BoxDecoration(
+                      color: Color(0x11838282),
+                      borderRadius: BorderRadius.circular(10)),
+                  height: 50,
+                  padding: const EdgeInsets.all(10),
+                  width: 350,
+                  child: Text(
+                    "view",
+                  ),
+                ),
+                onTap: () {
+                  Navigator.pushNamed(context, '/view');
+                },
+              ),
             ],
           ),
         ),
@@ -90,8 +155,9 @@ class _HomePacienteState extends State<HomePaciente> {
               child: Text("Links"),
             ),
           ],
-        ),
-        Container(
+        ),InkWell(
+          child: Container(
+          
           margin: const EdgeInsets.only(top: 5, left: 10, right: 10, bottom: 5),
           height: 75,
           width: 400,
@@ -101,6 +167,15 @@ class _HomePacienteState extends State<HomePaciente> {
               color: Color(0xff636262),
               borderRadius: BorderRadius.circular(10)),
         ),
+        onTap: (){
+          showDialog(
+            context: context, 
+            builder: (_)=> new AlertDialog(
+              title: Text("[Aqui se deberia desplegar para ver todas las recomendaciones]"),
+            ));
+        },
+        )
+        ,
         Container(
           margin:
               const EdgeInsets.only(left: 10, right: 10, bottom: 10, top: 5),
