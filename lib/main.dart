@@ -38,7 +38,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
         title: 'Flutter AppMental',
         debugShowCheckedModeBanner: false,
-        initialRoute: '/google', // <--- se elige la Pagina de inicial de la App
+        initialRoute: '/auth_page', // <--- se elige la Pagina de inicial de la App
         routes: {
                   //      '/login':(context) => const LoginPage(),
                         '/':(context)=>const Home(),

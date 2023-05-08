@@ -9,7 +9,7 @@ Future<List>getPersonas() async{
 List personas = [];// <-- variable para almacenar lista de datos pedidos
 // Haciendo referencias para la base de datos(pide los datos a la base )
 
-CollectionReference collectionReferencePersonas = db.collection('pacientes');// <-- variable para almacenar los datos pedidos[de una colleccion existente en la base]
+CollectionReference collectionReferencePersonas = db.collection('Pacientess');// <-- variable para almacenar los datos pedidos[de una colleccion existente en la base]
 
 QuerySnapshot queryPacientes = await collectionReferencePersonas.get();// <-- pide todos los pacientes esperando que la DB se los envie
 for (var doc in queryPacientes.docs) { 

@@ -4,7 +4,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_application_app/componentes/boton_1.dart';
 import 'package:flutter_application_app/componentes/campo_texto.dart';
 import 'package:flutter_application_app/componentes/encuadre_img.dart';
-
 import '../servicios/auth_service.dart';
 
 class RegisterPage extends StatefulWidget {
@@ -161,7 +160,7 @@ class _RegisterPageState extends State<RegisterPage> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     EncuadreImg(
-                    onTap: () => AuthService().registroConGoogle(),
+                    onTap: () => AuthService().registroConGoogle(), // <-- verrr SignIn
                     imagenesPath: 'lib/imagenes/google.png'),
                     const SizedBox(height: 10),
                   ],
