@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 //--------------  Paquetes que usa para la conexion a Firebase
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_application_app/pantallas/HomePaciente.dart';
+import 'package:flutter_application_app/pantallas/limites.dart';
 import 'package:flutter_application_app/pantallas/registro_profesional.dart';
 import 'package:flutter_application_app/pantallas/view.dart';
 import 'firebase_options.dart';
@@ -41,7 +42,8 @@ class MyApp extends StatelessWidget {
         '/add': (context) => const AddPacientePage(),
         '/homepaciente': (context) => const HomePaciente(),
         '/registropro': (context)=> RegistroProfesional(),
-        '/view': (context)=> const View()
+        '/view': (context)=> const View(),
+        '/limites': (context) => const Limites()
       },
     );
   }
