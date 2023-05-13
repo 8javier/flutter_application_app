@@ -5,7 +5,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 FirebaseFirestore db = FirebaseFirestore.instance;
 
 //------- Funcion q carga Pacientes de la base
-Future<List>getPersonas() async{
+Future<List>getPacientes() async{
 List personas = [];// <-- variable para almacenar lista de datos pedidos
 // Haciendo referencias para la base de datos(pide los datos a la base )
 
@@ -18,6 +18,8 @@ for (var doc in queryPacientes.docs) {
 final person = {    // <-- crea el objeto person con sus propiedades
   'apellido':data['apellido'],
   'nombre': data['nombre'],
+  'celular':data['celular'],
+  'dni':data['dni'],
   'uid':doc.id,
 };
   personas.add(person);
@@ -82,8 +84,8 @@ Future<void>borradoProfesional(String uid) async{
 await db.collection('Profesional').doc(uid).delete();
 }
 // ---------------------------------------------------[MODIFICA]-----------------------------------
-Future<void>actualizaPaciente(String uid,String newApellido,String newNombre,String newCelular, String newDNI)async{
-  await db.collection('Pacientess').doc(uid).set({'apellido':newApellido,'nombre':newNombre,'celular':newCelular,'dni':newDNI});
+Future<void>actualizaPaciente(String uid,String newApellido,String newNombre,String newCelular,String dni)async{
+  await db.collection('Pacientess').doc(uid).set({'apellido':newApellido,'nombre':newNombre,'celular':newCelular,'dni':dni});
 }
 
 Future<void>actualizaProfesional(String uid,String newApellido,String newNombre,String newCelular, String newDNI,String newMatricula)async{

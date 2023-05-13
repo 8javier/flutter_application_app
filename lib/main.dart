@@ -14,7 +14,7 @@ import 'package:flutter_application_app/pantallas/edit_paciente_page.dart';
 import 'package:flutter_application_app/pantallas/lista_profesionales.dart';
 import 'package:flutter_application_app/pantallas/login_or_register.dart';
 // --------------------------------------------------------
-void main() async {
+Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     //options: DefaultFirebaseOptions.android, // if you're using windows emulator
@@ -38,7 +38,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
         title: 'Flutter AppMental',
         debugShowCheckedModeBanner: false,
-        initialRoute: '/google', // <--- se elige la Pagina de inicial de la App
+        initialRoute:  '/auth_page', // <--- se elige la Pagina de inicial de la App
         routes: {
                   //      '/login':(context) => const LoginPage(),
                         '/':(context)=>const Home(),

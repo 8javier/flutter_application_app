@@ -15,17 +15,22 @@ class _editPacientePageState extends State<editPacientePage> {// <-el cuerpo de 
  
  TextEditingController nameController = TextEditingController(text: "");// <-revisa el texto ingresado en la caja de texto\si esta vacio " " o no
   TextEditingController apellidoController = TextEditingController(text: "");
-  
+  TextEditingController celularControler = TextEditingController(text: "");
+    TextEditingController dniControler = TextEditingController(text: "");
   @override
   Widget build(BuildContext context) {
 // ---------------------------------------------------------------------------------
 // creo variable arguments para almacenar el objeto que me manda la base de datos
     final Map arguments=ModalRoute.of(context)!.settings.arguments as Map;
         final Map arguments2=ModalRoute.of(context)!.settings.arguments as Map;
+         final Map arguments3=ModalRoute.of(context)!.settings.arguments as Map;
+            final Map arguments4=ModalRoute.of(context)!.settings.arguments as Map;
+              final Map arguments5=ModalRoute.of(context)!.settings.arguments as Map;
 // ---------------------------------------------------------------------------------
-    apellidoController.text=arguments['apellido'];//<--- le paso el campo del objeto persona a la variable apellidoController
-    nameController.text=arguments2['nombre'];     
- 
+    apellidoController.text=arguments2['apellido'];//<--- le paso el campo del objeto persona a la variable apellidoController
+    nameController.text=arguments3['nombre'];     
+    celularControler.text=arguments4['celular'];
+    dniControler.text=arguments5['dni'];
     return Scaffold(
       appBar: AppBar(title: const Text('Modificar Datos'),
       ),
@@ -34,18 +39,26 @@ class _editPacientePageState extends State<editPacientePage> {// <-el cuerpo de 
         child: Column(
           children:[
            TextField(
-            controller: nameController, // <-la variable[nameController] guarda el texto ingresado por teclado
-            decoration: const InputDecoration(hintText: 'Ingrese nombre'),
+            controller: apellidoController, // <-la variable[nameController] guarda el texto ingresado por teclado
+            decoration: const InputDecoration(hintText: 'Ingrese apellido'),
           ),
           TextField(
-            controller: apellidoController,
-            decoration: const InputDecoration(hintText: 'Ingrese apellido'),
+            controller: nameController,
+            decoration: const InputDecoration(hintText: 'Ingrese nombre'),
+          ),
+            TextField(
+            controller: celularControler,
+            decoration: const InputDecoration(hintText: 'Ingrese Celular'),
+          ),
+                TextField(
+            controller: dniControler,
+            decoration: const InputDecoration(hintText: 'Ingrese DNI'),
           ),
           ElevatedButton(onPressed: ()async{
            // print(arguments['uid']);  // <-lariable[nameController] me fijo si capturo algo
             // ---Hay que crear la funcion para guardar en la base de datos en la carpeta Servicios firebase_servicios.dart
              // ---luego la llamo aca--!!controlar que no esta vacio  NULL sino se rompe la basee
-            await actualizaPersonas(arguments['uid'], apellidoController.text,nameController.text)
+            await actualizaPaciente(arguments['uid'], apellidoController.text,nameController.text,celularControler.text,dniControler.text)
             .then(( value){
             Navigator.pop(context);
             } );

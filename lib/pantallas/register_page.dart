@@ -43,23 +43,21 @@ class _RegisterPageState extends State<RegisterPage> {
           nombreController.text, 
           apellidoController.text, 
           celularController.text, 
-          int.parse(dniController.text) , 
+          dniController.text, 
           emailController.text,
-          );    Navigator.pop(context);
-        }else{ // si son distintas mostrar Error de Password
-              errorMensaje('Las contraseñas no coinciden');
-        }
-
+          );  
+        }else{ errorMensaje('Las contraseñas no coinciden');}
+         Navigator.pop(context);
     } on FirebaseAuthException catch(e){
          Navigator.pop(context);
          errorMensaje(e.code);
     } 
-;
+   
   }  
  
    // ------ funcion Agrega los datos del usuario a la base -----------
-  Future addUserData(String nombre,String apellido,String celular,int dni,String email)async{
-    await FirebaseFirestore.instance.collection("Profesionales").add({
+  Future addUserData(String nombre,String apellido,String celular,String dni,String email)async{
+    await FirebaseFirestore.instance.collection("Pacientess").add({
      'nombre':nombre ,
      'apellido':apellido ,
      'celular': celular,

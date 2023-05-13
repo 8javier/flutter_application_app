@@ -1,9 +1,6 @@
-import 'dart:convert';
-
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_application_app/servicios/firebase_service.dart';
+import 'package:flutter_application_app/modelos/auth.dart';
 
 // <-----------------------------[ ESTA PAGINA ES SE MUESTRA SOLO SI INICIO SESION ] ------------------------
 class HomeInicio extends StatelessWidget {
@@ -12,7 +9,22 @@ class HomeInicio extends StatelessWidget {
 void signUserOut(){
   FirebaseAuth.instance.signOut();
 }
-final user = FirebaseAuth.instance.currentUser!;
+//final user = FirebaseAuth.instance.currentUser!;
+final User? user = Auth().usuarioActual;
+
+Widget _userUid(){
+return Text(user?.email ?? 'Usuario email :');
+}
+
+Widget _userName(){
+return Text(user?.uid ?? 'uid :');
+}
+
+Widget _singOutBoton(){
+return ElevatedButton(onPressed: signUserOut, child: Text('Sing Out'),);
+}
+
+
 //--------------------
   @override
   Widget build(BuildContext context) {
@@ -20,6 +32,7 @@ final user = FirebaseAuth.instance.currentUser!;
       appBar: AppBar(
                       actions: [IconButton(onPressed: signUserOut, icon: const Icon(Icons.logout))],
                       title: const Text('A Iniciado sesion correctamente'),
+                      
                       ),// <---FUNCION QUE CIERRA LA SESION
       // <--------------[FIN DE APPBAR] -----------------------------------
       body:SafeArea( 
@@ -31,14 +44,14 @@ final user = FirebaseAuth.instance.currentUser!;
                 Padding(
                   padding: const EdgeInsets.all(13.0),
                   child: Column(
-                    children: [
-                         const SizedBox(height:5),
-                      Text( "Correo:" + user.email!, style:  const TextStyle(fontSize: 17)),
-                     const SizedBox(height: 5),
-                      Text('Nombre:'+user.displayName.toString(),style:   const TextStyle(fontSize: 17)),
-                           const SizedBox(height: 5),
-                       Text('Uid: '+user.uid.toString(), style:     const TextStyle(fontSize: 17,)),
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      _userUid(),
+                      _userName(),
+                      _singOutBoton(),
                     ],
+                    
                   ),
                 ),
               ],

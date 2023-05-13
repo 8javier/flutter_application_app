@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_app/servicios/firebase_service.dart';
 
-// <-----------------------------[ ESTA PAGINA ES SOLO PARA TESTING DESPUES SE BORRARA ] ------------------------
+// <-----------------------------[ ESTA PAGINA ES SOLO PARA TESTING  ] ------------------------
 class Home extends StatefulWidget {
   // <-es una extraccion de home:home()
   const Home({
@@ -16,10 +16,10 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Personas por Apellido')),
+      appBar: AppBar(title: const Text('Lista de Pacientes')),
       body: FutureBuilder(
           future:
-              getPersonas(), // <-llama a la funcion declarada en la carpeta servicios que trae los datos de la base de datos
+              getPacientes(), // <-llama a la funcion declarada en la carpeta servicios que trae los datos de la base de datos
           builder: (context, snapshot) {
             //<-snapshot recibe getPersonas()
             if (snapshot.hasData) {
@@ -33,7 +33,7 @@ class _HomeState extends State<Home> {
                     // <-se vuelve un widget tipo Dismissible que le da a cada elemento movimientos y atributos com el borrado
                     onDismissed: (direction) async {
                       // <-se llama a la funcion de borrado
-                      await borradoPersona(snapshot.data?[index][
+                      await borradoPaciente(snapshot.data?[index][
                           'uid']); // <-- recibe el id para el borrado en la base
                       snapshot.data?.removeAt(
                           index); // <-- borra el elemento del array para que muestre en pantalla los datos correctos y no genere conflictos
@@ -78,23 +78,40 @@ class _HomeState extends State<Home> {
                     key: Key(snapshot.data?[index][
                         'uid']), // <-le asigna una ID a cada elemento persona el de la base de datos
                     child: ListTile(
-                        title: Text(snapshot.data?[index]
-                            ['apellido']), //<-- [saca el dato de la base]
+                        title: const Text('Datos'), //<-- [saca el dato de la base]
+                         subtitle:Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text('Apellido:${snapshot.data?[index]['apellido']}'),
+                          Text('Nombre:${snapshot.data?[index]['nombre']}'),
+                           Text('Celular:${snapshot.data?[index]['celular']}'),
+                            Text('DNI:${snapshot.data?[index]['dni']}'),
+                              Text('uID:${snapshot.data?[index]['uid']}'),
+                        ],
+
+                      ),
+                        
                         onTap: (() async {
                           await Navigator.pushNamed(context, '/edit',
                               arguments: {
                                 "apellido": snapshot.data?[index]['apellido'],
                                 "nombre": snapshot.data?[index]['nombre'],
+                                "celular":snapshot.data?[index]['celular'],
+                                "dni":snapshot.data?[index]['dni'],
                                 "uid": snapshot.data?[index]
                                     ['uid'], //<-- [saca el ID de la base]
                               });
                           setState(() {
                             //<--  A ctualiza los cambios con los de la base para q lo muestre por pantalla
                           });
-                        })),
+                        }),
+                        
+                        ),
+
                   );
                 },
               );
+
             } else {
               return const Center(
                 //<-snapshot si esta NULL
@@ -135,22 +152,8 @@ class _HomeState extends State<Home> {
         child: const Icon(Icons.list_alt_sharp),
       ),
 
-
-
-
-
-
-
-
-
-
-
-
-
-
     );
+   
   }
 }
-// --------------ROOT APP--------------------------------------
 
-//nom-apellido-telefono-direccion
