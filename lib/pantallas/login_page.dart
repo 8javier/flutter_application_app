@@ -1,8 +1,11 @@
+import 'dart:ffi';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_app/componentes/boton_1.dart';
 import 'package:flutter_application_app/componentes/campo_texto.dart';
 import 'package:flutter_application_app/componentes/encuadre_img.dart';
+import 'package:flutter_application_app/modelos/auth.dart';
 import 'package:flutter_application_app/pantallas/auth_page.dart';
 import 'package:flutter_application_app/servicios/auth_service.dart';
 
@@ -14,9 +17,69 @@ class LoginPage extends StatefulWidget {
   State<LoginPage> createState() => _LoginPageState();
 }
 class _LoginPageState extends State<LoginPage> {
-  // ----------------[ Controladores de Texto]-----------
+
+   bool isLogin = true;
+   String? errorMensaje1='';
+  // ----------------[ Funciones]-----------
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
+ final TextEditingController _controllerEmail = TextEditingController();
+ final TextEditingController _controllerPassword  = TextEditingController();
+  // -------- sign_User_In metodo ---------------------------------
+ Future<void> signInWithEmailAndPassword()async{
+  try{
+    await Auth().signInWithEmailAndPassword(
+
+      email: _controllerEmail.text, 
+      password: _controllerPassword.text,
+      );
+  }on FirebaseAuthException catch(e){
+      setState(() {
+        errorMensaje1 = e.message;
+      });
+  }
+ }
+  // -------- create_User_In metodo ---------------------------------
+   Future<void> createUserWithEmailAndPassword ()async{
+  try{
+    await Auth().createUserWithEmailAndPassword(
+
+      email: _controllerEmail.text, 
+      password: _controllerPassword.text,
+      );
+  }on FirebaseAuthException catch(e){
+      setState(() {
+        errorMensaje1 = e.message;
+      });
+  }
+ }
+   // --------[Widget] ---------------------------------
+   Widget _titulo(){
+    return Text('Auth con Firebase');
+   }
+   Widget _entryField(String titulo,TextEditingController controller){
+    return TextField(
+      controller: controller,
+      decoration: InputDecoration(labelText: titulo),
+    );
+   }
+   Widget _mensajeError(){
+    return Text(errorMensaje1 == ''?'':'Hunmm ?$errorMensaje1');
+   }
+   Widget _bottonEnviar(){
+    return ElevatedButton(
+    onPressed:isLogin ? signInWithEmailAndPassword : createUserWithEmailAndPassword, 
+    child:Text(isLogin ? 'Login':'Register'),
+    );
+   }
+   Widget _loginOrRegisterButton(){
+    return TextButton(
+      onPressed: (){ setState(() {
+        isLogin = !isLogin;
+      });}, 
+      child:Text(isLogin ? 'Register instead' : 'Login instead'),
+      );
+   }
   // -------- sign_User_In metodo ---------------------------------
   void signUserIn() async {
     // muestra un circulo de espera hasta q responda la base
@@ -46,6 +109,15 @@ class _LoginPageState extends State<LoginPage> {
           },
     );
   }
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+  // -------- Pagina---------------------------------
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -115,7 +187,7 @@ class _LoginPageState extends State<LoginPage> {
                   children: [
                     //Boton de Google
                     EncuadreImg(
-                      onTap: () => AuthService().registroConGoogle(),
+                      onTap: () => AuthService().registroConGoogle(), // <-- cambiar metodo
                       imagenesPath: 'lib/imagenes/google.png'),
                     const SizedBox(height: 10),
                   ],
