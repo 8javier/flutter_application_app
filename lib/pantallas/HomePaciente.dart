@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_app/reciclar/textfield.dart';
 
 class HomePaciente extends StatefulWidget {
   const HomePaciente({super.key});
@@ -8,6 +9,8 @@ class HomePaciente extends StatefulWidget {
 }
 
 class _HomePacienteState extends State<HomePaciente> {
+  var alerta = false;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -115,7 +118,7 @@ class _HomePacienteState extends State<HomePaciente> {
               child: Text(
                 "Progreso",
               ),
-            ),
+            ), if(!alerta) 
             Container(
               margin: const EdgeInsets.only(top: 10, bottom: 5, right: 10),
               decoration: BoxDecoration(
@@ -126,12 +129,21 @@ class _HomePacienteState extends State<HomePaciente> {
               height: 75,
               width: 40,
               child: IconButton(
-                  onPressed: () {}, icon: Icon(Icons.error_outline_sharp)),
+                  onPressed: () {
+                    showDialog(
+            context: context, 
+            builder: (_)=> new AlertDialog(
+              title: Text("[Proximamente...]"),
+            ));
+                    /* Navigator.pushNamed(context, '/limites'); */
+                  }, icon: Icon(Icons.error_outline_sharp)),
             )
           ],
         ),
         Row(
           children: [
+            InkWell(
+              child:
             Container(
               margin:
                   const EdgeInsets.only(top: 5, bottom: 5, right: 5, left: 10),
@@ -143,7 +155,16 @@ class _HomePacienteState extends State<HomePaciente> {
                   borderRadius: BorderRadius.circular(10)),
               child: Text("Estado físico"),
             ),
-            Container(
+            onTap: () {
+              showDialog(
+            context: context, 
+            builder: (_)=> new AlertDialog(
+              title: Text("[Proximamente...]"),
+            ));
+            },
+            ),
+            InkWell(
+              child: Container(
               margin:
                   const EdgeInsets.only(top: 5, bottom: 5, right: 10, left: 5),
               height: 75,
@@ -154,6 +175,15 @@ class _HomePacienteState extends State<HomePaciente> {
                   borderRadius: BorderRadius.circular(10)),
               child: Text("Links"),
             ),
+            onTap: () {
+              showDialog(
+            context: context, 
+            builder: (_)=> new AlertDialog(
+              title: Text("[Proximamente...]"),
+            ));
+            },
+            )
+            
           ],
         ),InkWell(
           child: Container(
@@ -171,7 +201,7 @@ class _HomePacienteState extends State<HomePaciente> {
           showDialog(
             context: context, 
             builder: (_)=> new AlertDialog(
-              title: Text("[Aqui se deberia desplegar para ver todas las recomendaciones]"),
+              title: Text("[Proximamente...]"),
             ));
         },
         )
@@ -192,19 +222,7 @@ class _HomePacienteState extends State<HomePaciente> {
                 color: Color(0xff000000),
               ),
               Center(child: Icon(Icons.draw_outlined)),
-              TextFormField(
-                maxLines: 10,
-                decoration: InputDecoration(
-                  isDense: true,
-                  hintStyle:
-                      TextStyle(letterSpacing: 2, color: Color(0xff000000)),
-                  fillColor: Color(0xffffffff),
-                  border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10)),
-                  filled: false,
-                  /* icon: Icon(Icons.draw_outlined), */
-                ),
-              )
+              texto()
             ],
           ),
         )
