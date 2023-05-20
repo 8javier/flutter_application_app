@@ -1,4 +1,8 @@
+import 'dart:html';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_application_app/reciclar/drawerpaciente.dart';
+import 'package:flutter_application_app/reciclar/estado.dart';
 import 'package:flutter_application_app/reciclar/textfield.dart';
 
 class HomePaciente extends StatefulWidget {
@@ -14,91 +18,7 @@ class _HomePacienteState extends State<HomePaciente> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: Drawer(
-        child: Container(
-          child: Column(
-            children: [
-              Container(
-                  width: 100,
-                  height: 100,
-                  margin: const EdgeInsets.only(top: 50, bottom: 20),
-                  child: Icon(
-                    Icons.account_circle_outlined,
-                    size: 100,
-                  )),
-              const Text(
-                "Nombre Paciente",
-                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
-              ),
-              Container(
-                margin: const EdgeInsets.all(10),
-                decoration: BoxDecoration(
-                    color: Color(0x11838282),
-                    borderRadius: BorderRadius.circular(10)),
-                height: 50,
-                padding: const EdgeInsets.all(10),
-                width: 350,
-                child: Text(
-                  "Notificaciones",
-                ),
-              ),
-              Container(
-                margin: const EdgeInsets.all(10),
-                decoration: BoxDecoration(
-                    color: Color(0x11838282),
-                    borderRadius: BorderRadius.circular(10)),
-                height: 50,
-                padding: const EdgeInsets.all(12),
-                width: 350,
-                child: Text(
-                  "Historial",
-                ),
-              ),
-              Container(
-                margin: const EdgeInsets.all(10),
-                decoration: BoxDecoration(
-                    color: Color(0x11838282),
-                    borderRadius: BorderRadius.circular(10)),
-                height: 50,
-                padding: const EdgeInsets.all(10),
-                width: 350,
-                child: Text(
-                  "datos del usuario",
-                ),
-              ),
-              Container(
-                margin: const EdgeInsets.all(10),
-                decoration: BoxDecoration(
-                    color: Color(0x11838282),
-                    borderRadius: BorderRadius.circular(10)),
-                height: 50,
-                padding: const EdgeInsets.all(10),
-                width: 350,
-                child: Text(
-                  "cerrar sesión",
-                ),
-              ),
-            InkWell(
-                child: Container(
-                  margin: const EdgeInsets.all(10),
-                  decoration: BoxDecoration(
-                      color: Color(0x11838282),
-                      borderRadius: BorderRadius.circular(10)),
-                  height: 50,
-                  padding: const EdgeInsets.all(10),
-                  width: 350,
-                  child: Text(
-                    "view",
-                  ),
-                ),
-                onTap: () {
-                  Navigator.pushNamed(context, '/view');
-                },
-              ),
-            ],
-          ),
-        ),
-      ),
+      drawer: drawerpaciente(context),
       appBar: AppBar(
         title: const Text("Home"),
       ),
@@ -229,50 +149,29 @@ class _HomePacienteState extends State<HomePaciente> {
       ]),
       bottomNavigationBar: BottomNavigationBar(
         items: [
+          if(alerta)
           BottomNavigationBarItem(
-              icon: IconButton(
-                  onPressed: () => {
-                        showDialog(
-                            context: context,
-                            builder: (_) => new AlertDialog(
-                                  title: Text("¿Cómo te sientes hoy?"),
-                                  actions: [
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceAround,
-                                      children: [
-                                        IconButton(
-                                          onPressed: () {
-                                            Navigator.pop(context);
-                                          },
-                                          icon: Icon(Icons.tag_faces_sharp),
-                                          iconSize: 50,
-                                        ),
-                                        IconButton(
-                                          onPressed: () {
-                                            Navigator.pop(context);
-                                          },
-                                          icon: Icon(Icons.tag_faces_sharp),
-                                          iconSize: 50,
-                                        ),
-                                        IconButton(
-                                          onPressed: () {
-                                            Navigator.pop(context);
-                                          },
-                                          icon: Icon(Icons.tag_faces_sharp),
-                                          iconSize: 50,
-                                        ),
-                                      ],
-                                    )
-                                  ],
-                                ))
-                      },
-                  icon: Icon(Icons.tag_faces_outlined)),
+              icon: Badge(
+                child: estado(context),
+              ),
+              label: "Estado")
+              else
+                BottomNavigationBarItem(
+              icon: 
+                estado(context),
               label: "Estado"),
-          BottomNavigationBarItem(
-              icon: Icon(Icons.question_mark_outlined), label: "Pregunta"),
-          BottomNavigationBarItem(
-              icon: Icon(Icons.checklist_sharp), label: "Cuestionario")
+              if(alerta)
+                BottomNavigationBarItem(
+                icon: Badge(child: Icon(Icons.question_mark_outlined),), label: "Pregunta")
+              else
+                BottomNavigationBarItem(
+                icon: Icon(Icons.question_mark_outlined), label: "Pregunta"),
+              if(alerta)
+                BottomNavigationBarItem(
+                icon: Badge(child: Icon(Icons.checklist_sharp),), label: "Cuestionario")
+              else
+                BottomNavigationBarItem(
+                icon: Icon(Icons.checklist_sharp), label: "Cuestionario")          
         ],
       ),
     );
