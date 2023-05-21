@@ -2,24 +2,63 @@ import 'Opcion.dart';
 
 //BORRADOR      Clase para las preguntas de las encuestas
 class Pregunta {
-  String enunciado;
+  int id;
+  int peso;
+  String texto;
   List<Opcion> opciones;
-  Pregunta? si;
-  Pregunta? no;
+  bool esFinal;
 
-  Pregunta({required this.enunciado, required this.opciones, this.si, this.no});
+  Pregunta(this.id, this.peso, this.texto, this.opciones, this.esFinal);
+
+  // Setter y getter para el ID
+  void setId(int id) {
+    this.id = id;
+  }
+
+  int getId() {
+    return id;
+  }
+
+  // Setter y getter para el peso
+  void setPeso(int peso) {
+    this.peso = peso;
+  }
+
+  int getPeso() {
+    return peso;
+  }
+
+  // Setter y getter para el texto de la pregunta
+  void setTexto(String texto) {
+    this.texto = texto;
+  }
+
+  String getTexto() {
+    return texto;
+  }
+
+  // Setter y getter para la lista de opciones
+  void setOpciones(List<Opcion> opciones) {
+    this.opciones = opciones;
+  }
+
+  List<Opcion> getOpciones() {
+    return opciones;
+  }
+
+  // Setter y getter para esFinal
+  void setFinal(bool newfinal) {
+    esFinal = newfinal;
+  }
+
+  bool getFinal() {
+    return esFinal;
+  }
   
-  Pregunta obtenerSiguientePregunta(List<int> respuestas) {
-    // Obtener la respuesta dada por el usuario a esta pregunta
-    int respuesta = respuestas.last;
-
-    // Según la respuesta dada, retornar la siguiente pregunta
-    if (respuesta == 0) {
-      // Si la respuesta es "no", retornar la pregunta "no" si existe, o la siguiente pregunta por defecto
-      return no ?? si!;
-    } else {
-      // Si la respuesta es "sí", retornar la pregunta "sí" si existe, o la siguiente pregunta por defecto
-      return si ?? no!;
-    }
+  //funcion para obtener el peso de una opcion
+  int obtenerPesoOpcion(int opcionId) {
+    Opcion opcionEncontrada =
+        opciones.firstWhere((opcion) => opcion.getId() == opcionId, orElse: () => Opcion(-1, 0, ''));
+    return opcionEncontrada.getPeso();
   }
 }

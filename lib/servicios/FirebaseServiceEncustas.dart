@@ -10,7 +10,7 @@ import '../modelos/encuestas/Pregunta.dart';
 FirebaseFirestore db = FirebaseFirestore.instance;
 
 //BORRADOR     Funcion para traer las encuestas dinamicas
-Future<List<EncuestaDinamica>> obtenerEncuestas() async {
+/*Future<List<EncuestaDinamica>> obtenerEncuestas() async {
   List<EncuestaDinamica> encuestas = [];
 
   try {
@@ -93,4 +93,4 @@ List<Opcion> _obtenerOpciones(List<dynamic> opciones) {
     }
 
     return encuestasEstaticas;
-  }
+  }*/
