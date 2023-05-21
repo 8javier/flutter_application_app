@@ -30,7 +30,7 @@ void main() async {
     List<Pregunta> preguntas = [];
     Random random = Random();
 
-    for (int i = 1; i <= 10; i++) {
+    for (int i = 1; i <= 20; i++) {
       List<Opcion> opciones = [];
 
       for (int j = 1; j <= 3; j++) {
