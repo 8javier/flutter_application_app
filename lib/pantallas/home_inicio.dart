@@ -1,6 +1,13 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_application_app/componentes/botonNavegapaginas.dart';
 import 'package:flutter_application_app/modelos/auth.dart';
+import 'package:flutter_application_app/pantallas/add_pacientes_page.dart';
+import 'package:flutter_application_app/pantallas/auth_page.dart';
+import 'package:flutter_application_app/pantallas/homePacientes.dart';
+import 'package:flutter_application_app/pantallas/login_or_register.dart';
+import 'package:flutter_application_app/pantallas/mainPaciente.dart';
+import 'package:flutter_application_app/servicios/firebase_service.dart';
 
 // <-----------------------------[ ESTA PAGINA ES SE MUESTRA SOLO SI INICIO SESION ] ------------------------
 class HomeInicio extends StatelessWidget {
@@ -8,6 +15,7 @@ class HomeInicio extends StatelessWidget {
   //---------[ Funcion de logOut de firebase ]
 void signUserOut(){
   FirebaseAuth.instance.signOut();
+   NavegarBoton(texto: "", paginaDestino: const LoginOrRegisterPage());// <-lo mandas a esta pantalla que chequea el login
 }
 //final user = FirebaseAuth.instance.currentUser!;
 final User? user = Auth().usuarioActual;
@@ -17,11 +25,11 @@ return Text(user?.email ?? 'Usuario email :');
 }
 
 Widget _userName(){
-return Text(user?.uid ?? 'uid :');
+return Text(user?.uid ?? 'UID :');
 }
 
 Widget _singOutBoton(){
-return ElevatedButton(onPressed: signUserOut, child: Text('Sing Out'),);
+return ElevatedButton(onPressed: signUserOut, child: const Text('Sing Out'),);
 }
 
 
@@ -39,7 +47,7 @@ return ElevatedButton(onPressed: signUserOut, child: Text('Sing Out'),);
         child: Center(
           child: SingleChildScrollView(
             child: Row(   
-              mainAxisAlignment: MainAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Padding(
                   padding: const EdgeInsets.all(13.0),
@@ -49,12 +57,17 @@ return ElevatedButton(onPressed: signUserOut, child: Text('Sing Out'),);
                     children: <Widget>[
                       _userUid(),
                       _userName(),
-                      _singOutBoton(),
+                    
+                      NavegarBoton(texto: "Acceda a  Paciente", paginaDestino: const HomePaciente()),
+                      NavegarBoton(texto: 'Ingrese sus datos', paginaDestino: const AddPacientesPage()),
                     ],
+                
                     
                   ),
+                 
                 ),
               ],
+            
             ),
           ),
           

@@ -1,12 +1,14 @@
 
 
+import 'package:flutter_application_app/modelos/rolUsuarios.dart';
+
 class Paciente {
     
     String nombre;
     String apellido;
     String celular;
     String dni;
-  
+    RolUsuario rol;
 
     Paciente({
       
@@ -14,15 +16,16 @@ class Paciente {
         required this.apellido,
         required this.celular,
         required this.dni,
-       
+        required this.rol,
     });
-
     factory Paciente.fromJson(Map<String, dynamic> json) => Paciente(
       
         nombre: json["nombre"],
         apellido: json["apellido"],
         celular: json["celular"],
-        dni: json["dni"],
+        dni: json["dni"], 
+        rol: json["rol"],
+      
        
     );
 
@@ -32,6 +35,8 @@ class Paciente {
         "apellido": apellido,
         "celular": celular,
         "dni": dni,
-      
+        "rol":rol,      
     };
 }
+
+

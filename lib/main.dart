@@ -49,7 +49,7 @@ class MyApp extends StatelessWidget {
                         '/auth_page':(context) => const AuthPage(),
                         '/loginOrRegister':(context) => const LoginOrRegisterPage(),
                    //    '/testpage':(context) =>  testPage(),
-                   '/google':(context) => const SignInDemo(),// <---hay que camviar el puerto a 5000 para que andecon el comando[ flutter run -d chrome --web-hostname localhost --web-port 5000 ]
+                   '/google':(context) => const SignInDemo(),// <---hay que camviar el puerto a 5000 para que ande con el comando[ flutter run -d chrome --web-hostname localhost --web-port 5000 ]
                 },
                       
         );
