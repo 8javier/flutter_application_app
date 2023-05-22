@@ -1,8 +1,12 @@
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_app/componentes/boton_1.dart';
 import 'package:flutter_application_app/componentes/campo_texto.dart';
 import 'package:flutter_application_app/componentes/encuadre_img.dart';
+import 'package:flutter_application_app/modelos/auth.dart';
+import 'package:flutter_application_app/pantallas/auth_page.dart';
+import 'package:flutter_application_app/servicios/auth_service.dart';
 
 class LoginPage extends StatefulWidget {
   final Function()? onTap;
@@ -12,10 +16,70 @@ class LoginPage extends StatefulWidget {
   State<LoginPage> createState() => _LoginPageState();
 }
 class _LoginPageState extends State<LoginPage> {
-  // ----------------[ Controladores de Texto]-----------
+
+   bool isLogin = true;
+   String? errorMensaje1='';
+  // ----------------[ Funciones]-----------
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
-  // -------- sign_User_In metodo -----------
+ final TextEditingController _controllerEmail = TextEditingController();
+ final TextEditingController _controllerPassword  = TextEditingController();
+  // -------- sign_User_In metodo ---------------------------------
+ Future<void> signInWithEmailAndPassword()async{
+  try{
+    await Auth().signInWithEmailAndPassword(
+
+      email: _controllerEmail.text, 
+      password: _controllerPassword.text,
+      );
+  }on FirebaseAuthException catch(e){
+      setState(() {
+        errorMensaje1 = e.message;
+      });
+  }
+ }
+  // -------- create_User_In metodo ---------------------------------
+   Future<void> createUserWithEmailAndPassword ()async{
+  try{
+    await Auth().createUserWithEmailAndPassword(
+
+      email: _controllerEmail.text, 
+      password: _controllerPassword.text,
+      );
+  }on FirebaseAuthException catch(e){
+      setState(() {
+        errorMensaje1 = e.message;
+      });
+  }
+ }
+   // --------[Widget] ---------------------------------
+   Widget _titulo(){
+    return Text('Auth con Firebase');
+   }
+   Widget _entryField(String titulo,TextEditingController controller){
+    return TextField(
+      controller: controller,
+      decoration: InputDecoration(labelText: titulo),
+    );
+   }
+   Widget _mensajeError(){
+    return Text(errorMensaje1 == ''?'':'Hunmm ?$errorMensaje1');
+   }
+   Widget _bottonEnviar(){
+    return ElevatedButton(
+    onPressed:isLogin ? signInWithEmailAndPassword : createUserWithEmailAndPassword, 
+    child:Text(isLogin ? 'Login':'Register'),
+    );
+   }
+   Widget _loginOrRegisterButton(){
+    return TextButton(
+      onPressed: (){ setState(() {
+        isLogin = !isLogin;
+      });}, 
+      child:Text(isLogin ? 'Register instead' : 'Login instead'),
+      );
+   }
+  // -------- sign_User_In metodo ---------------------------------
   void signUserIn() async {
     // muestra un circulo de espera hasta q responda la base
     showDialog(context: context, builder: (context){
@@ -28,18 +92,11 @@ class _LoginPageState extends State<LoginPage> {
         await FirebaseAuth.instance.signInWithEmailAndPassword(
       email: emailController.text,
       password: passwordController.text,
-    );
-    Navigator.pop(context);
+    ); Navigator.pop(context);
     } on FirebaseAuthException catch(e){
          Navigator.pop(context);
-         // Email Error
-      if(e.code == 'user-not-found'){
+         // si hay error
         errorMensaje(e.code);
-      }
-       // Password Error
-      else if(e.code == 'wrong-password'){
-         errorMensaje(e.code);
-      }
     } 
   }  
   // ------ funcion Mensaje de Alerta -----------
@@ -51,6 +108,15 @@ class _LoginPageState extends State<LoginPage> {
           },
     );
   }
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+  // -------- Pagina---------------------------------
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -105,7 +171,7 @@ class _LoginPageState extends State<LoginPage> {
                 const SizedBox(height: 10),
                 // sing in boton------------------------------
                 Boton(
-                  texto:'Sing in',
+                  texto:'Ingresar',
                   onTap: signUserIn,
                 ),
                 const SizedBox(height: 10),
@@ -114,17 +180,21 @@ class _LoginPageState extends State<LoginPage> {
                   thickness: 5,
                   color: Colors.pinkAccent,
                 ),
-                // google \\ o otros
+                // Registro con google ------------------------
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
-                  children: const [
-                    EncuadreImg(imagenesPath: 'lib/imagenes/google.png'),
-                    SizedBox(height: 10),
+                  children: [
+                    //Boton de Google
+                    EncuadreImg(
+                      onTap: () => AuthService().registroConGoogle(), // <-- cambiar metodo
+                      imagenesPath: 'lib/imagenes/google.png'),
+                    const SizedBox(height: 10),
                   ],
                 ),
+                //  ---------------------------------------------------
                 const SizedBox(height: 10),
 
-                // registrar
+                // registrar nuevo usuario
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -136,7 +206,7 @@ class _LoginPageState extends State<LoginPage> {
                     GestureDetector(  
                        onTap: widget.onTap,
                        child:  const Text(
-                        'Registrate ahora',
+                        'Registrarse ahora',
                         style: TextStyle(
                             color: Colors.blue, 
                             fontWeight: FontWeight.bold,

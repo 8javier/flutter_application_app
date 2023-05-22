@@ -1,4 +1,6 @@
 
+import 'package:flutter_application_app/modelos/rolUsuarios.dart';
+
 class Profesional {
 
     String nombre;
@@ -6,7 +8,7 @@ class Profesional {
     String celular;
     String dni;
     String matricula;
-
+      RolUsuario rol;
     Profesional({
 
         required this.nombre,
@@ -14,6 +16,7 @@ class Profesional {
         required this.celular,
         required this.dni,
         required this.matricula,
+        required this.rol,
     });
 
     factory Profesional.fromJson(Map<String, dynamic> json) => Profesional(
@@ -23,6 +26,8 @@ class Profesional {
         celular: json["celular"],
         dni: json["dni"],
         matricula: json["matricula"],
+        rol: json["rol"],
+      
     );
 
     Map<String, dynamic> toJson() => {
@@ -32,5 +37,7 @@ class Profesional {
         "celular": celular,
         "dni": dni,
         "matricula": matricula,
+        "rol":rol,   
     };
+
 }

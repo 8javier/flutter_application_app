@@ -4,10 +4,12 @@
     // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
     "version": "0.2.0",
     "configurations": [
+        
         {
-            "name": "flutter_application_app",
+            "name": "flutter_application_app en Web Port 5000",
             "request": "launch",
-            "type": "dart"
+            "type": "dart",
+            "args": ["--web-port","5000"]
         },
         {
             "name": "flutter_application_app (profile mode)",

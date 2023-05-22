@@ -10,11 +10,9 @@ class AddPacientesPage extends StatefulWidget {
 }
 
 class _AddPacientesPageState extends State<AddPacientesPage> {
-  // <-el cuerpo de la pagina
+  // <-COMIENSA EL cuerpo de la pagina
 
-  TextEditingController nameController = TextEditingController(
-      text:
-          ""); // <-revisa el texto ingresado en la caja de texto\si esta vacio " " o no
+  TextEditingController nameController = TextEditingController( text: ""); // <-revisa el texto ingresado en la caja de texto\
   TextEditingController apellidoController = TextEditingController(text: "");
   final dniController = TextEditingController();
   final celularController = TextEditingController();
@@ -40,8 +38,6 @@ class _AddPacientesPageState extends State<AddPacientesPage> {
                 controller: apellidoController,
                 decoration: const InputDecoration(hintText: 'Ingrese apellido'),
               ),
-
-     
               TextField(
                 autofocus: true,
                 controller: dniController,
@@ -60,8 +56,7 @@ class _AddPacientesPageState extends State<AddPacientesPage> {
                     print('DNI:${dniController.text}');
                     print('Celular:${celularController.text}');
                     // <-lariable[nameController] me fijo si capturo algo
-                    // ---Hay que crear la funcion para guardar en la base de datos en la carpeta Servicios firebase_servicios.dart
-                    // ---luego la llamo aca--!!controlar que no esta vacio  NULL sino se rompe la basee
+                    // ---SE USA LA funcion para guardar en la base de datos en la carpeta Servicios firebase_servicios.dart
                          await addPacientes(nameController.text, apellidoController.text, dniController.text, celularController.text).then((value) {
                          Navigator.pop(context);
                          });
