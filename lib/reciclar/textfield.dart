@@ -11,7 +11,7 @@ Widget texto(){
                   fillColor: Color(0xffffffff),
                   border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(10)),
-                  filled: false,
+                  filled: true,
                   /* icon: Icon(Icons.draw_outlined), */
                 ),
               );
