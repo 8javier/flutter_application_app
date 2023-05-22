@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_app/componentes/botonNavegapaginas.dart';
 import 'package:flutter_application_app/modelos/auth.dart';
+import 'package:flutter_application_app/pantallas/NotificacionesScreen.dart';
 import 'package:flutter_application_app/pantallas/add_pacientes_page.dart';
 import 'package:flutter_application_app/pantallas/auth_page.dart';
 import 'package:flutter_application_app/pantallas/homePacientes.dart';
@@ -58,8 +59,9 @@ return ElevatedButton(onPressed: signUserOut, child: const Text('Sing Out'),);
                       _userUid(),
                       _userName(),
                     
-                      NavegarBoton(texto: "Acceda a  Paciente", paginaDestino: const HomePaciente()),
+                      NavegarBoton(texto: "Area Paciente", paginaDestino: const HomePaciente()),
                       NavegarBoton(texto: 'Ingrese sus datos', paginaDestino: const AddPacientesPage()),
+                       NavegarBoton(texto: 'Notificaciones', paginaDestino: const NotificationScreen()),
                     ],
                 
                     
