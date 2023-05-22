@@ -11,7 +11,7 @@ class _QuestionPacienteState extends State<QuestionPaciente> {
   @override
   Widget build(BuildContext context) {
     return ListView(
-      children: <Widget>[
+      children: const <Widget>[
         Text("Question")
       ],
     );

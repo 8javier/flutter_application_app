@@ -29,10 +29,10 @@ Widget _userName(){
 return Text(user?.uid ?? 'UID :');
 }
 
-Widget _singOutBoton(){
+/* Widget _singOutBoton(){
 return ElevatedButton(onPressed: signUserOut, child: const Text('Sing Out'),);
 }
-
+*/
 
 //--------------------
   @override

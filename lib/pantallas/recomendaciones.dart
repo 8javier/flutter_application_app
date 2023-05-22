@@ -8,7 +8,7 @@ class Recommend extends StatelessWidget{
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Recomendaciones"),
+        title: const Text("Recomendaciones"),
       ),
       body: ListView(
         children: <Widget>[
@@ -23,14 +23,14 @@ class Recommend extends StatelessWidget{
               width: 190,
               padding: const EdgeInsets.all(10),
               decoration: BoxDecoration(
-                  color: Color(0x11838282),
+                  color: const Color(0x11838282),
                   borderRadius: BorderRadius.circular(10)),
-              child: Text("Estado físico"),
+              child: const Text("Estado físico"),
             ),
             onTap: () {
               showDialog(
             context: context, 
-            builder: (_)=> new AlertDialog(
+            builder: (_)=> const AlertDialog(
               title: Text("[Proximamente...]"),
             ));
             },
@@ -43,14 +43,14 @@ class Recommend extends StatelessWidget{
               width: 190,
               padding: const EdgeInsets.all(10),
               decoration: BoxDecoration(
-                  color: Color(0x11838282),
+                  color: const Color(0x11838282),
                   borderRadius: BorderRadius.circular(10)),
-              child: Text("Links"),
+              child: const Text("Links"),
             ),
             onTap: () {
               showDialog(
             context: context, 
-            builder: (_)=> new AlertDialog(
+            builder: (_)=> const AlertDialog(
               title: Text("[Proximamente...]"),
             ));
             },
@@ -58,7 +58,7 @@ class Recommend extends StatelessWidget{
             
           ],
         ),
-          Text("Escribir recomendaciones y sus checks"),
+          const Text("Escribir recomendaciones y sus checks"),
         ],)
     );
   }

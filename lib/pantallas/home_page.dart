@@ -1,5 +1,11 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_application_app/pantallas/homePacientes.dart';
+import 'package:flutter_application_app/pantallas/home_inicio.dart';
 import 'package:flutter_application_app/servicios/firebase_service.dart';
+
+import '../componentes/botonNavegapaginas.dart';
+import 'login_or_register.dart';
 
 // <-----------------------------[ ESTA PAGINA ES SOLO PARA TESTING  ] ------------------------
 class Home extends StatefulWidget {
@@ -12,11 +18,14 @@ class Home extends StatefulWidget {
   State<Home> createState() => _HomeState();
 }
 
+
 class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Lista de Pacientes')),
+      appBar: AppBar(
+                      title: const Text('Lista de Pacientes'), 
+      ),
       body: FutureBuilder(
           future:
               getPacientes(), // <-llama a la funcion declarada en la carpeta servicios que trae los datos de la base de datos
