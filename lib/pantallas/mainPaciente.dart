@@ -89,7 +89,26 @@ class _MainPacienteState extends State<MainPaciente> {
             ],
           ),
         ),
-        estado(context)
+        IconButton(
+          onPressed: () => {
+            showDialog(
+              context: context,
+              builder: (_) => new AlertDialog(
+                title: Text("¿Cómo te sientes hoy?"),
+                actions: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      estado(context),
+                      estado(context),
+                      estado(context)
+                    ],
+                  )
+                ],
+              )
+              )
+          }, 
+          icon: Icon(Icons.tag_faces_outlined))
       ]);
   }
 }

@@ -3,11 +3,13 @@ import 'customDrawer.dart';
 
 
 class Notificaciones extends StatefulWidget {
+  const Notificaciones({super.key});
+
   @override
-  _NotificacionesState createState() => _NotificacionesState();
+  State<Notificaciones> createState() => _NotificacionesState();
 }
 
-class _NotificacionesState extends State<_NotificacionesState> {
+class _NotificacionesState extends State<Notificaciones> {
   List<String> notifications = [
     'Notificación 1',
     'Notificación 2',

@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_app/pantallas/Profesional_notificaciones.dart';
+import 'package:flutter_application_app/pantallas/profesional_modificar_page.dart';
+import 'package:flutter_application_app/pantallas/profesional_paciente_page.dart';
+import 'package:flutter_application_app/pantallas/registrar_paciente_page.dart';
 
 class CustomDrawer extends StatelessWidget {
   @override
@@ -18,7 +22,7 @@ class CustomDrawer extends StatelessWidget {
             onTap: () {
               Navigator.pop(context);
               Navigator.push(context,
-              MaterialPageRoute(builder:((context) => profesional_modificar_page())));
+              MaterialPageRoute(builder:((context) => ProMod())));
 
                   
             },
@@ -29,7 +33,7 @@ class CustomDrawer extends StatelessWidget {
             onTap: () {
               Navigator.pop(context);
               Navigator.push(context,
-              MaterialPageRoute(builder:((context) => registrar_paciente_page())));
+              MaterialPageRoute(builder:((context) => RegistrarPaciente())));
 
                 },
               ),
@@ -39,7 +43,7 @@ class CustomDrawer extends StatelessWidget {
               onTap: () {
                 Navigator.pop(context);
                 Navigator.push(context,
-                MaterialPageRoute(builder:((context) => profesional_paciente_page())));
+                MaterialPageRoute(builder:((context) => ProfesionalxPaciente())));
 
                 },
               ),
@@ -49,7 +53,7 @@ class CustomDrawer extends StatelessWidget {
               onTap: () {
                 Navigator.pop(context);
                 Navigator.push(context,
-                MaterialPageRoute(builder:((context) => profesional_notificaciones_page())));
+                MaterialPageRoute(builder:((context) => Notificaciones())));
 
                 },
               ),
