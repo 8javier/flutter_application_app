@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
 
-Widget texto(){
+Widget texto(grobe){
   return TextFormField(
-                maxLines: 10,
+                maxLines: grobe,
                 decoration: InputDecoration(
                   isDense: true,
                   hintStyle:

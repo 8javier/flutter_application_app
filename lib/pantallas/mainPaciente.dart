@@ -85,7 +85,7 @@ class _MainPacienteState extends State<MainPaciente> {
                 color: Color(0xffffffff),
               ),
               Center(child: Icon(Icons.draw_outlined)),
-              texto()
+              texto(10)
             ],
           ),
         ),
