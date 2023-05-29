@@ -15,16 +15,16 @@ final bool textObscuro;
   @override
   Widget build(BuildContext context) {
     return  Padding(
-                 padding: const EdgeInsets.symmetric(horizontal: 66.0),
+                 padding: const EdgeInsets.symmetric(horizontal: 116.10),
                  child: TextField(
                   controller: controller,
                   obscureText: textObscuro,
                     decoration: InputDecoration(
                       enabledBorder: const OutlineInputBorder(
-                        borderSide: BorderSide(color: Colors.white),
+                        borderSide: BorderSide(color: Color.fromARGB(255, 135, 172, 228)),
                       ),
-                       focusedBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: Colors.grey.shade400),
+                       focusedBorder: const OutlineInputBorder(
+                        borderSide: BorderSide(color: Color.fromARGB(255, 219, 18, 51)),
                       ),
                       fillColor: Colors.grey.shade200,
                       filled: true,

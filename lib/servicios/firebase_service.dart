@@ -63,14 +63,13 @@ await db.collection('pacientes').doc(uid).delete();
 }
 // ---------------------------------------------------[]--------------------------------------------
 
-
 // ---------------------------------------------------[ ABM ]------------------e-----------
-// -----funcion que guarda Profesional en la base-----------
+// -----funcion que guarda Profesional en la base----------  <---!! no usar porque genera al profesional con un ID distinto al del Login,
 Future<void> addProfesional(String nombre, String apellido,String celular,String dni,String matricula)async{
   await db.collection('Profesionales').add({'nombre':nombre,'apellido':apellido,'celular':celular,'dni':dni,'matricula':matricula},);
 }
 
-// -----funcion que guarda Paciente en la base-----------
+// -----funcion que guarda Paciente en la base-----------  <---!! no usar porque genera al Paciente con un ID distinto al del Login,
 Future<void> addPacientes(String name, String apellido,String celular,String dni)async{
   await db.collection('Pacientess').add({'nombre':name,'apellido':apellido,'celular':celular,'dni':dni},);
 }
