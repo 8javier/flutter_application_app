@@ -67,8 +67,7 @@ class _RegisterPageState extends State<RegisterPage> {
       errorMensaje(e.code);
     }
   }
-
-  // ------ funcion Agrega los datos del usuario a la base -----------
+  // ------ funcion Agrega los datos del Paciente a la base con sus Datos  -----------
   Future addUserData(String nombre, String apellido, String celular, String dni,
       String email,String uid) async {
     await FirebaseFirestore.instance.collection("pacientes").doc(uid).set({
@@ -80,8 +79,43 @@ class _RegisterPageState extends State<RegisterPage> {
       'dni': dni,
       'email': email,
     });
+    creaColeccionDiarioDelPaciente(uid);
+    creaColeccionEstadoAnimo(uid);
   }
-
+  // ------ funcion Agrega al Paciente la coleccion [diario] relacionada con el uid de Auth con el id del Paciente -----------
+Future<void> creaColeccionDiarioDelPaciente(String uid) async{
+    final pacienteDiarioRef=FirebaseFirestore.instance.collection("pacientes/$uid/diarios");
+    await pacienteDiarioRef.doc().set({});
+      print('La colección "Diario" ha sido creada con éxito.');
+  }
+    // --[Funcion que agrega datos al diario]
+  Future<void> agregarDatosDiario(String uid, String titulo, String contenido) async {
+  final diariosCollectionRef = FirebaseFirestore.instance.collection('pacientes/$uid/diarios');
+  final nuevoDiarioDocRef = diariosCollectionRef.doc(); // Genera un ID automático para el nuevo documento
+  await nuevoDiarioDocRef.set({
+    'titulo': titulo,
+    'contenido': contenido,
+    'fecha': DateTime.now(),
+  });
+  print('Datos del diario agregados con éxito.');
+}
+// ------ funcion Agrega al Paciente la coleccion [Estado de Animo] relacionada con el uid de Auth con el id del Paciente
+Future<void> creaColeccionEstadoAnimo(String uid) async {
+  final estadoAnimoCollectionRef = FirebaseFirestore.instance.collection('pacientes/$uid/estado_animo');
+  await estadoAnimoCollectionRef.doc().set({});
+   print('La colección "estado_animo" ha sido creada con éxito.');
+  }
+      // --[Funcion que agrega datos a la coleccion Estado de animo]
+  Future<void> agregarDatosEstadoAnimo(String uid, DateTime fecha, String emocion) async {
+  final estadoAnimoCollectionRef = FirebaseFirestore.instance.collection('pacientes/$uid/estado_animo');
+  final nuevoEstadoAnimoDocRef = estadoAnimoCollectionRef.doc(); // Genera un ID automático para el nuevo documento
+  await nuevoEstadoAnimoDocRef.set({
+    'fecha': fecha,
+    'emocion': emocion,
+  });
+  print('Datos de estado de ánimo agregados con éxito.');
+}
+// ------------------------------------------------------------------------------------------------------------
   // ------ funcion Mensaje de Alerta -----------
   void errorMensaje(String mensaje) {
     showDialog(
