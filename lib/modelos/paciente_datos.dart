@@ -1,42 +1,31 @@
-
-
-import 'package:flutter_application_app/modelos/rolUsuarios.dart';
-
 class Paciente {
-    
-    String nombre;
-    String apellido;
-    String celular;
-    String dni;
-    RolUsuario rol;
+  String id;
+  String uid;
+  String nombre;
+  String apellido;
+  String celular;
+  String dni;
+  String email;
 
-    Paciente({
-      
-        required this.nombre,
-        required this.apellido,
-        required this.celular,
-        required this.dni,
-        required this.rol,
-    });
-    factory Paciente.fromJson(Map<String, dynamic> json) => Paciente(
-      
-        nombre: json["nombre"],
-        apellido: json["apellido"],
-        celular: json["celular"],
-        dni: json["dni"], 
-        rol: json["rol"],
-      
-       
+  Paciente({
+    required this.id,
+    required this.uid,
+    required this.nombre,
+    required this.apellido,
+    required this.celular,
+    required this.dni,
+    required this.email,
+  });
+
+  factory Paciente.fromMap(Map<String, dynamic> map) {
+    return Paciente(
+      id: map['id'],
+      uid: map['uid'],
+      nombre: map['nombre'],
+      apellido: map['apellido'],
+      celular: map['celular'],
+      dni: map['dni'],
+      email: map['email'],
     );
-
-    Map<String, dynamic> toJson() => {
-        
-        "nombre": nombre,
-        "apellido": apellido,
-        "celular": celular,
-        "dni": dni,
-        "rol":rol,      
-    };
+  }
 }
-
-

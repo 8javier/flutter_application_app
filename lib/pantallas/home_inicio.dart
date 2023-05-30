@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_app/componentes/botonNavegapaginas.dart';
@@ -9,76 +10,219 @@ import 'package:flutter_application_app/pantallas/homePacientes.dart';
 import 'package:flutter_application_app/pantallas/login_or_register.dart';
 import 'package:flutter_application_app/pantallas/mainPaciente.dart';
 import 'package:flutter_application_app/servicios/firebase_service.dart';
+import 'package:collection/collection.dart';
+import '../modelos/paciente_datos.dart';
 
-// <-----------------------------[ ESTA PAGINA ES SE MUESTRA SOLO SI INICIO SESION ] ------------------------
-class HomeInicio extends StatelessWidget {
-  HomeInicio({super.key});
-  //---------[ Funcion de logOut de firebase ]
-void signUserOut(){
-  FirebaseAuth.instance.signOut();
-   NavegarBoton(texto: "", paginaDestino: const LoginOrRegisterPage());// <-lo mandas a esta pantalla que chequea el login
-}
-//final user = FirebaseAuth.instance.currentUser!;
-final User? user = Auth().usuarioActual;
+//---------[ Funcion que trae los pacientes]-----
+List<Paciente> cargarPacientes() {
+  List<Paciente> pacientes = [];
+  FirebaseFirestore.instance
+      .collection('pacientes')
+      .get()
+      .then((querySnapshot) {
+    for (var doc in querySnapshot.docs) {
+      Paciente paciente = Paciente.fromMap(doc.data());
+      pacientes.add(paciente);
+    }
+  });
+  return pacientes;
+} //---------[ Funcion que trae al paciente que inicio sesion con el uid]
 
-Widget _userUid(){
-return Text(user?.email ?? 'Usuario email :');
+Paciente? cargarPacienteEspecifico(String pacienteUid) {
+  List<Paciente> pacientes = cargarPacientes();
+  Paciente? pacienteEspecifico =
+      pacientes.firstWhereOrNull((paciente) => paciente.uid == pacienteUid);
+  return pacienteEspecifico;
 }
-
-Widget _userName(){
-return Text(user?.uid ?? 'UID :');
-}
-
-/* Widget _singOutBoton(){
-return ElevatedButton(onPressed: signUserOut, child: const Text('Sing Out'),);
-}
-*/
 
 //--------------------
+// <-----------------------------[ ESTA PAGINA ES SE MUESTRA SOLO SI INICIO SESION ] ------------------------
+class HomeInicio extends StatefulWidget {
+  HomeInicio({super.key});
+
+  @override
+  State<HomeInicio> createState() => _HomeInicioState();
+}
+
+class _HomeInicioState extends State<HomeInicio> {
+  User? currentUser;
+  String pacienteId = '';
+  final scaffoldMessengerKey = GlobalKey<ScaffoldMessengerState>();
+  // ---------------------------------
+  TextEditingController nombreController = TextEditingController();
+  TextEditingController apellidoController = TextEditingController(text: "");
+  TextEditingController celularController = TextEditingController(text: "");
+  TextEditingController dniController = TextEditingController(text: "");
+  @override
+  void initState() {
+    super.initState();
+    loadCurrentUser();
+  }
+
+  Future<void> loadCurrentUser() async {
+    User? user = FirebaseAuth.instance.currentUser;
+    setState(() {
+      currentUser = user;
+      if (currentUser != null) {
+        pacienteId = currentUser!.uid;
+        // Use pacienteId in your functions or actions
+        // For example, load specific patient data
+        Paciente? pacienteEspecifico = cargarPacienteEspecifico(pacienteId);
+        // ...
+      }
+    });
+  }
+
+  // -------------------------------
+  Future<Map<String, dynamic>> cargarDatosPaciente(String pacienteId) async {
+    DocumentSnapshot snapshot = await FirebaseFirestore.instance
+        .collection("pacientes")
+        .doc(pacienteId)
+        .get();
+    return snapshot.data() as Map<String, dynamic>;
+  }
+
+  // ---------------------------------
+  @override
+  void dispose() {
+    nombreController.dispose();
+    apellidoController.dispose();
+    celularController.dispose();
+    dniController.dispose();
+    super.dispose();
+  }
+
+  // --------------------------   <------- da error no va
+  Future<void> guardarDatosPaciente(
+      String pacienteId, Map<String, dynamic> datosPaciente) async {
+    try {
+      await FirebaseFirestore.instance
+          .collection("pacientes")
+          .doc(pacienteId)
+          .update(datosPaciente);
+      scaffoldMessengerKey.currentState?.showSnackBar(const SnackBar(
+        content: Text('Los datos del paciente se han guardado correctamente.'),
+      ));
+    } catch (error) {
+      scaffoldMessengerKey.currentState?.showSnackBar(const SnackBar(
+        content: Text('Error al guardar los datos del paciente.'),
+      ));
+      print(error.toString());
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-                      actions: [IconButton(onPressed: signUserOut, icon: const Icon(Icons.logout))],
-                      title: const Text('A Iniciado sesion correctamente'),
-                      
-                      ),// <---FUNCION QUE CIERRA LA SESION
-      // <--------------[FIN DE APPBAR] -----------------------------------
-      body:SafeArea( 
-        child: Center(
-          child: SingleChildScrollView(
-            child: Row(   
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.all(13.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      _userUid(),
-                      _userName(),
-                    
-                      NavegarBoton(texto: "Area Paciente", paginaDestino: const HomePaciente()),
-                      NavegarBoton(texto: 'Ingrese sus datos', paginaDestino: const AddPacientesPage()),
-                       NavegarBoton(texto: 'Notificaciones', paginaDestino: const NotificationScreen()),
-                    ],
-                
-                    
-                  ),
-                 
-                ),
-              ],
-            
-            ),
-          ),
-          
-        
-        
+    return ScaffoldMessenger(
+      key: scaffoldMessengerKey,
+      child: Scaffold(
+        backgroundColor: const Color.fromARGB(255, 128, 142, 224),
+        appBar: AppBar(
+          actions: const [
+            IconButton(onPressed: signUserOut, icon: Icon(Icons.logout))
+          ],
+          title: const Text('Paciente'),
+          backgroundColor: const Color.fromARGB(255, 35, 63, 87),
         ),
-        
-     ),
-   
+        body: FutureBuilder<Map<String, dynamic>>(
+          future: cargarDatosPaciente(pacienteId),
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return const CircularProgressIndicator();
+            } else if (snapshot.hasError) {
+              return const Text('Error al cargar los datos del paciente');
+            } else if (snapshot.hasData) {
+              Map<String, dynamic>? datosPaciente = snapshot.data;
+              if (datosPaciente != null) {
+                apellidoController.text =
+                    datosPaciente['apellido']?.toString() ?? '';
+                nombreController.text =
+                    datosPaciente['nombre']?.toString() ?? '';
+                celularController.text =
+                    datosPaciente['celular']?.toString() ?? '';
+                dniController.text = datosPaciente['dni']?.toString() ?? '';
+                return ListView(
+                  padding: const EdgeInsets.all(16),
+                  children: [
+                    Card(
+                      child: ListTile(
+                        leading: Icon(Icons.person),
+                        title: Text('Nombre: ${datosPaciente['nombre']}'),
+                      ),
+                    ),
+                    Card(
+                      child: ListTile(
+                        leading: Icon(Icons.person),
+                        title: Text('Apellido: ${datosPaciente['apellido']}'),
+                      ),
+                    ),
+                    Card(
+                      child: ListTile(
+                        leading: Icon(Icons.phone),
+                        title: Text('Celular: ${datosPaciente['celular']}'),
+                      ),
+                    ),
+                    Card(
+                      child: ListTile(
+                        leading: Icon(Icons.credit_card),
+                        title: Text('DNI: ${datosPaciente['dni']}'),
+                      ),
+                    ),
+                    Card(
+                      child: ListTile(
+                        leading: Icon(Icons.email),
+                        title: Text('Email: ${datosPaciente['email']}'),
+                      ),
+                    ),
+                    //------[Agrega navegacion a otra pagina] <----- BUG:Al precionar el boton volver se pierde la carga de datos del Paciente en pantalla de la Base!!!
+                    Card(
+                      child: ListTile(
+                        leading: Icon(Icons.star),
+                        title: const Text('Ir a la seccion Pacientes'),
+                        onTap: () {
+                           Navigator.pushNamed(context,'/HomePaciente');   //- <----- verrr
+                          
+                        },
+                      ),
+                    ),
+                    //---------------------- <-----
+                  ],
+                );
+              } else {
+                return const Text('No se encontraron datos del paciente');
+              }
+            } else {
+              return const Text('No se encontraron datos del paciente');
+            }
+          },
+        ),
+        bottomNavigationBar: BottomNavigationBar(
+          items: const <BottomNavigationBarItem>[
+            BottomNavigationBarItem(
+              icon: Icon(Icons.home),
+              label: 'Inicio',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.business),
+              label: 'Otra',
+            ),
+          ],
+        ),
+      ),
     );
   }
+}
+//------FUNCION
+// void cargarDatos() {
+//   pacientes = cargarPacientes();
+//  pacienteEspecifico = cargarPacienteEspecifico(user_id);
+// }
+
+//---------[ Funcion de logOut de firebase ]
+void signUserOut() {
+  FirebaseAuth.instance.signOut();
+  NavegarBoton(
+      texto: "",
+      paginaDestino:
+          const LoginOrRegisterPage()); // <-lo mandas a esta pantalla que chequea el login
 }

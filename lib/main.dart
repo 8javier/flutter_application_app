@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 //--------------  Paquetes que usa para la conexion a Firebase
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_application_app/pantallas/google_inicio.dart';
+import 'package:flutter_application_app/pantallas/homePacientes.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'firebase_options.dart';
 //-------------- ------------------------------------------------------
@@ -49,6 +50,7 @@ class MyApp extends StatelessWidget {
                         '/auth_page':(context) => const AuthPage(),
                         '/loginOrRegister':(context) => const LoginOrRegisterPage(),
                    //    '/testpage':(context) =>  testPage(),
+                   '/HomePaciente':(context) => const HomePaciente(),
                    '/google':(context) => const SignInDemo(),// <---hay que camviar el puerto a 5000 para que ande con el comando[ flutter run -d chrome --web-hostname localhost --web-port 5000 ]
                 },
                       
