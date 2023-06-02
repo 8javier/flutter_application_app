@@ -6,6 +6,7 @@ import 'package:flutter_application_app/pantallas/questionPaciente.dart';
 import 'package:flutter_application_app/pantallas/quizPaciente.dart';
 import 'package:flutter_application_app/reciclar/drawerpaciente.dart';
 
+import '../modelos/paciente_datos.dart';
 import 'mainPaciente.dart';
 
 class HomePaciente extends StatefulWidget {
@@ -18,19 +19,45 @@ class HomePaciente extends StatefulWidget {
 class _HomePacienteState extends State<HomePaciente> {
   var alerta = false;
   var page = 0;
-
   List<Widget> pages = [
     const MainPaciente(),
     const QuestionPaciente(),
     const QuizPaciente(),
   ];
+ // --------------------------------------------- Funciones ------->
+   User? currentUser;
+   String pacienteId = '';
+
+  // ---
+    Future<void> loadCurrentUser() async {  // --
+    User? user = FirebaseAuth.instance.currentUser;
+    setState(() {
+      currentUser = user;
+      if (currentUser != null) {
+        pacienteId = currentUser!.uid;
+        // Use pacienteId in your functions or actions
+        // For example, load specific patient data
+        Paciente? pacienteEspecifico = cargarPacienteEspecifico(pacienteId);
+        // ...
+        
+      }
+    });
+  }
+ 
+    @override
+  void initState() {
+    super.initState();
+    loadCurrentUser(); 
+    
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+     
       drawer: drawerpaciente(context),
       appBar: AppBar(
-        title: const Text("Home"),
+        title:  Text("Home  ${currentUser!.email}"),
         actions:[ NavegarBoton(texto: 'volver', paginaDestino: HomeInicio())],
       ),
       body: pages[page],
@@ -38,6 +65,7 @@ class _HomePacienteState extends State<HomePaciente> {
         onTap: (index){
           setState(() {
             page = index;
+
           });
         },
 
