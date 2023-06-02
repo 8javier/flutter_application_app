@@ -1,20 +1,20 @@
 class Paciente {
-  String id;
-  String uid;
-  String nombre;
-  String apellido;
-  String celular;
-  String dni;
-  String email;
-
+  final String? id;
+  final String? uid;
+  final String? nombre;
+  final String? apellido;
+  final String? celular;
+  final String? dni;
+  final String? email;
+  
   Paciente({
-    required this.id,
-    required this.uid,
-    required this.nombre,
-    required this.apellido,
-    required this.celular,
-    required this.dni,
-    required this.email,
+    this.id,
+    this.uid,
+    this.nombre,
+    this.apellido,
+    this.celular,
+    this.dni,
+    this.email,
   });
 
   factory Paciente.fromMap(Map<String, dynamic> map) {
@@ -28,4 +28,10 @@ class Paciente {
       email: map['email'],
     );
   }
+
+String? getName(){
+  return nombre;
+}
+
+
 }

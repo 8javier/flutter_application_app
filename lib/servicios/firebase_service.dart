@@ -1,4 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:collection/collection.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+
+import '../modelos/paciente_datos.dart';
 
 // funciones para la administracion en firebase
 
@@ -91,3 +95,33 @@ Future<void>actualizaProfesional(String uid,String newApellido,String newNombre,
   await db.collection('Profesional').doc(uid).set({'apellido':newApellido,'nombre':newNombre,'celular':newCelular,'dni':newDNI,'matricula':newMatricula});
 }
 // ---------------------------------------------------[]--------------------------------------------
+//---------[ Funcion que trae los pacientes]-----
+List<Paciente> cargarPacientes() {
+  List<Paciente> pacientes = [];
+  FirebaseFirestore.instance
+      .collection('pacientes')
+      .get()
+      .then((querySnapshot) {
+    for (var doc in querySnapshot.docs) {
+      Paciente paciente = Paciente.fromMap(doc.data());
+      pacientes.add(paciente);
+    }
+  });
+  return pacientes;
+} 
+//--------------------
+Paciente? cargarPacienteEspecifico(String pacienteUid) {
+  List<Paciente> pacientes = cargarPacientes();
+  Paciente? pacienteEspecifico =
+      pacientes.firstWhereOrNull((paciente) => paciente.uid == pacienteUid);
+  return pacienteEspecifico;
+}
+//--------------------
+  Future<Map<String, dynamic>> cargarDatosPaciente(String pacienteId) async {
+    DocumentSnapshot snapshot = await FirebaseFirestore.instance
+        .collection("pacientes")
+        .doc(pacienteId)
+        .get();
+    return snapshot.data() as Map<String, dynamic>;
+  }
+//--------------------

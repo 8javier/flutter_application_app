@@ -12,6 +12,7 @@ import 'package:flutter_application_app/pantallas/mainPaciente.dart';
 import 'package:flutter_application_app/servicios/firebase_service.dart';
 import 'package:collection/collection.dart';
 import '../modelos/paciente_datos.dart';
+import '../reciclar/drawerpaciente.dart';
 
 //---------[ Funcion que trae los pacientes]-----
 List<Paciente> cargarPacientes() {
@@ -56,10 +57,10 @@ class _HomeInicioState extends State<HomeInicio> {
   @override
   void initState() {
     super.initState();
-    loadCurrentUser();
+    loadCurrentUser(); 
   }
 
-  Future<void> loadCurrentUser() async {
+  Future<void> loadCurrentUser() async {  // --
     User? user = FirebaseAuth.instance.currentUser;
     setState(() {
       currentUser = user;
@@ -93,8 +94,7 @@ class _HomeInicioState extends State<HomeInicio> {
   }
 
   // --------------------------   <------- da error no va
-  Future<void> guardarDatosPaciente(
-      String pacienteId, Map<String, dynamic> datosPaciente) async {
+  Future<void> guardarDatosPaciente(String pacienteId, Map<String, dynamic> datosPaciente) async {
     try {
       await FirebaseFirestore.instance
           .collection("pacientes")
@@ -114,6 +114,7 @@ class _HomeInicioState extends State<HomeInicio> {
   @override
   Widget build(BuildContext context) {
     return ScaffoldMessenger(
+      
       key: scaffoldMessengerKey,
       child: Scaffold(
         backgroundColor: const Color.fromARGB(255, 128, 142, 224),
@@ -126,63 +127,60 @@ class _HomeInicioState extends State<HomeInicio> {
         ),
         body: FutureBuilder<Map<String, dynamic>>(
           future: cargarDatosPaciente(pacienteId),
-          builder: (context, snapshot) {
+          builder: (context, snapshot) {          
             if (snapshot.connectionState == ConnectionState.waiting) {
               return const CircularProgressIndicator();
             } else if (snapshot.hasError) {
+              
               return const Text('Error al cargar los datos del paciente');
             } else if (snapshot.hasData) {
               Map<String, dynamic>? datosPaciente = snapshot.data;
               if (datosPaciente != null) {
-                apellidoController.text =
-                    datosPaciente['apellido']?.toString() ?? '';
-                nombreController.text =
-                    datosPaciente['nombre']?.toString() ?? '';
-                celularController.text =
-                    datosPaciente['celular']?.toString() ?? '';
-                dniController.text = datosPaciente['dni']?.toString() ?? '';
                 return ListView(
+               
                   padding: const EdgeInsets.all(16),
-                  children: [
+                  children: [   
                     Card(
                       child: ListTile(
-                        leading: Icon(Icons.person),
+                        leading: const Icon(Icons.person),
                         title: Text('Nombre: ${datosPaciente['nombre']}'),
                       ),
                     ),
                     Card(
                       child: ListTile(
-                        leading: Icon(Icons.person),
+                        leading: const Icon(Icons.person),
                         title: Text('Apellido: ${datosPaciente['apellido']}'),
                       ),
                     ),
                     Card(
                       child: ListTile(
-                        leading: Icon(Icons.phone),
+                        leading: const Icon(Icons.phone),
                         title: Text('Celular: ${datosPaciente['celular']}'),
                       ),
                     ),
                     Card(
                       child: ListTile(
-                        leading: Icon(Icons.credit_card),
+                        leading: const Icon(Icons.credit_card),
                         title: Text('DNI: ${datosPaciente['dni']}'),
                       ),
                     ),
                     Card(
                       child: ListTile(
-                        leading: Icon(Icons.email),
+                        leading: const Icon(Icons.email),
                         title: Text('Email: ${datosPaciente['email']}'),
                       ),
                     ),
-                    //------[Agrega navegacion a otra pagina] <----- BUG:Al precionar el boton volver se pierde la carga de datos del Paciente en pantalla de la Base!!!
+                    
                     Card(
                       child: ListTile(
-                        leading: Icon(Icons.star),
+                        leading: const Icon(Icons.star),
                         title: const Text('Ir a la seccion Pacientes'),
-                        onTap: () {
-                           Navigator.pushNamed(context,'/HomePaciente');   //- <----- verrr
-                          
-                        },
+                        onTap: (() async{
+                        await Navigator.pushNamed(context,'/HomePaciente');   //- <----- verrr                       
+                          setState(() {
+                            //<--  A ctualiza los cambios con los de la base para q lo muestre por pantalla
+                          });
+                        }),
                       ),
                     ),
                     //---------------------- <-----

@@ -8,58 +8,56 @@ Widget drawerpaciente(contexto){
               Container(
                   width: 100,
                   height: 100,
-                  margin: const EdgeInsets.only(top: 50, bottom: 20),
+                  margin:  EdgeInsets.only(top: 50, bottom: 20),
                   child: Icon(
                     Icons.account_circle_outlined,
                     size: 100,
                   )),
-              const Text(
-                "Nombre Paciente",
-                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+               Text('Nombre Busg:',style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
               ),
               Container(
-                margin: const EdgeInsets.all(10),
+                margin: EdgeInsets.all(10),
                 decoration: BoxDecoration(
                     color: Color(0x11838282),
                     borderRadius: BorderRadius.circular(10)),
                 height: 50,
-                padding: const EdgeInsets.all(10),
+                padding:  EdgeInsets.all(10),
                 width: 350,
                 child: Text(
                   "Notificaciones",
                 ),
               ),
               Container(
-                margin: const EdgeInsets.all(10),
+                margin: EdgeInsets.all(10),
                 decoration: BoxDecoration(
                     color: Color(0x11838282),
                     borderRadius: BorderRadius.circular(10)),
                 height: 50,
-                padding: const EdgeInsets.all(12),
+                padding: EdgeInsets.all(12),
                 width: 350,
                 child: Text(
                   "Historial",
                 ),
               ),
               Container(
-                margin: const EdgeInsets.all(10),
+                margin: EdgeInsets.all(10),
                 decoration: BoxDecoration(
                     color: Color(0x11838282),
                     borderRadius: BorderRadius.circular(10)),
                 height: 50,
-                padding: const EdgeInsets.all(10),
+                padding:  EdgeInsets.all(10),
                 width: 350,
                 child: Text(
                   "datos del usuario",
                 ),
               ),
               Container(
-                margin: const EdgeInsets.all(10),
+                margin:  EdgeInsets.all(10),
                 decoration: BoxDecoration(
                     color: Color(0x11838282),
                     borderRadius: BorderRadius.circular(10)),
                 height: 50,
-                padding: const EdgeInsets.all(10),
+                padding:EdgeInsets.all(10),
                 width: 350,
                 child: Text(
                   "cerrar sesión",
@@ -67,12 +65,12 @@ Widget drawerpaciente(contexto){
               ),
             InkWell(
                 child: Container(
-                  margin: const EdgeInsets.all(10),
+                  margin: EdgeInsets.all(10),
                   decoration: BoxDecoration(
                       color: Color(0x11838282),
                       borderRadius: BorderRadius.circular(10)),
                   height: 50,
-                  padding: const EdgeInsets.all(10),
+                  padding:  EdgeInsets.all(10),
                   width: 350,
                   child: Text(
                     "view",
