@@ -33,8 +33,10 @@ class _AddPacientePageState extends State<AddPacientePage> {// <-el cuerpo de la
           ElevatedButton(onPressed: ()async{
             //print(nameController.text);  // <-lariable[nameController] me fijo si capturo algo
             // ---Hay que crear la funcion para guardar en la base de datos en la carpeta Servicios firebase_servicios.dart
-             // ---luego la llamo aca
-             await addPaciente(nameController.text,apellidoController.text);
+             // ---luego la llamo aca--!!controlar que no esta vacio  NULL sino se rompe la basee
+             await addPaciente(nameController.text,apellidoController.text).then((value) {
+              Navigator.pop(context);
+             });
              
           }, child: const Text('Guardar'))
         ],
