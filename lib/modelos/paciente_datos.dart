@@ -28,6 +28,16 @@ class Paciente {
       email: map['email'],
     );
   }
+  Map<String, dynamic> toMap() {
+    return {
+      'nombre': nombre,
+      'apellido': apellido,
+      'celular': celular,
+      'dni': dni,
+      'email': email,
+      // Agrega más propiedades si es necesario
+    };
+  }
 
 String? getName(){
   return nombre;
