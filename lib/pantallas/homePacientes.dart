@@ -30,6 +30,7 @@ class _HomePacienteState extends State<HomePaciente> {
    User? currentUser;
    String pacienteId = '';
   late PacienteProvider pacienteProvider;
+   late String uidPaciente; // Variable para almacenar el UID del paciente
   // ---
     Future<void> loadCurrentUser() async {  // --
     User? user = FirebaseAuth.instance.currentUser;
@@ -38,6 +39,7 @@ class _HomePacienteState extends State<HomePaciente> {
       if (currentUser != null) {
         pacienteId = currentUser!.uid;
         pacienteProvider.cargarPacienteEspecifico(pacienteId);
+         uidPaciente = pacienteId;
         // ... 
       }
     });
@@ -63,6 +65,7 @@ class _HomePacienteState extends State<HomePaciente> {
           } else {
             String nombrePaciente=pacienteProvider.pacienteEspecifico?.nombre ?? '';
             String apellidoPaciente=pacienteProvider.pacienteEspecifico?.apellido ?? '';
+             print('UID del Paciente: $uidPaciente');
             return Text("Paciente:$nombrePaciente $apellidoPaciente");
           }
         },

@@ -13,7 +13,7 @@ Future<List>getPacientes() async{
 List personas = [];// <-- variable para almacenar lista de datos pedidos
 // Haciendo referencias para la base de datos(pide los datos a la base )
 
-CollectionReference collectionReferencePersonas = db.collection('Pacientess');// <-- variable para almacenar los datos pedidos[de una colleccion existente en la base]
+CollectionReference collectionReferencePersonas = db.collection('pacientes');// <-- variable para almacenar los datos pedidos[de una colleccion existente en la base]
 
 QuerySnapshot queryPacientes = await collectionReferencePersonas.get();// <-- pide todos los pacientes esperando que la DB se los envie
 for (var doc in queryPacientes.docs) { 
@@ -75,12 +75,12 @@ Future<void> addProfesional(String nombre, String apellido,String celular,String
 
 // -----funcion que guarda Paciente en la base-----------  <---!! no usar porque genera al Paciente con un ID distinto al del Login,
 Future<void> addPacientes(String name, String apellido,String celular,String dni)async{
-  await db.collection('Pacientess').add({'nombre':name,'apellido':apellido,'celular':celular,'dni':dni},);
+  await db.collection('pacientess').add({'nombre':name,'apellido':apellido,'celular':celular,'dni':dni},);
 }
 // ---------------------------------------------------[BORRADO]------------------e-----------
 // -----funcion que Borra Pacientess en la base-----------
 Future<void>borradoPaciente(String uid) async{
-await db.collection('Pacientess').doc(uid).delete();
+await db.collection('pacientes').doc(uid).delete();
 }
 // -----funcion que Borra Profesional en la base-----------
 Future<void>borradoProfesional(String uid) async{
@@ -88,7 +88,7 @@ await db.collection('Profesional').doc(uid).delete();
 }
 // ---------------------------------------------------[MODIFICA]-----------------------------------
 Future<void>actualizaPaciente(String uid,String newApellido,String newNombre,String newCelular,String dni)async{
-  await db.collection('Pacientess').doc(uid).set({'apellido':newApellido,'nombre':newNombre,'celular':newCelular,'dni':dni});
+  await db.collection('pacientes').doc(uid).set({'apellido':newApellido,'nombre':newNombre,'celular':newCelular,'dni':dni});
 }
 
 Future<void>actualizaProfesional(String uid,String newApellido,String newNombre,String newCelular, String newDNI,String newMatricula)async{

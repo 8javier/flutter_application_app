@@ -81,7 +81,7 @@ Widget build(BuildContext context) {
       backgroundColor: const Color.fromARGB(255, 128, 142, 224),
       appBar: AppBar(
         actions: const [
-          IconButton(onPressed: signUserOut, icon: Icon(Icons.logout))
+          IconButton(onPressed: (signUserOut), icon: Icon(Icons.logout))
         ],
         title: const Text('Paciente'),
         backgroundColor: const Color.fromARGB(255, 35, 63, 87),
@@ -132,7 +132,22 @@ Widget build(BuildContext context) {
                       title: const Text('Ir a la seccion Pacientes'),
                       onTap: (() async {
                         await Navigator.pushNamed(context, '/HomePaciente');
-                        pacienteProvider.cargarPacienteEspecifico(pacienteId);
+                       //  WidgetsBinding.instance.addPostFrameCallback((_) {
+                       //     final pacienteProvider = Provider.of<PacienteProvider>(context, listen: false);
+                       //     pacienteProvider.cargarPacienteEspecifico(pacienteId);
+                       //   });
+                          setState(() {});
+                      }),
+                    ),
+                  ),
+              
+                   Card(
+                    child: ListTile(
+                      leading: const Icon(Icons.star),
+                      title: const Text('admin Pacientes'),
+                      onTap: (() async {
+                        await Navigator.pushNamed(context, '/listaPaciente');
+                      setState(() {});
                       }),
                     ),
                   ),
@@ -142,6 +157,7 @@ Widget build(BuildContext context) {
               return const Text('No se encontraron datos del paciente');
             }
           }
+          
         },
       ),
       bottomNavigationBar: BottomNavigationBar(

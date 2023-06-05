@@ -47,7 +47,7 @@ class MyApp extends StatelessWidget {
           initialRoute:  '/auth_page', // <--- se elige la Pagina de inicial de la App
           routes: {
                     //      '/login':(context) => const LoginPage(),
-                          '/':(context)=>const Home(),
+                          '/listaPaciente':(context)=>const Home(),
                           '/edit':(context)=>const editPacientePage(),
                             '/addProfesional':(context)=>const AddProfesionalPage(),
                           '/addPaciente':(context)=>const AddPacientesPage(),
