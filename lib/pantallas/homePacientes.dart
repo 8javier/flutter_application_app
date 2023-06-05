@@ -5,8 +5,10 @@ import 'package:flutter_application_app/pantallas/home_inicio.dart';
 import 'package:flutter_application_app/pantallas/questionPaciente.dart';
 import 'package:flutter_application_app/pantallas/quizPaciente.dart';
 import 'package:flutter_application_app/reciclar/drawerpaciente.dart';
+import 'package:provider/provider.dart';
 
 import '../modelos/paciente_datos.dart';
+import '../modelos/paciente_provider.dart';
 import 'mainPaciente.dart';
 
 class HomePaciente extends StatefulWidget {
@@ -27,7 +29,7 @@ class _HomePacienteState extends State<HomePaciente> {
  // --------------------------------------------- Funciones ------->
    User? currentUser;
    String pacienteId = '';
-
+  late PacienteProvider pacienteProvider;
   // ---
     Future<void> loadCurrentUser() async {  // --
     User? user = FirebaseAuth.instance.currentUser;
@@ -35,11 +37,8 @@ class _HomePacienteState extends State<HomePaciente> {
       currentUser = user;
       if (currentUser != null) {
         pacienteId = currentUser!.uid;
-        // Use pacienteId in your functions or actions
-        // For example, load specific patient data
-        Paciente? pacienteEspecifico = cargarPacienteEspecifico(pacienteId);
-        // ...
-        
+        pacienteProvider.cargarPacienteEspecifico(pacienteId);
+        // ... 
       }
     });
   }
@@ -47,18 +46,28 @@ class _HomePacienteState extends State<HomePaciente> {
     @override
   void initState() {
     super.initState();
+     pacienteProvider = Provider.of<PacienteProvider>(context, listen: false);
     loadCurrentUser(); 
-    
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-     
+
       drawer: drawerpaciente(context),
       appBar: AppBar(
-        title:  Text("Home  ${currentUser!.email}"),
-        actions:[ NavegarBoton(texto: 'volver', paginaDestino: HomeInicio())],
+             title: Consumer<PacienteProvider>(
+        builder: (context, pacienteProvider, _) {
+          if (pacienteProvider.isLoading) {
+            return const CircularProgressIndicator();
+          } else {
+            String nombrePaciente=pacienteProvider.pacienteEspecifico?.nombre ?? '';
+            String apellidoPaciente=pacienteProvider.pacienteEspecifico?.apellido ?? '';
+            return Text("Paciente:$nombrePaciente $apellidoPaciente");
+          }
+        },
+      ),
+        actions:[ NavegarBoton(texto: 'volver', paginaDestino: const HomeInicio())],
       ),
       body: pages[page],
       bottomNavigationBar: BottomNavigationBar(
@@ -68,7 +77,6 @@ class _HomePacienteState extends State<HomePaciente> {
 
           });
         },
-
 
         currentIndex: page,
         items: [
