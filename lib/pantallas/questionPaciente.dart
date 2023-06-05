@@ -12,10 +12,11 @@ class QuestionPaciente extends StatefulWidget {
 class _QuestionPacienteState extends State<QuestionPaciente> {
   FirebaseFirestore firestore = FirebaseFirestore.instance;
   List<String> preguntas = [
-    '¿Cuál es tu estado de animo?',
-    '¿Has experimentado síntomas físicos relacionados con tu bienestar emocional?',
+    '¿Cómo te sientes actualmente?',
+    '¿Cuál es tu estado de animo del 1 al 3?',
+    '¿Has experimentado cambios en tu estado de ánimo recientemente?',
   ];
-List<String> respuestas = List.filled(2, ''); // Lista de respuestas inicialmente vacía
+List<String> respuestas = List.generate(3, (_) => '');// Lista de respuestas inicialmente vacía
  @override
   Widget build(BuildContext context) {
     return ListView.builder(
