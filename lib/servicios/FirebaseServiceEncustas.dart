@@ -1,7 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 import '../modelos/encuestas/EncuestaDinamica.dart';
-import '../modelos/encuestas/EncuestaEstatica.dart';
 import '../modelos/encuestas/Opcion.dart';
 import '../modelos/encuestas/Pregunta.dart';
 

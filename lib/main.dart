@@ -17,7 +17,6 @@ import 'modelos/encuestas/Pregunta.dart';
 // --------------------------------------------------------
 
 import 'package:pedometer/pedometer.dart';
-import 'package:flutter_background_fetch/flutter_background_fetch.dart';
 void main() async {
   // <----Agrega variable[async] // q espera a conectarse a Firebase-Core
   /*WidgetsFlutterBinding.ensureInitialized();

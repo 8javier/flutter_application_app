@@ -2,7 +2,7 @@ import 'Opcion.dart';
 
 //BORRADOR      Clase para las preguntas de las encuestas
 class Pregunta {
-  int id;
+  String id;
   int peso;
   String texto;
   List<Opcion> opciones;
@@ -11,11 +11,11 @@ class Pregunta {
   Pregunta(this.id, this.peso, this.texto, this.opciones, this.esFinal);
 
   // Setter y getter para el ID
-  void setId(int id) {
+  void setId(String id) {
     this.id = id;
   }
 
-  int getId() {
+  String getId() {
     return id;
   }
 
@@ -58,7 +58,7 @@ class Pregunta {
   //funcion para obtener el peso de una opcion
   int obtenerPesoOpcion(int opcionId) {
     Opcion opcionEncontrada =
-        opciones.firstWhere((opcion) => opcion.getId() == opcionId, orElse: () => Opcion(-1, 0, ''));
+        opciones.firstWhere((opcion) => opcion.getId() == opcionId);
     return opcionEncontrada.getPeso();
   }
 }

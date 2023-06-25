@@ -71,7 +71,7 @@ class NotificationService {
 
       const AndroidInitializationSettings initializationSettingsAndroid =
           AndroidInitializationSettings('app_icon');
-      final IOSInitializationSettings initializationSettingsIOS = IOSInitializationSettings(
+      final DarwinInitializationSettings initializationSettingsIOS = DarwinInitializationSettings(
           onDidReceiveLocalNotification: onDidReceiveLocalNotification);
       final InitializationSettings initializationSettings = InitializationSettings(
           android: initializationSettingsAndroid, iOS: initializationSettingsIOS);

@@ -1,18 +1,18 @@
 
 //BORRADOR    Clase para las opciones de las preguntas
 class Opcion {
-  int id;
+  String id;
   int peso;
   String texto;
 
   Opcion(this.id, this.peso, this.texto);
 
   // Setter y getter para el ID
-  void setId(int id) {
+  void setId(String id) {
     this.id = id;
   }
 
-  int getId() {
+  String getId() {
     return id;
   }
 
