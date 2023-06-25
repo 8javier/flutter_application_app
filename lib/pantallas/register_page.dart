@@ -38,18 +38,31 @@ class _RegisterPageState extends State<RegisterPage> {
             child: CircularProgressIndicator(),
           );
         });
-    // trata de Registro un nuevo usuario
+    // trata de Registro un nuevo usuario !! PONER !===> ALGO Q COMPROEVE EL TIPO DE USER QUE SE ESTA POR REGISTRAR !!
+     /* 
+      if (_userType == 'doctor') {
+          await _firestore.collection('doctors').doc(user.uid).set({
+            'email': email,
+            'userType': userType,
+            // Otros datos específicos del doctor...
+          });
+        } else if (_userType == 'patient') {
+          await _firestore.collection('patients').doc(user.uid).set({
+            'email': email,
+            'userType': userType,
+            // Otros datos específicos del paciente...
+          });
+        }
+    */
     try {
-      // confirma q la Password ingresadas coinciden y lo manda a la base a cargar los datos ingresados
+      // confirma q la Password ingresadas coinciden y lo manda a la base a cargar los datos ingresados <--- AGREGAR MODIFICACION ACA !! CON UN [IF]
       if (passwordController.text == confirmarPasswordController.text) {
         await FirebaseAuth.instance.createUserWithEmailAndPassword(
           email: emailController.text,
           password: passwordController.text,
         ); 
- //---------------------------------- test start
  // ----------------FirebaseAuth-----------Captura el UID para usarlo en el ID del user asi son iguales
             String user_id = FirebaseAuth.instance.currentUser!.uid;    
- // ----------------------------------test fin
         addUserData(
           nombreController.text,
           apellidoController.text,
@@ -58,7 +71,9 @@ class _RegisterPageState extends State<RegisterPage> {
           emailController.text,
           user_id,
         );
-      } else {
+      } 
+      
+      else {
         errorMensaje('Las contraseñas no coinciden');
       }
       Navigator.pop(context);
@@ -67,6 +82,9 @@ class _RegisterPageState extends State<RegisterPage> {
       errorMensaje(e.code);
     }
   }
+
+
+
   // ------ funcion Agrega los datos del Paciente a la base con sus Datos  -----------
   Future addUserData(String nombre, String apellido, String celular, String dni,
       String email,String uid) async {
@@ -133,6 +151,8 @@ Future<void> creaColeccionEstadoAnimo(String uid) async {
       },
     );
   }
+
+
 
   @override
   Widget build(BuildContext context) {
