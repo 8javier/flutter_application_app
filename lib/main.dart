@@ -21,30 +21,28 @@ import 'modelos/paciente_provider.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
-    //options: DefaultFirebaseOptions.android, // if you're using windows emulator
-    //options: DefaultFirebaseOptions.ios, // para plataforma ios
-    options: DefaultFirebaseOptions.currentPlatform, // no usen la opcion windows solo web o android
-     //options: DefaultFirebaseOptions.web, 
+    options: DefaultFirebaseOptions.currentPlatform, 
+    
   );
   runApp( MyApp()); // <-----Arranca la App
 }
 
-// -----------------------------------------------
-// ------------
 class MyApp extends StatelessWidget {
    MyApp({super.key});
-// --------------ROOT APP--------------------------------------
-// This widget is the root of your application.
  final PacienteProvider pacienteProvider = PacienteProvider();
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (context) => PacienteProvider(),
+
+    return MultiProvider(
+      providers: [
+                ChangeNotifierProvider(create: (_) => PacienteProvider(),)
+                 ],
+     
       child: MaterialApp(
           title: 'Flutter AppMental',
           debugShowCheckedModeBanner: false,
-          initialRoute:  '/auth_page', // <--- se elige la Pagina de inicial de la App
+          initialRoute:  '/auth_page', 
           routes: {
                     //      '/login':(context) => const LoginPage(),
                           '/listaPaciente':(context)=>const Home(),
@@ -56,10 +54,12 @@ class MyApp extends StatelessWidget {
                           '/loginOrRegister':(context) => const LoginOrRegisterPage(),
                      //    '/testpage':(context) =>  testPage(),
                      '/HomePaciente':(context) => const HomePaciente(),
-                     '/google':(context) => const SignInDemo(),// <---hay que camviar el puerto a 5000 para que ande con el comando[ flutter run -d chrome --web-hostname localhost --web-port 5000 ]
+                     // '/google':(context) => const SignInDemo(),// <---hay que camviar el puerto a 5000 para que ande con el comando[ flutter run -d chrome --web-hostname localhost --web-port 5000 ]
                   },
-                        
+                
           ),
     );
+
   }
+
 }

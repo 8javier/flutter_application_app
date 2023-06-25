@@ -28,8 +28,7 @@ class PacienteProvider extends ChangeNotifier {
 
   void cargarPacienteEspecifico(String pacienteId) {
     isLoading = true;
-    _pacienteEspecifico =
-        pacientes.firstWhereOrNull((paciente) => paciente.uid == pacienteId);
+    _pacienteEspecifico = pacientes.firstWhereOrNull((paciente) => paciente.uid == pacienteId);
     isLoading = false;
     notifyListeners();
   }

@@ -10,6 +10,7 @@ class QuestionPaciente extends StatefulWidget {
 }
 
 class _QuestionPacienteState extends State<QuestionPaciente> {
+  String nombrePaciente = '';
   FirebaseFirestore firestore = FirebaseFirestore.instance;
   List<String> preguntas = [
     '¿Cuál es tu estado de animo?',
