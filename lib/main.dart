@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 //--------------  Paquetes que usa para la conexion a Firebase
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter_application_app/modelos/profesional_datos.dart';
 import 'package:flutter_application_app/pantallas/google_inicio.dart';
 import 'package:flutter_application_app/pantallas/homePacientes.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -17,6 +18,7 @@ import 'package:flutter_application_app/pantallas/lista_profesionales.dart';
 import 'package:flutter_application_app/pantallas/login_or_register.dart';
 
 import 'modelos/paciente_provider.dart';
+import 'modelos/provider/profesional_provider.dart';
 // --------------------------------------------------------
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -30,13 +32,14 @@ Future<void> main() async {
 class MyApp extends StatelessWidget {
    MyApp({super.key});
  final PacienteProvider pacienteProvider = PacienteProvider();
-
+ final ProfesionalProvider profesionalProvider = ProfesionalProvider();
   @override
   Widget build(BuildContext context) {
 
     return MultiProvider(
       providers: [
-                ChangeNotifierProvider(create: (_) => PacienteProvider(),)
+                ChangeNotifierProvider(create: (_) => PacienteProvider(),),
+                ChangeNotifierProvider(create: (_)=> ProfesionalProvider(),),
                  ],
      
       child: MaterialApp(

@@ -20,7 +20,7 @@ class AuthPage extends StatelessWidget {
           builder:(context, snapshot) {
             //-- user Si logged in 
             if(snapshot.hasData){
-              return    HomeInicio();
+              return    const HomeInicio();
             }
 
             //-- user No logged in
