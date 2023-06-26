@@ -172,17 +172,7 @@ class _HomeInicioState extends State<HomeInicio> {
                             }),
                           ),
                         ),
-                        Card(
-                          child: ListTile(
-                            leading: const Icon(Icons.star),
-                            title: const Text('admin Pacientes'),
-                            onTap: (() async {
-                              await Navigator.pushNamed(
-                                  context, '/listaPaciente');
-                              setState(() {});
-                            }),
-                          ),
-                        ),
+                       
                       ],
                     );
                   } else {
@@ -213,6 +203,17 @@ class _HomeInicioState extends State<HomeInicio> {
                                         'Apellido: ${datosProfesional.apellido}'),
                                   ),
                                 ),
+                                  Card(
+                              child: ListTile(
+                              leading: const Icon(Icons.star),
+                              title: const Text('admin Pacientes'),
+                              onTap: (() async {
+                              await Navigator.pushNamed(
+                                  context, '/listaPaciente');
+                              setState(() {});
+                            }),
+                          ),
+                        ),
                               ],
                             );
                           } else {
