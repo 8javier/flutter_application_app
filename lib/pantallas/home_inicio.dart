@@ -214,6 +214,17 @@ class _HomeInicioState extends State<HomeInicio> {
                             }),
                           ),
                         ),
+                            Card(
+                              child: ListTile(
+                              leading: const Icon(Icons.star),
+                              title: const Text('Agregar Pacientes'),
+                              onTap: (() async {
+                              await Navigator.pushNamed(
+                                  context, '/AgragarPaciente');
+                              setState(() {});
+                            }),
+                          ),
+                        ),
                               ],
                             );
                           } else {
