@@ -8,7 +8,10 @@ class Profesional {
     String celular;
     String dni;
     String matricula;
-      RolUsuario rol;
+    RolUsuario rol;
+    List<String>? encuestasCargadas;
+    List<String>? preguntasCargadas;
+
     Profesional({
 
         required this.nombre,
@@ -17,6 +20,8 @@ class Profesional {
         required this.dni,
         required this.matricula,
         required this.rol,
+        this.encuestasCargadas,
+        this.preguntasCargadas,
     });
 
     factory Profesional.fromJson(Map<String, dynamic> json) => Profesional(
@@ -27,7 +32,8 @@ class Profesional {
         dni: json["dni"],
         matricula: json["matricula"],
         rol: json["rol"],
-      
+        encuestasCargadas: json["encuestasCargadas"],
+        preguntasCargadas: json["preguntasCargadas"]
     );
 
     Map<String, dynamic> toJson() => {
@@ -37,7 +43,8 @@ class Profesional {
         "celular": celular,
         "dni": dni,
         "matricula": matricula,
-        "rol":rol,   
+        "rol":rol,
+        "encuestasCargadas": encuestasCargadas,
+        "preguntasCargadas": preguntasCargadas,
     };
-
 }

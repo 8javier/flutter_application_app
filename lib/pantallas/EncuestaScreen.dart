@@ -1,56 +1,75 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import '../modelos/encuestas/EncuestasDinamica.dart';
+import '../modelos/encuestas/Opcion.dart';
 import '../modelos/encuestas/Pregunta.dart';
+import '../servicios/firebase_service.dart';
+import '../servicios/FirebaseServiceEncuestas.dart';
+
+class EncuestaScreen extends StatefulWidget {
+
+  @override
+  EncuestaScreenState createState() => EncuestaScreenState();
+}
 
 
+class EncuestaScreenState extends State<EncuestaScreen> {
+  Pregunta? preguntaActual;
+  static String user_id = FirebaseAuth.instance.currentUser!.uid;
+  static Future<List<String>> encuestas_id = obtenerEncuestasDePaciente(user_id);
+  static EncuestaDinamica encuesta = EncuestaService().obtenerEncuestaPorId(encuestas_id as String) as EncuestaDinamica;
 
-class EncuestaScreen extends StatelessWidget {
-  final EncuestaDinamica encuesta;
+  @override
+  void initState() {
+    super.initState();
+    encuesta.ordenarPreguntasPorPeso();
+    preguntaActual = encuesta.obtenerSiguientePregunta();
+  }
 
-  EncuestaScreen({required this.encuesta});
+  void responderPregunta(Opcion opcion) {
+    setState(() {
+      encuesta.sumarPesoOpcion(opcion.peso);
+      preguntaActual = encuesta.obtenerSiguientePregunta();
+    });
+
+    if (preguntaActual?.esFinal == true) {
+      // Realizar alguna acción cuando se llega a la pregunta final
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
-    // Obtener la pregunta actual
-    Pregunta preguntaActual = encuesta.obtenerSiguientePregunta();
-
     return Scaffold(
       appBar: AppBar(
-        title: Text('Encuesta'),
+        title: Text(encuesta.nombre),
       ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(
-              preguntaActual.getTexto(),
-              style: TextStyle(fontSize: 20),
-            ),
-            SizedBox(height: 20),
-            Column(
-              children: preguntaActual
-                  .getOpciones()
-                  .map((opcion) => ElevatedButton(
-                        onPressed: () {
-                          encuesta.sumarPesoOpcion(opcion.peso);
-                          if (!preguntaActual.esFinal) {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => EncuestaScreen(encuesta: encuesta),
-                              ),
-                            );
-                    } else {
-                      // Lógica adicional para manejar el caso de pregunta final
-                    }
-                        },
-                        child: Text(opcion.getTexto()),
-                      ))
-                  .toList(),
-            ),
-          ],
+      body: preguntaActual != null ? buildPregunta() : Container(),
+    );
+  }
+
+  Widget buildPregunta() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Padding(
+          padding: EdgeInsets.all(16.0),
+          child: Text(
+            preguntaActual!.texto,
+            style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold),
+          ),
         ),
-      ),
+        ListView.builder(
+          shrinkWrap: true,
+          itemCount: preguntaActual!.opciones.length,
+          itemBuilder: (context, index) {
+            final opcion = preguntaActual!.opciones[index];
+            return ListTile(
+              title: Text(opcion.texto),
+              onTap: () => responderPregunta(opcion),
+            );
+          },
+        ),
+      ],
     );
   }
 }
