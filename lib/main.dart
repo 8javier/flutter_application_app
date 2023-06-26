@@ -17,9 +17,15 @@ import 'package:flutter_application_app/pantallas/lista_profesionales.dart';
 import 'package:flutter_application_app/pantallas/login_or_register.dart';
 
 import 'modelos/paciente_provider.dart';
+
+// Servicio de notificaciones
+import 'package:flutter/material.dart';
+import 'package:native_notify/native_notify.dart';
 // --------------------------------------------------------
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  WidgetsFlutterBinding.ensureInitialized();
+  NativeNotify.initialize(3130, 'A1zT3zHBX8id4yfogpqoGW'); // Dejar tranquilos estos dos NULL, por favor.
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform, 
     

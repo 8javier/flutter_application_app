@@ -1,18 +1,19 @@
-
-//BORRADOR    Clase para las opciones de las preguntas
 class Opcion {
-  int id;
+  String id;
   int peso;
   String texto;
 
-  Opcion(this.id, this.peso, this.texto);
+  Opcion({
+      required this.id,
+      required this.peso,
+      required this.texto});
 
   // Setter y getter para el ID
-  void setId(int id) {
+  void setId(String id) {
     this.id = id;
   }
 
-  int getId() {
+  String getId() {
     return id;
   }
 
@@ -32,5 +33,21 @@ class Opcion {
 
   String getTexto() {
     return texto;
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'peso': peso,
+      'texto': texto,
+    };
+  }
+
+  factory Opcion.fromData(Map<String, dynamic> data) {
+    return Opcion(
+      id: data['id'],
+      texto: data['texto'],
+      peso: data['peso'],
+    );
   }
 }
