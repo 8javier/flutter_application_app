@@ -32,8 +32,8 @@ Future<void> main() async {
 
 class MyApp extends StatelessWidget {
    MyApp({super.key});
- final PacienteProvider pacienteProvider = PacienteProvider();
- final ProfesionalProvider profesionalProvider = ProfesionalProvider();
+ final PacienteProvider pacienteProvider = PacienteProvider(); // <--- ver
+ final ProfesionalProvider profesionalProvider = ProfesionalProvider();// <--- ver
   @override
   Widget build(BuildContext context) {
 
