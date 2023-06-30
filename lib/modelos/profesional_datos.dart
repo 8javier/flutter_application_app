@@ -1,3 +1,5 @@
+import 'paciente_datos.dart';
+
 class Profesional {
   final String? id;
   final String? uid;
@@ -6,7 +8,8 @@ class Profesional {
   final String? celular;
   final String? dni;
   final String? email;
-   final String? rol;
+  final String? rol;
+  List<Paciente>? pacientes;
   
   Profesional({
     this.id,
@@ -17,6 +20,7 @@ class Profesional {
     this.dni,
     this.email,
     this.rol,
+    this.pacientes,
   });
 
   factory Profesional.fromMap(Map<String, dynamic> map) {
@@ -29,6 +33,7 @@ class Profesional {
       dni: map['dni'],
       email: map['email'],
       rol: map['rol'],
+       pacientes: [],
     );
   }
   Map<String, dynamic> toMap() {

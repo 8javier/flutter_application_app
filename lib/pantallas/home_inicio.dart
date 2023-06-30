@@ -60,6 +60,7 @@ class HomeInicio extends StatefulWidget {
 }
 
 class _HomeInicioState extends State<HomeInicio> {
+  
   User? currentUser;
   final scaffoldMessengerKey = GlobalKey<ScaffoldMessengerState>();
   // ---------------------------------
@@ -71,30 +72,32 @@ class _HomeInicioState extends State<HomeInicio> {
   void initState() {
     super.initState();
   }
-   String userId=FirebaseAuth.instance.currentUser!.uid;
+   String userId=FirebaseAuth.instance.currentUser!.uid;// <---- Carga el ID actual del usuario del la App.
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-      String user_id = FirebaseAuth.instance.currentUser!.uid;  
+      // String user_id = FirebaseAuth.instance.currentUser!.uid;  
       final pacienteProvider = Provider.of<PacienteProvider>(context,listen: false); // <----- checar inicialización de la variable
       final profesionalProvider = Provider.of<ProfesionalProvider>(context,listen: false); // <-----  checar inicialización de la variable
 
       if (!pacienteProvider.isLoading && pacienteProvider.pacienteEspecifico == null) {
         pacienteProvider.cargarPacientes();
-        pacienteProvider.cargarPacienteEspecifico(user_id);
+        pacienteProvider.cargarPacienteEspecifico(userId);
       }
-      if (!profesionalProvider.isLoading && profesionalProvider.profesionalEspecifico == null) {
+      if (!profesionalProvider.isLoading && profesionalProvider.profesionalEspecifico == null) {// <----- ver valor inicial de la variable!!
         profesionalProvider.cargarProfesional();
-        profesionalProvider.cargarProfesionalEspecifico(user_id);
+        profesionalProvider.cargarProfesionalEspecifico(userId);
       }
+      datosProfesional = profesionalProvider.profesionalEspecifico;
   }
-
+   Profesional? datosProfesional;
   @override
   void dispose() {
     nombreController.dispose();
     apellidoController.dispose();
     celularController.dispose();
     dniController.dispose();
+    datosProfesional=null;
     super.dispose();
   }
 
@@ -164,10 +167,6 @@ class _HomeInicioState extends State<HomeInicio> {
                             onTap: (() async {
                               await Navigator.pushNamed(
                                   context, '/HomePaciente');
-                              //  WidgetsBinding.instance.addPostFrameCallback((_) {
-                              //     final pacienteProvider = Provider.of<PacienteProvider>(context, listen: false);
-                              //     pacienteProvider.cargarPacienteEspecifico(pacienteId);
-                              //   });
                               setState(() {});
                             }),
                           ),
@@ -183,9 +182,8 @@ class _HomeInicioState extends State<HomeInicio> {
                             child: CircularProgressIndicator(),
                           ); 
                         } else {
-                          Profesional? datosProfesional =
-                              profesionalProvider.profesionalEspecifico;
-                          if (datosProfesional != null) {
+                              datosProfesional = profesionalProvider.profesionalEspecifico;
+                          if (datosProfesional != null && datosProfesional?.id== userId) {
                             return ListView(
                               padding: const EdgeInsets.all(16),
                               children: [
@@ -193,14 +191,14 @@ class _HomeInicioState extends State<HomeInicio> {
                                   child: ListTile(
                                     leading: const Icon(Icons.person),
                                     title:
-                                        Text('Nombre: ${datosProfesional.nombre}'),
+                                        Text('Nombre: ${datosProfesional?.nombre}'),
                                   ),
                                 ),
                                 Card(
                                   child: ListTile(
                                     leading: const Icon(Icons.person),
                                     title: Text(
-                                        'Apellido: ${datosProfesional.apellido}'),
+                                        'Apellido: ${datosProfesional?.apellido}'),
                                   ),
                                 ),
                                   Card(
@@ -258,134 +256,17 @@ class _HomeInicioState extends State<HomeInicio> {
     );
   }
 }
-//------FUNCION
-// void cargarDatos() {
-//   pacientes = cargarPacientes();
-//  pacienteEspecifico = cargarPacienteEspecifico(user_id);
-// }
 
 //---------[ Funcion de logOut de firebase ]
-void signUserOut() {
-  FirebaseAuth.instance.signOut();
+void signUserOut() async {
+  try{
+    await  FirebaseAuth.instance.signOut();
   NavegarBoton(
-      texto: "",
+      texto: "Salir",
       paginaDestino:
-          const LoginOrRegisterPage()); // <-lo mandas a esta pantalla que chequea el login
+          const LoginOrRegisterPage()); 
+  }catch (error) {
+    print('Error al cerrar la sesión: $error');
+  }
 }
 
-
-/*
-  children: [
-            Consumer<PacienteProvider>(
-              builder: (context, pacienteProvider, _) {
-                if (pacienteProvider.isLoading) {
-                  return Center(
-                    child: CircularProgressIndicator(),
-                  ); 
-                } else {
-                  Paciente? datosPaciente = pacienteProvider.pacienteEspecifico;
-                  if (datosPaciente != null) {
-                    return ListView(
-                      padding: const EdgeInsets.all(16),
-                      children: [
-                        Card(
-                          child: ListTile(
-                            leading: const Icon(Icons.person),
-                            title: Text('Nombre: ${datosPaciente.nombre}'),
-                          ),
-                        ),
-                        Card(
-                          child: ListTile(
-                            leading: const Icon(Icons.person),
-                            title: Text('Apellido: ${datosPaciente.apellido}'),
-                          ),
-                        ),
-                        Card(
-                          child: ListTile(
-                            leading: const Icon(Icons.phone),
-                            title: Text('Celular: ${datosPaciente.celular}'),
-                          ),
-                        ),
-                        Card(
-                          child: ListTile(
-                            leading: const Icon(Icons.credit_card),
-                            title: Text('DNI: ${datosPaciente.dni}'),
-                          ),
-                        ),
-                        Card(
-                          child: ListTile(
-                            leading: const Icon(Icons.email),
-                            title: Text('Email: ${datosPaciente.email}'),
-                          ),
-                        ),
-                        Card(
-                          child: ListTile(
-                            leading: const Icon(Icons.star),
-                            title: const Text('Ir a la seccion Pacientes'),
-                            onTap: (() async {
-                              await Navigator.pushNamed(
-                                  context, '/HomePaciente');
-                              //  WidgetsBinding.instance.addPostFrameCallback((_) {
-                              //     final pacienteProvider = Provider.of<PacienteProvider>(context, listen: false);
-                              //     pacienteProvider.cargarPacienteEspecifico(pacienteId);
-                              //   });
-                              setState(() {});
-                            }),
-                          ),
-                        ),
-                        Card(
-                          child: ListTile(
-                            leading: const Icon(Icons.star),
-                            title: const Text('admin Pacientes'),
-                            onTap: (() async {
-                              await Navigator.pushNamed(
-                                  context, '/listaPaciente');
-                              setState(() {});
-                            }),
-                          ),
-                        ),
-                      ],
-                    );
-                  } else {
-                    return Consumer<ProfesionalProvider>(
-                      builder: (context, profesionalProvider, _) {
-                        if (profesionalProvider.isLoading) {
-                          return Center(
-                            child: CircularProgressIndicator(),
-                          ); 
-                        } else {
-                          Profesional? datosProfesional =
-                              profesionalProvider.profesionalEspecifico;
-                          if (datosProfesional != null) {
-                            return ListView(
-                              padding: const EdgeInsets.all(16),
-                              children: [
-                                Card(
-                                  child: ListTile(
-                                    leading: const Icon(Icons.person),
-                                    title:
-                                        Text('Nombre: ${datosProfesional.nombre}'),
-                                  ),
-                                ),
-                                Card(
-                                  child: ListTile(
-                                    leading: const Icon(Icons.person),
-                                    title: Text(
-                                        'Apellido: ${datosProfesional.apellido}'),
-                                  ),
-                                ),
-                              ],
-                            );
-                          } else {
-                            return const Text(
-                                'No se encontraron datos del paciente o doctor');
-                          }
-                        }
-                      },
-                    );
-                  }
-                }
-              },
-            ),
-          ],
-*/

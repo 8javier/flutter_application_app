@@ -13,7 +13,6 @@ class ProfesionalProvider extends ChangeNotifier {
 
   Future<void> cargarProfesional() async {
   isLoading = true;
-
   try {
     final querySnapshot = await FirebaseFirestore.instance.collection('profesional').get();
     final profesional = querySnapshot.docs.map((doc) {
@@ -40,19 +39,29 @@ class ProfesionalProvider extends ChangeNotifier {
       final List<Paciente> pacientes = pacientesLista.where((paciente) {
         return pacientesSeleccionados.contains(paciente);
       }).toList();
-      if(_profesionalEspecifico?.id != null){
-      final profesionalId = _profesionalEspecifico?.id; // carga el ID del profesional actual
-      final collectionReference = FirebaseFirestore.instance.collection('profesional').doc(profesionalId).collection('listaPacientes'); // ver carga en la base hay error
-      for (final paciente in pacientes) {
-        final pacienteId= paciente.dni;// carga al paciente con el ID\ver para guardar mas datos
-        await collectionReference.doc(pacienteId).set(paciente.toMap());
-      }}else{
-         print('Error al agregar los pacientes');
+      final profesionalId = _profesionalEspecifico?.getId();
+      if( profesionalId != null){   
+      final collectionReference=FirebaseFirestore.instance.collection("profesional/$profesionalId/listaPacientes"); 
+      final subColleccionSnapshot = await collectionReference.get();
+          if(subColleccionSnapshot.docs.isEmpty){
+              print('La colección "listaPacientes" no existe. Creando...');               
+              await collectionReference.doc().set({});
+              print('La colección "listaPacientes" ha sido creada con éxito.');
+          }else{  
+            print('La colección "listaPacientes" ya existe.');}
+      for (Paciente paciente in pacientesSeleccionados) {
+        print('Datos del paciente: $paciente');
+            final pacienteId=paciente.id;
+            final pacienteReference = collectionReference.doc(pacienteId);
+            await pacienteReference.set(paciente.toMap());
+            print('Paciente agregado a la lista su ID es: $pacienteId');
+       }
+      } else{
+         print('El ID del profesional es nulo');
       }
     } catch (error) {
       print('Error al agregar los pacientes: $error');
     }
   }
-
   Profesional? get profesionalEspecifico => _profesionalEspecifico;
 }

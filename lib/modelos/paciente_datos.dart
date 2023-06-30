@@ -54,5 +54,9 @@ String? getRol(){
 String? getid(){
   return id;
 }
-
+ @override
+  String toString() {
+    return 'Paciente - Nombre: $nombre, Apellido: $apellido, Celular: $celular, DNI: $dni, Email: $email, Rol: $rol';
+}
+  
 }

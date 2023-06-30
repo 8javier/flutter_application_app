@@ -128,13 +128,12 @@ class _RegisterPageState extends State<RegisterPage> {
       'dni': dni,
       'email': email,
       'rol': rol,
-      'listaPacientes':[],
     });
   }
 
   // ------ funcion Agrega al Paciente la coleccion [diario] relacionada con el uid de Auth con el id del Paciente -----------
 Future<void> creaColeccionDiarioDelPaciente(String uid) async{
-    final pacienteDiarioRef=FirebaseFirestore.instance.collection("pacientes/$uid/diarios");
+    final pacienteDiarioRef=FirebaseFirestore.instance.collection("pacientes/$uid/diarios"); // <-USAR MISMA LOGICA PARA ALMACENAR LOS DEMAS DATOS !!!
     await pacienteDiarioRef.doc().set({});
       print('La colección "Diario" ha sido creada con éxito.');
   }
