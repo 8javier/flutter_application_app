@@ -86,6 +86,23 @@ class ProfesionalProvider extends ChangeNotifier {
     }
   }
   
+   Future<void> eliminarPaciente(Paciente paciente) async {
+     print('Datos del paciente: $paciente');
+    try {
+      final profesionalId = _profesionalEspecifico?.id;
+      if (profesionalId != null) {
+        final collectionReference =
+            FirebaseFirestore.instance.collection("profesional/$profesionalId/listaPacientes");
+        final pacienteId = paciente.id;
+        final pacienteReference = collectionReference.doc(pacienteId);
+        await pacienteReference.delete();
+        _pacientesLista.remove(paciente);
+        notifyListeners();
+      }
+    } catch (error) {
+      print('Error al eliminar el paciente: $error');
+    }
+  }
 
   Profesional? get profesionalEspecifico => _profesionalEspecifico;
 }

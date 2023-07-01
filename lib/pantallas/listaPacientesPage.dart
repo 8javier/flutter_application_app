@@ -22,19 +22,31 @@ class _ListaPacientePageState extends State<ListaPacientePage> {
     final List<Paciente> pacientes = profesionalProvider.pacientesLista;
       return Scaffold(
       appBar: AppBar(
-        title: Text('Lista de Pacientes'),
+        title: const Text('Lista de Pacientes'),
       ),
       body: ListView.builder(
         itemCount: pacientes.length,
         itemBuilder: (context, index) {
-          final paciente = pacientes[index];
-          return ListTile(
+          final paciente = pacientes[index]; // Carga para mostrar la info en pantalla
+            return ListTile(
             title: Text(paciente.nombre ?? ''),
             subtitle: Text(paciente.apellido ?? ''),
-            // Agrega cualquier otra información adicional que quieras mostrar del paciente
+            // Agrega un botón de eliminación
+            trailing: IconButton(
+              icon: const Icon(Icons.delete),
+              onPressed: () {
+                eliminarPaciente(paciente); // Llama a la función para eliminar el paciente
+              },
+            ),
           );
         },
       ),
     );
+  }
+
+
+  void eliminarPaciente(Paciente paciente) {// funcion que elimina de la DB del peofesional
+    final profesionalProvider = Provider.of<ProfesionalProvider>(context, listen: false);
+    profesionalProvider.eliminarPaciente(paciente);
   }
 }
