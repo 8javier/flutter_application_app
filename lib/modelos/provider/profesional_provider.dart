@@ -29,17 +29,17 @@ class ProfesionalProvider extends ChangeNotifier {
   void cargarProfesionalEspecifico(String profesionalId) async{
     isLoading = true;
     await cargarProfesional();
-    _profesionalEspecifico = profesional.firstWhereOrNull((profesional) => profesional.uid == profesionalId);
+    _profesionalEspecifico = profesional.firstWhereOrNull((profesional) => profesional.getId() == profesionalId);
     isLoading = false;
     notifyListeners();
   }
 
     Future<void> agregarPacientes(List<Paciente> pacientesSeleccionados) async {
     try {
-      final List<Paciente> pacientes = pacientesLista.where((paciente) {
-        return pacientesSeleccionados.contains(paciente);
-      }).toList();
-      final profesionalId = _profesionalEspecifico?.getId();
+     // final List<Paciente> pacientes = pacientesLista.where((paciente) {
+     //  return pacientesSeleccionados.contains(paciente);
+    //  }).toList();
+      final profesionalId = _profesionalEspecifico?.id;// <-- ver valor da null !!
       if( profesionalId != null){   
       final collectionReference=FirebaseFirestore.instance.collection("profesional/$profesionalId/listaPacientes"); 
       final subColleccionSnapshot = await collectionReference.get();
@@ -62,6 +62,10 @@ class ProfesionalProvider extends ChangeNotifier {
     } catch (error) {
       print('Error al agregar los pacientes: $error');
     }
+  }
+  void setProfesionalEspecifico(Profesional? profesional) {
+    _profesionalEspecifico = profesional;
+    notifyListeners();
   }
   Profesional? get profesionalEspecifico => _profesionalEspecifico;
 }

@@ -72,10 +72,13 @@ class _HomeInicioState extends State<HomeInicio> {
   void initState() {
     super.initState();
   }
-   String userId=FirebaseAuth.instance.currentUser!.uid;// <---- Carga el ID actual del usuario del la App.
+  String userId=FirebaseAuth.instance.currentUser!.uid;// <---- Carga el ID actual del usuario del la App.
+  Profesional? datosProfesional;
+   Profesional? _profesionalEspecifico;
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
+ 
       // String user_id = FirebaseAuth.instance.currentUser!.uid;  
       final pacienteProvider = Provider.of<PacienteProvider>(context,listen: false); // <----- checar inicialización de la variable
       final profesionalProvider = Provider.of<ProfesionalProvider>(context,listen: false); // <-----  checar inicialización de la variable
@@ -84,13 +87,30 @@ class _HomeInicioState extends State<HomeInicio> {
         pacienteProvider.cargarPacientes();
         pacienteProvider.cargarPacienteEspecifico(userId);
       }
+      /*
       if (!profesionalProvider.isLoading && profesionalProvider.profesionalEspecifico == null) {// <----- ver valor inicial de la variable!!
         profesionalProvider.cargarProfesional();
         profesionalProvider.cargarProfesionalEspecifico(userId);
+      datosProfesional = profesionalProvider.profesionalEspecifico; // ----verrr
       }
-      datosProfesional = profesionalProvider.profesionalEspecifico;
+      */ 
+        if (!profesionalProvider.isLoading) {
+         profesionalProvider.cargarProfesional();
+      // Esperar a que se carguen los profesionales antes de buscar el profesional específico
+      cargarProfesionalEspecifico(profesionalProvider, userId);
+     }
   }
-   Profesional? datosProfesional;
+     Future<void> cargarProfesionalEspecifico(
+     ProfesionalProvider profesionalProvider, String profesionalId) async {
+    await profesionalProvider.cargarProfesional();
+    final profesionalEspecifico = profesionalProvider.profesional
+        .firstWhereOrNull((profesional) => profesional.uid == profesionalId);
+        profesionalProvider.setProfesionalEspecifico(profesionalEspecifico);
+    setState(() {
+      datosProfesional = profesionalEspecifico;
+      _profesionalEspecifico = profesionalEspecifico;
+    });
+  }
   @override
   void dispose() {
     nombreController.dispose();
@@ -182,8 +202,8 @@ class _HomeInicioState extends State<HomeInicio> {
                             child: CircularProgressIndicator(),
                           ); 
                         } else {
-                              datosProfesional = profesionalProvider.profesionalEspecifico;
-                          if (datosProfesional != null && datosProfesional?.id== userId) {
+                            //  datosProfesional = profesionalProvider.profesionalEspecifico;
+                          if (datosProfesional != null && datosProfesional?.id== userId) {// <--- cambios para prueva
                             return ListView(
                               padding: const EdgeInsets.all(16),
                               children: [
