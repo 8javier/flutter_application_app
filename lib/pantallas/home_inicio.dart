@@ -234,11 +234,22 @@ class _HomeInicioState extends State<HomeInicio> {
                         ),
                             Card(
                               child: ListTile(
-                              leading: const Icon(Icons.star),
+                              leading: const Icon(Icons.add_box_sharp),
                               title: const Text('Agregar Pacientes'),
                               onTap: (() async {
                               await Navigator.pushNamed(
                                   context, '/AgragarPaciente');
+                              setState(() {});
+                            }),
+                          ),
+                        ),
+                           Card(
+                              child: ListTile(
+                              leading: const Icon(Icons.account_box_outlined),
+                              title: const Text('My lista de Pacientes'),
+                              onTap: (() async {
+                              await Navigator.pushNamed(
+                                  context, '/ListaPacientePage');
                               setState(() {});
                             }),
                           ),

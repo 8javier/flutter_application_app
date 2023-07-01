@@ -67,5 +67,25 @@ class ProfesionalProvider extends ChangeNotifier {
     _profesionalEspecifico = profesional;
     notifyListeners();
   }
+  
+   Future<void> cargarPacientesLista() async {
+    try {
+      final profesionalId = _profesionalEspecifico?.id;
+      if (profesionalId != null) {
+        final collectionReference =
+            FirebaseFirestore.instance.collection("profesional/$profesionalId/listaPacientes");
+        final querySnapshot = await collectionReference.get();
+        final pacientes = querySnapshot.docs.map((doc) {
+          return Paciente.fromMap(doc.data());
+        }).toList();
+        _pacientesLista = pacientes.cast<Paciente>();
+        notifyListeners();
+      }
+    } catch (error) {
+      print('Error al cargar los pacientes: $error');
+    }
+  }
+  
+
   Profesional? get profesionalEspecifico => _profesionalEspecifico;
 }

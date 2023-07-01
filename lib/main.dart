@@ -5,6 +5,7 @@ import 'package:flutter_application_app/modelos/profesional_datos.dart';
 import 'package:flutter_application_app/pantallas/agregarPacientes.dart';
 import 'package:flutter_application_app/pantallas/google_inicio.dart';
 import 'package:flutter_application_app/pantallas/homePacientes.dart';
+import 'package:flutter_application_app/pantallas/listaPacientesPage.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:provider/provider.dart';
 import 'firebase_options.dart';
@@ -59,6 +60,7 @@ class MyApp extends StatelessWidget {
                      //    '/testpage':(context) =>  testPage(),
                      '/HomePaciente':(context) => const HomePaciente(),
                      '/AgragarPaciente':(context) => const AgregarPacientePage(),
+                     '/ListaPacientePage':(context) => const  ListaPacientePage(),
                      // '/google':(context) => const SignInDemo(),// <---hay que camviar el puerto a 5000 para que ande con el comando[ flutter run -d chrome --web-hostname localhost --web-port 5000 ]
                   },
                 
