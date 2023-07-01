@@ -31,7 +31,7 @@ class Paciente {
       rol: map['rol'],
     );
   }
-  Map<String, dynamic> toMap() {// agregar los id para usar en otras funciones!!!
+  Map<String, dynamic> toMap() {// agregar el id para usar en otras funciones!!! q consumen el toMap
     return {
       'nombre': nombre,
       'apellido': apellido,
