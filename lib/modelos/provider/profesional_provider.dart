@@ -87,7 +87,6 @@ class ProfesionalProvider extends ChangeNotifier {
   }
   
    Future<void> eliminarPaciente(Paciente paciente) async {
-     print('Datos del paciente: $paciente');
     try {
       final profesionalId = _profesionalEspecifico?.id;
       if (profesionalId != null) {
@@ -103,6 +102,5 @@ class ProfesionalProvider extends ChangeNotifier {
       print('Error al eliminar el paciente: $error');
     }
   }
-
   Profesional? get profesionalEspecifico => _profesionalEspecifico;
 }

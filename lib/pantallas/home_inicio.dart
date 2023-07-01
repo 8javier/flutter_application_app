@@ -111,7 +111,7 @@ class _HomeInicioState extends State<HomeInicio> {
       _profesionalEspecifico = profesionalEspecifico;
     });
   }
-  @override
+  @override //------ FALTA HACER LOS CAMBIOS A LA CESION DEL PACIENTE!!
   void dispose() {
     nombreController.dispose();
     apellidoController.dispose();
