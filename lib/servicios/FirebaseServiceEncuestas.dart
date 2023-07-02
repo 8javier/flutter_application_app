@@ -1,91 +1,99 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter_application_app/modelos/encuestas/preguntaDinamica.dart';
+import '../modelos/encuestas/EncuestasDinamica.dart';
 
-// funciones para la administracion en firebase
+class EncuestaService {
+  final FirebaseFirestore firestore = FirebaseFirestore.instance;
+  final String encuestasCollection = 'encuestas';
+  final String preguntasCollection = 'preguntas';
 
-FirebaseFirestore db = FirebaseFirestore.instance;
-
-//BORRADOR     Funcion para traer las encuestas dinamicas
-/*Future<List<EncuestaDinamica>> obtenerEncuestas() async {
-  List<EncuestaDinamica> encuestas = [];
-
-  try {
-    QuerySnapshot querySnapshot = await db.collection('encuestas').get();
-
-    for (QueryDocumentSnapshot document in querySnapshot.docs) {
-      EncuestaDinamica encuesta = EncuestaDinamica(
-        titulo: document['titulo'],
-        descripcion: document['descripcion'],
-        raiz: await _obtenerPregunta(document['raiz']),
-      );
-
-      encuestas.add(encuesta);
+  Future<void> guardarEncuestaDinamica(EncuestaDinamica encuesta) async {
+    try {
+      await firestore
+          .collection(encuestasCollection)
+          .doc(encuesta.id)
+          .set(encuesta.toJson());
+    } catch (e) {
+      // Manejo de errores
     }
-  } catch (e) {
-    print(e.toString());
   }
 
-  return encuestas;
-}
+  Future<List<EncuestaDinamica>> obtenerEncuestas() async {
+    try {
+      final QuerySnapshot<Map<String, dynamic>> snapshot =
+      await firestore.collection(encuestasCollection).get();
 
-//BORRADOR   funcion paraa trar las preguntas de las encuestas dinamicas
-Future<Pregunta> _obtenerPregunta(DocumentReference preguntaRef) async {
-    DocumentSnapshot preguntaSnapshot = await preguntaRef.get();
+      List<EncuestaDinamica>? encuestas = snapshot.docs.map((doc) {
+        Map<String, dynamic> data = doc.data();
+        return EncuestaDinamica.fromData(data);
+      }).toList();
 
-    Pregunta pregunta = Pregunta(
-      enunciado: preguntaSnapshot.get('enunciado'),
-      opciones: (preguntaSnapshot.get('opciones') as List<dynamic>)
-          .map((opcionData) => Opcion(texto: opcionData['texto'], esCorrecta: opcionData['esCorrecta']))
-          .toList(),
-    );
-
-    DocumentReference siRef = preguntaSnapshot.get('si');
-    DocumentReference noRef = preguntaSnapshot.get('no');
-
-    if (siRef != null) {
-      pregunta.si = await _obtenerPregunta(siRef);
+      return encuestas;
+    } catch (e) {
+      // Manejo de errores
+      return [];
     }
-
-    if (noRef != null) {
-      pregunta.no = await _obtenerPregunta(noRef);
-    }
-
-    return pregunta;
   }
-//BORRADOR    funcion para obtener las diferentes opciones de las preguntas
-List<Opcion> _obtenerOpciones(List<dynamic> opciones) {
-  List<Opcion> listaOpciones = [];
 
-  opciones.forEach((opcion) {
-    listaOpciones.add(opcion(
-      texto: opcion['texto'],
-      esCorrecta: opcion['esCorrecta'],
-    ));
-  });
+  Future<EncuestaDinamica?> obtenerEncuestaPorId(String encuestaId) async {
+    try {
+      final DocumentSnapshot<Map<String, dynamic>> snapshot =
+      await firestore.collection(encuestasCollection).doc(encuestaId).get();
 
-  return listaOpciones;
-}
-//BORRADOR   funcion para traer las encuestas estaticas
- Future<List<EncuestaEstatica>> buscarEncuestasEstaticas() async {
-    List<EncuestaEstatica> encuestasEstaticas = [];
-
-    QuerySnapshot encuestasSnapshot = await db.collection('encuestasEstaticas').get();
-
-    for (DocumentSnapshot encuestaSnapshot in encuestasSnapshot.docs) {
-      EncuestaEstatica encuesta = EncuestaEstatica(
-        titulo: encuestaSnapshot.get('titulo'),
-        descripcion: encuestaSnapshot.get('descripcion'),
-        preguntas: (encuestaSnapshot.get('preguntas') as List<dynamic>)
-            .map((preguntaData) => Pregunta(
-                  enunciado: preguntaData['enunciado'],
-                  opciones: (preguntaData['opciones'] as List<dynamic>)
-                      .map((opcionData) => Opcion(texto: opcionData['texto'], esCorrecta: opcionData['esCorrecta']))
-                      .toList(),
-                ))
-            .toList(),
-      );
-
-      encuestasEstaticas.add(encuesta);
+      if (snapshot.exists) {
+        Map<String, dynamic> data = snapshot.data()!;
+        return EncuestaDinamica.fromData(data);
+      } else {
+        return null;
+      }
+    } catch (e) {
+      // Manejo de errores
+      return null;
     }
+  }
 
-    return encuestasEstaticas;
-  }*/
+  Future<void> guardarPreguntaDinamica(PreguntaDinamica pregunta) async {
+    try {
+      await firestore
+          .collection(preguntasCollection)
+          .doc(pregunta.id)
+          .set(pregunta.toJson());
+    } catch (e) {
+      // Manejo de errores
+    }
+  }
+
+  Future<List<PreguntaDinamica>> obtenerPreguntas() async {
+    try {
+      final QuerySnapshot<Map<String, dynamic>> snapshot =
+      await firestore.collection(preguntasCollection).get();
+
+      List<PreguntaDinamica>? preguntas = snapshot.docs.map((doc) {
+        Map<String, dynamic> data = doc.data();
+        return PreguntaDinamica.fromData(data);
+      }).toList();
+
+      return preguntas;
+    } catch (e) {
+      // Manejo de errores
+      return [];
+    }
+  }
+
+  Future<PreguntaDinamica?> obtenerPreguntasPorId(String preguntaId) async {
+    try {
+      final DocumentSnapshot<Map<String, dynamic>> snapshot =
+      await firestore.collection(preguntasCollection).doc(preguntaId).get();
+
+      if (snapshot.exists) {
+        Map<String, dynamic> data = snapshot.data()!;
+        return PreguntaDinamica.fromData(data);
+      } else {
+        return null;
+      }
+    } catch (e) {
+      // Manejo de errores
+      return null;
+    }
+  }
+}

@@ -1,21 +1,25 @@
 import 'Opcion.dart';
 
-//BORRADOR      Clase para las preguntas de las encuestas
 class Pregunta {
-  int id;
+  String id;
   int peso;
   String texto;
   List<Opcion> opciones;
   bool esFinal;
 
-  Pregunta(this.id, this.peso, this.texto, this.opciones, this.esFinal);
+  Pregunta({
+    required this.id,
+    required this.peso,
+    required this.texto,
+    required this.opciones,
+    required this.esFinal});
 
   // Setter y getter para el ID
-  void setId(int id) {
+  void setId(String id) {
     this.id = id;
   }
 
-  int getId() {
+  String getId() {
     return id;
   }
 
@@ -54,11 +58,40 @@ class Pregunta {
   bool getFinal() {
     return esFinal;
   }
-  
+
   //funcion para obtener el peso de una opcion
   int obtenerPesoOpcion(int opcionId) {
     Opcion opcionEncontrada =
-        opciones.firstWhere((opcion) => opcion.getId() == opcionId, orElse: () => Opcion(-1, 0, ''));
+    opciones.firstWhere((opcion) => opcion.getId() == opcionId);
     return opcionEncontrada.getPeso();
+  }
+
+  Map<String, dynamic> toJson() {
+    List<Map<String, dynamic>> opcionesJson = opciones.map((opcion) =>
+        opcion.toJson()).toList();
+
+    return {
+      'id': id,
+      'texto': texto,
+      'peso': peso,
+      'opciones': opcionesJson,
+      'esFinal': esFinal,
+    };
+  }
+
+  factory Pregunta.fromData(Map<String, dynamic> data) {
+    List<dynamic> opcionesData = data['opciones'];
+
+    List<Opcion> opciones = opcionesData.map((opcionData) {
+      return Opcion.fromData(opcionData);
+    }).toList();
+
+    return Pregunta(
+      id: data['id'],
+      texto: data['texto'],
+      peso: data['peso'],
+      opciones: opciones,
+      esFinal: data['esFinal'],
+    );
   }
 }

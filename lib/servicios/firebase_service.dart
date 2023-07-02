@@ -125,3 +125,121 @@ Paciente? cargarPacienteEspecifico(String pacienteUid) {
     return snapshot.data() as Map<String, dynamic>;
   }
 //--------------------
+
+//------ FUNCIONES PARA VINCULAR/DESVINCULAR ENCUESTAS A PACIENTES Y PROFECIONALES ----
+
+// Función para vincular una encuesta a un paciente
+Future<void> vincularEncuestaAPaciente(String pacienteId, String encuestaId) async {
+  try {
+    // Obtenemos la referencia al documento del paciente
+    final pacienteRef = FirebaseFirestore.instance.collection('pacientes').doc(pacienteId);
+
+    // Actualizamos el documento del paciente para agregar la referencia de la encuesta
+    await pacienteRef.update({
+      'encuestasVinculadas': FieldValue.arrayUnion([encuestaId])
+    });
+  } catch (e) {
+    print('Error al vincular encuesta con paciente: $e');
+    // Manejo de errores
+  }
+}
+
+// Función para obtener las encuestas de un paciente
+Future<List<String>> obtenerEncuestasDePaciente(String pacienteId) async {
+  try {
+    // Obtenemos el documento del paciente
+    final pacienteDoc = await FirebaseFirestore.instance.collection('pacientes').doc(pacienteId).get();
+
+    // Verificamos si el paciente tiene encuestas asociadas
+    if (pacienteDoc.exists && pacienteDoc.data()!.containsKey('encuestasVinculadas')) {
+      // Recuperamos las referencias de las encuestas respondidas por el paciente
+      final encuestasVinculadas = pacienteDoc['encuestasVinculadas'] as List<dynamic>;
+
+      // Convertimos las referencias a sus IDs correspondientes
+      final encuestasIds = encuestasVinculadas.map((ref) => ref.id.toString()).toList();
+
+      return encuestasIds;
+    } else {
+      // El paciente no tiene encuestas asociadas
+      return [];
+    }
+  } catch (e) {
+    print('Error al obtener encuestas de paciente: $e');
+    // Manejo de errores
+    return [];
+  }
+}
+
+// Función para eliminar una encuesta de un paciente
+Future<void> eliminarEncuestaDePaciente(String pacienteId, String encuestaId) async {
+  try {
+    // Obtenemos la referencia al documento del paciente
+    final pacienteRef = FirebaseFirestore.instance.collection('pacientes').doc(pacienteId);
+
+    // Actualizamos el documento del paciente para remover la referencia de la encuesta
+    await pacienteRef.update({
+      'encuestasVinculadas': FieldValue.arrayRemove([encuestaId])
+    });
+  } catch (e) {
+    print('Error al eliminar encuesta del paciente: $e');
+    // Manejo de errores
+  }
+}
+
+// Función para vincular una encuesta a un profesional
+Future<void> cargarEncuestaAProfesional(String profesionalId, String encuestaId) async {
+  try {
+    // Obtenemos la referencia al documento del profesional
+    final profesionalRef = FirebaseFirestore.instance.collection('Profesional').doc(profesionalId);
+
+    // Actualizamos el documento del profesional para agregar la referencia de la encuesta
+    await profesionalRef.update({
+      'encuestasCargadas': FieldValue.arrayUnion([encuestaId])
+    });
+  } catch (e) {
+    print('Error al vincular encuesta con profesional: $e');
+    // Manejo de errores
+  }
+}
+
+// Función para obtener las encuestas de un paciente
+Future<List<dynamic>> obtenerEncuestasDePacientexd(String pacienteId) async {
+  try {
+    // Obtenemos el documento del paciente
+    final pacienteDoc = await FirebaseFirestore.instance.collection('pacientes').doc(pacienteId).get();
+
+    // Verificamos si el paciente tiene encuestas asociadas
+    if (pacienteDoc.exists && pacienteDoc.data()!.containsKey('encuestasVinculadas')) {
+      // Recuperamos las referencias de las encuestas respondidas por el paciente
+      final encuestasVinculadas = pacienteDoc['encuestasVinculadas'] as List<dynamic>;
+
+      // Convertimos las referencias a sus IDs correspondientes
+      final encuestasIds = encuestasVinculadas.map((ref) => ref.id).toList();
+
+      return encuestasIds;
+    } else {
+      // El paciente no tiene encuestas asociadas
+      return [];
+    }
+  } catch (e) {
+    print('Error al obtener encuestas de paciente: $e');
+    // Manejo de errores
+    return [];
+  }
+}
+
+// Función para eliminar una encuesta de un paciente
+Future<void> eliminarEncuestaDePacientexd(String pacienteId, String encuestaId) async {
+  try {
+    // Obtenemos la referencia al documento del paciente
+    final pacienteRef = FirebaseFirestore.instance.collection('pacientes').doc(pacienteId);
+
+    // Actualizamos el documento del paciente para remover la referencia de la encuesta
+    await pacienteRef.update({
+      'encuestasVinculadas': FieldValue.arrayRemove([encuestaId])
+    });
+  } catch (e) {
+    print('Error al eliminar encuesta del paciente: $e');
+    // Manejo de errores
+  }
+}
