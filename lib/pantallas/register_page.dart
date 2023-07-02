@@ -27,6 +27,7 @@ class _RegisterPageState extends State<RegisterPage> {
   final apellidoController = TextEditingController();
   final celularController = TextEditingController();
   final dniController = TextEditingController();
+  final tipoUserController = TextEditingController();
   // -------- Crear_Usuario_Up metodo -----------
 
   void signUserUp() async {
@@ -61,16 +62,30 @@ class _RegisterPageState extends State<RegisterPage> {
           email: emailController.text,
           password: passwordController.text,
         ); 
- // ----------------FirebaseAuth-----------Captura el UID para usarlo en el ID del user asi son iguales
-            String user_id = FirebaseAuth.instance.currentUser!.uid;    
-        addUserData(
-          nombreController.text,
-          apellidoController.text,
-          celularController.text,
-          dniController.text,
-          emailController.text,
-          user_id,
-        );
+ 
+        String user_id = FirebaseAuth.instance.currentUser!.uid;  
+        if(tipoUserController.text.toLowerCase() == 'profesional'){  // ------ si es Profesional
+                addUserDataProfesional(
+                  nombreController.text,
+                  apellidoController.text,
+                  celularController.text,
+                  dniController.text,
+                  emailController.text,
+                  user_id,
+                  tipoUserController.text,     
+                );
+        } 
+        else if(tipoUserController.text.toLowerCase() == 'paciente'){
+              addUserData(  // ------ si es Paciente
+                nombreController.text,
+                apellidoController.text,
+                celularController.text,
+                dniController.text,
+                emailController.text,
+                user_id,
+                tipoUserController.text,
+              );
+            }
       } 
       
       else {
@@ -87,8 +102,8 @@ class _RegisterPageState extends State<RegisterPage> {
 
   // ------ funcion Agrega los datos del Paciente a la base con sus Datos  -----------
   Future addUserData(String nombre, String apellido, String celular, String dni,
-      String email,String uid) async {
-    await FirebaseFirestore.instance.collection("pacientes").doc(uid).set({
+      String email,String uid,String rol) async {
+    await FirebaseFirestore.instance.collection("paciente").doc(uid).set({
       'id':uid,
       'uid':uid,
       'nombre': nombre,
@@ -96,13 +111,29 @@ class _RegisterPageState extends State<RegisterPage> {
       'celular': celular,
       'dni': dni,
       'email': email,
+      'rol': rol,
     });
     creaColeccionDiarioDelPaciente(uid);
     creaColeccionEstadoAnimo(uid);
   }
+    // ------ funcion Agrega los datos del Profesional a la base con sus Datos  -----------
+  Future addUserDataProfesional(String nombre, String apellido, String celular, String dni,
+      String email,String uid,String rol) async {
+    await FirebaseFirestore.instance.collection("profesional").doc(uid).set({
+      'id':uid,
+      'uid':uid,
+      'nombre': nombre,
+      'apellido': apellido,
+      'celular': celular,
+      'dni': dni,
+      'email': email,
+      'rol': rol,
+    });
+  }
+
   // ------ funcion Agrega al Paciente la coleccion [diario] relacionada con el uid de Auth con el id del Paciente -----------
 Future<void> creaColeccionDiarioDelPaciente(String uid) async{
-    final pacienteDiarioRef=FirebaseFirestore.instance.collection("pacientes/$uid/diarios");
+    final pacienteDiarioRef=FirebaseFirestore.instance.collection("pacientes/$uid/diarios"); // <-USAR MISMA LOGICA PARA ALMACENAR LOS DEMAS DATOS !!!
     await pacienteDiarioRef.doc().set({});
       print('La colección "Diario" ha sido creada con éxito.');
   }
@@ -210,6 +241,13 @@ Future<void> creaColeccionEstadoAnimo(String uid) async {
                 CampoTexto(
                   controller: emailController,
                   hinttext: 'Email',
+                  textObscuro: false,
+                ),
+                const SizedBox(height: 10),
+                // Tipo de Usuario textfield------------------------------
+                CampoTexto(
+                  controller: tipoUserController,
+                  hinttext: 'Tipo de Usuario ',
                   textObscuro: false,
                 ),
                 const SizedBox(height: 10),

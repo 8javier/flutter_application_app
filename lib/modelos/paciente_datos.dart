@@ -6,6 +6,7 @@ class Paciente {
   final String? celular;
   final String? dni;
   final String? email;
+   final String? rol;
   
   Paciente({
     this.id,
@@ -15,6 +16,7 @@ class Paciente {
     this.celular,
     this.dni,
     this.email,
+    this.rol,
   });
 
   factory Paciente.fromMap(Map<String, dynamic> map) {
@@ -26,15 +28,19 @@ class Paciente {
       celular: map['celular'],
       dni: map['dni'],
       email: map['email'],
+      rol: map['rol'],
     );
   }
-  Map<String, dynamic> toMap() {
+  Map<String, dynamic> toMap() {// agregar el id para usar en otras funciones!!! q consumen el toMap
     return {
       'nombre': nombre,
       'apellido': apellido,
       'celular': celular,
       'dni': dni,
       'email': email,
+      'rol':rol,
+      'id':id,
+      'uid':uid,
       // Agrega más propiedades si es necesario
     };
   }
@@ -43,5 +49,16 @@ String? getName(){
   return nombre;
 }
 
+String? getRol(){
+  return rol;
+}
 
+String? getid(){
+  return id;
+}
+ @override
+  String toString() {
+    return 'Paciente - Nombre: $nombre, Apellido: $apellido, Celular: $celular, DNI: $dni, Email: $email, Rol: $rol, id: $id';
+}
+  
 }

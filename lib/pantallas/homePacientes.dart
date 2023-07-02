@@ -6,14 +6,11 @@ import 'package:flutter_application_app/pantallas/questionPaciente.dart';
 import 'package:flutter_application_app/pantallas/quizPaciente.dart';
 import 'package:flutter_application_app/reciclar/drawerpaciente.dart';
 import 'package:provider/provider.dart';
-
 import '../modelos/paciente_datos.dart';
 import '../modelos/paciente_provider.dart';
 import 'mainPaciente.dart';
-
 class HomePaciente extends StatefulWidget {
   const HomePaciente({super.key});
-
   @override
   State<HomePaciente> createState() => _HomePacienteState();
 }

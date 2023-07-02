@@ -14,7 +14,7 @@ class _RegistroProfesionalState extends State<RegistroProfesional>{
     return MaterialApp(
       home: Scaffold(
       appBar: AppBar(
-        title: Text('Registro'),
+        title: const Text('Registro'),
       ),
       body: ListView(
         children: <Widget>[
@@ -25,35 +25,35 @@ class _RegistroProfesionalState extends State<RegistroProfesional>{
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               TextFormField(
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   labelText: 'Nombre',
                   border: OutlineInputBorder(),
                 ),
               ),
-              SizedBox(height: 42.0),
+              const SizedBox(height: 42.0),
               TextFormField(
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   labelText: 'Teléfono',
                   border: OutlineInputBorder(),
                 ),
               ),
-              SizedBox(height: 42.0),
+              const SizedBox(height: 42.0),
               TextFormField(
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   labelText: 'Matrícula',
                   border: OutlineInputBorder(),
                 ),
               ),
-              SizedBox(height: 42.0),
+              const SizedBox(height: 42.0),
               TextFormField(
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   labelText: 'E-mail',
                   border: OutlineInputBorder(),
                 ),
               ),
-              SizedBox(height: 42.0),
+              const SizedBox(height: 42.0),
               TextFormField(
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   labelText: 'Contraseña',
                   border: OutlineInputBorder(),
                 ),
@@ -68,12 +68,12 @@ class _RegistroProfesionalState extends State<RegistroProfesional>{
                     });
                   },
               ),
-              SizedBox(height: 42.0),
+              const SizedBox(height: 42.0),
               ElevatedButton(
                 onPressed: () {
                   
                 },
-                child: Text('Aceptar'),
+                child: const Text('Aceptar'),
               ),
             ],
           ),
