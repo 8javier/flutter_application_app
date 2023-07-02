@@ -68,6 +68,10 @@ String? getRol(){
 String? getid(){
   return id;
 }
+
+int? getEstado(){
+    return estado;
+}
  @override
   String toString() {
     return 'Paciente - Nombre: $nombre, Apellido: $apellido, Celular: $celular, DNI: $dni, Email: $email, Rol: $rol, id: $id';

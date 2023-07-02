@@ -1,26 +1,40 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_application_app/servicios/firebase_service.dart';
+
+import '../modelos/paciente_datos.dart';
 
 Widget estado(contexto) {
 
-  String traerUsuario() {
+  Future<Paciente?> traerUsuario() async {
     String user_id = FirebaseAuth.instance.currentUser!.uid;
-    return user_id;
-  }
-
-  void cargarFeliz() {
-    var user_id = traerUsuario();
+    Paciente? paciente = await obtenerPacientePorId(user_id);
+    return paciente;
 
   }
 
-  void cargarNeutral() {
-    var user_id = traerUsuario();
-
+  Future<void> cargarFeliz() async {
+    var paciente = await traerUsuario();
+    var estado = paciente?.getEstado();
+    actualizaEstadoPaciente(paciente?.getid(), estado! - 1000);
   }
 
-  void cargarMal() {
-    var user_id = traerUsuario();
+  Future<void> cargarMuyFeliz() async {
+    var paciente = await traerUsuario();
+    var estado = paciente?.getEstado();
+    actualizaEstadoPaciente(paciente?.getid(), estado! - 1500);
+  }
 
+  Future<void> cargarMal() async {
+    var paciente = await traerUsuario();
+    var estado = paciente?.getEstado();
+    actualizaEstadoPaciente(paciente?.getid(), estado! + 1000);
+  }
+
+  Future<void> cargarMuyMal() async {
+    var paciente = await traerUsuario();
+    var estado = paciente?.getEstado();
+    actualizaEstadoPaciente(paciente?.getid(), estado! + 1500);
   }
 
 
@@ -36,7 +50,7 @@ Widget estado(contexto) {
                           children: [
                             IconButton(
                               onPressed: () {
-                                cargarFeliz();
+                                cargarMuyMal();
                                 Navigator.pop(contexto);
                               },
                               icon: Icon(Icons.heart_broken_outlined ),
@@ -44,6 +58,7 @@ Widget estado(contexto) {
                             ),
                             IconButton(
                               onPressed: () {
+                                cargarMal();
                                 Navigator.pop(contexto);
                               },
                               icon: Icon(Icons.mood_bad),
@@ -51,6 +66,7 @@ Widget estado(contexto) {
                             ),
                             IconButton(
                               onPressed: () {
+                                cargarFeliz();
                                 Navigator.pop(contexto);
                               },
                               icon: Icon(Icons.tag_faces_sharp),
@@ -58,6 +74,7 @@ Widget estado(contexto) {
                             ),
                             IconButton(
                               onPressed: () {
+                                cargarMuyFeliz();
                                 Navigator.pop(contexto);
                               },
                               icon: Icon(Icons.favorite_border),

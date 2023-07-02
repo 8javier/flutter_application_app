@@ -239,26 +239,25 @@ Future<void> eliminaPreguntasDePaciente(String pacienteId, String preguntaId) as
     print('Error al eliminar encuesta del paciente: $e');
     // Manejo de errores
   }
+}
 
+Future<void> actualizaEstadoPaciente(String? uid,int estado)async {
+  await db.collection('paciente').doc(uid).set({'estado': estado});
+}
 
-  Future<void> actualizaEstadoPaciente(String uid,int estado)async {
-    await db.collection('paciente').doc(uid).set({'estado': estado});
-  }
+Future<Paciente?> obtenerPacientePorId(String pacienteId) async {
+  try {
+    final DocumentSnapshot<Map<String, dynamic>> snapshot =
+    await FirebaseFirestore.instance.collection('paciente').doc(pacienteId).get();
 
-  Future<Paciente?> obtenerPacientePorId(String pacienteId) async {
-    try {
-      final DocumentSnapshot<Map<String, dynamic>> snapshot =
-      await FirebaseFirestore.instance.collection('paciente').doc(pacienteId).get();
-
-      if (snapshot.exists) {
-        Map<String, dynamic> data = snapshot.data()!;
-        return Paciente.fromMap(data);
-      } else {
-        return null;
-      }
-    } catch (e) {
-      // Manejo de errores
+    if (snapshot.exists) {
+      Map<String, dynamic> data = snapshot.data()!;
+      return Paciente.fromMap(data);
+    } else {
       return null;
     }
+  } catch (e) {
+    // Manejo de errores
+    return null;
   }
 }
