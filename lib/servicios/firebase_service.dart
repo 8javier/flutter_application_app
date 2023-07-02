@@ -80,7 +80,7 @@ Future<void> addPacientes(String name, String apellido,String celular,String dni
 // ---------------------------------------------------[BORRADO]------------------e-----------
 // -----funcion que Borra Pacientess en la base-----------
 Future<void>borradoPaciente(String uid) async{
-await db.collection('pacientes').doc(uid).delete();
+await db.collection('paciente').doc(uid).delete();
 }
 // -----funcion que Borra Profesional en la base-----------
 Future<void>borradoProfesional(String uid) async{
@@ -88,7 +88,7 @@ await db.collection('Profesional').doc(uid).delete();
 }
 // ---------------------------------------------------[MODIFICA]-----------------------------------
 Future<void>actualizaPaciente(String uid,String newApellido,String newNombre,String newCelular,String dni)async{
-  await db.collection('pacientes').doc(uid).set({'apellido':newApellido,'nombre':newNombre,'celular':newCelular,'dni':dni});
+  await db.collection('paciente').doc(uid).set({'apellido':newApellido,'nombre':newNombre,'celular':newCelular,'dni':dni});
 }
 
 Future<void>actualizaProfesional(String uid,String newApellido,String newNombre,String newCelular, String newDNI,String newMatricula)async{
@@ -99,7 +99,7 @@ Future<void>actualizaProfesional(String uid,String newApellido,String newNombre,
 List<Paciente> cargarPacientes() {
   List<Paciente> pacientes = [];
   FirebaseFirestore.instance
-      .collection('pacientes')
+      .collection('paciente')
       .get()
       .then((querySnapshot) {
     for (var doc in querySnapshot.docs) {
@@ -119,7 +119,7 @@ Paciente? cargarPacienteEspecifico(String pacienteUid) {
 //--------------------
   Future<Map<String, dynamic>> cargarDatosPaciente(String pacienteId) async {
     DocumentSnapshot snapshot = await FirebaseFirestore.instance
-        .collection("pacientes")
+        .collection("paciente")
         .doc(pacienteId)
         .get();
     return snapshot.data() as Map<String, dynamic>;
@@ -132,7 +132,7 @@ Paciente? cargarPacienteEspecifico(String pacienteUid) {
 Future<void> vincularEncuestaAPaciente(String pacienteId, String encuestaId) async {
   try {
     // Obtenemos la referencia al documento del paciente
-    final pacienteRef = FirebaseFirestore.instance.collection('pacientes').doc(pacienteId);
+    final pacienteRef = FirebaseFirestore.instance.collection('paciente').doc(pacienteId);
 
     // Actualizamos el documento del paciente para agregar la referencia de la encuesta
     await pacienteRef.update({
@@ -148,7 +148,7 @@ Future<void> vincularEncuestaAPaciente(String pacienteId, String encuestaId) asy
 Future<List<String>> obtenerEncuestasDePaciente(String pacienteId) async {
   try {
     // Obtenemos el documento del paciente
-    final pacienteDoc = await FirebaseFirestore.instance.collection('pacientes').doc(pacienteId).get();
+    final pacienteDoc = await FirebaseFirestore.instance.collection('paciente').doc(pacienteId).get();
 
     // Verificamos si el paciente tiene encuestas asociadas
     if (pacienteDoc.exists && pacienteDoc.data()!.containsKey('encuestasVinculadas')) {
@@ -174,7 +174,7 @@ Future<List<String>> obtenerEncuestasDePaciente(String pacienteId) async {
 Future<void> eliminarEncuestaDePaciente(String pacienteId, String encuestaId) async {
   try {
     // Obtenemos la referencia al documento del paciente
-    final pacienteRef = FirebaseFirestore.instance.collection('pacientes').doc(pacienteId);
+    final pacienteRef = FirebaseFirestore.instance.collection('paciente').doc(pacienteId);
 
     // Actualizamos el documento del paciente para remover la referencia de la encuesta
     await pacienteRef.update({
@@ -203,20 +203,17 @@ Future<void> cargarEncuestaAProfesional(String profesionalId, String encuestaId)
 }
 
 // Función para obtener las encuestas de un paciente
-Future<List<dynamic>> obtenerEncuestasDePacientexd(String pacienteId) async {
+Future<List<dynamic>> obtenerPreguntasDePaciente(String pacienteId) async {
   try {
     // Obtenemos el documento del paciente
-    final pacienteDoc = await FirebaseFirestore.instance.collection('pacientes').doc(pacienteId).get();
+    final pacienteDoc = await FirebaseFirestore.instance.collection('paciente').doc(pacienteId).get();
 
     // Verificamos si el paciente tiene encuestas asociadas
     if (pacienteDoc.exists && pacienteDoc.data()!.containsKey('encuestasVinculadas')) {
       // Recuperamos las referencias de las encuestas respondidas por el paciente
-      final encuestasVinculadas = pacienteDoc['encuestasVinculadas'] as List<dynamic>;
+      final preguntasVinculadas = pacienteDoc['preguntasVinculadas'] as List<dynamic>;
 
-      // Convertimos las referencias a sus IDs correspondientes
-      final encuestasIds = encuestasVinculadas.map((ref) => ref.id).toList();
-
-      return encuestasIds;
+      return preguntasVinculadas;
     } else {
       // El paciente no tiene encuestas asociadas
       return [];
@@ -229,17 +226,39 @@ Future<List<dynamic>> obtenerEncuestasDePacientexd(String pacienteId) async {
 }
 
 // Función para eliminar una encuesta de un paciente
-Future<void> eliminarEncuestaDePacientexd(String pacienteId, String encuestaId) async {
+Future<void> eliminaPreguntasDePaciente(String pacienteId, String preguntaId) async {
   try {
     // Obtenemos la referencia al documento del paciente
-    final pacienteRef = FirebaseFirestore.instance.collection('pacientes').doc(pacienteId);
+    final pacienteRef = FirebaseFirestore.instance.collection('paciente').doc(pacienteId);
 
     // Actualizamos el documento del paciente para remover la referencia de la encuesta
     await pacienteRef.update({
-      'encuestasVinculadas': FieldValue.arrayRemove([encuestaId])
+      'preguntasVinculadas': FieldValue.arrayRemove([preguntaId])
     });
   } catch (e) {
     print('Error al eliminar encuesta del paciente: $e');
     // Manejo de errores
+  }
+
+
+  Future<void> actualizaEstadoPaciente(String uid,int estado)async {
+    await db.collection('paciente').doc(uid).set({'estado': estado});
+  }
+
+  Future<Paciente?> obtenerPacientePorId(String pacienteId) async {
+    try {
+      final DocumentSnapshot<Map<String, dynamic>> snapshot =
+      await FirebaseFirestore.instance.collection('paciente').doc(pacienteId).get();
+
+      if (snapshot.exists) {
+        Map<String, dynamic> data = snapshot.data()!;
+        return Paciente.fromMap(data);
+      } else {
+        return null;
+      }
+    } catch (e) {
+      // Manejo de errores
+      return null;
+    }
   }
 }

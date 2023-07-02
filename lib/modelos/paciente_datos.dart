@@ -6,6 +6,10 @@ class Paciente {
   final String? celular;
   final String? dni;
   final String? email;
+  final String? rol;
+  final List<String>? encuestasVinculadas;
+  final List<String>? preguntasVinculadas;
+  final int? estado;
 
   
   Paciente({
@@ -16,6 +20,10 @@ class Paciente {
     this.celular,
     this.dni,
     this.email,
+    this.encuestasVinculadas,
+    this.preguntasVinculadas,
+    this.estado,
+    this.rol,
   });
 
   factory Paciente.fromMap(Map<String, dynamic> map) {
@@ -27,6 +35,10 @@ class Paciente {
       celular: map['celular'],
       dni: map['dni'],
       email: map['email'],
+      encuestasVinculadas: map['encuestasVinculadas'],
+      preguntasVinculadas: map['preguntasVinculadas'],
+      estado: map['estado'],
+      rol: map['rol'],
     );
   }
   Map<String, dynamic> toMap() {// agregar el id para usar en otras funciones!!! q consumen el toMap
@@ -36,6 +48,11 @@ class Paciente {
       'celular': celular,
       'dni': dni,
       'email': email,
+      'encuestasVinculadas': encuestasVinculadas,
+      'preguntasVinculadas': preguntasVinculadas,
+      'rol':rol,
+      'id':id,
+      'uid':uid,
       // Agrega más propiedades si es necesario
     };
   }

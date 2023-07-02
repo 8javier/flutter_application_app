@@ -9,7 +9,7 @@ import '../modelos/encuestas/Opcion.dart';
 import '../modelos/encuestas/Pregunta.dart';
 import '../modelos/encuestas/preguntaDinamica.dart';
 import '../modelos/paciente_datos.dart';
-import '../modelos/provider/ProfesionalProvider.dart';
+import '../modelos/provider/profesional_provider.dart';
 import '../servicios/FirebaseServiceEncuestas.dart';
 import 'dart:io';
 
@@ -46,21 +46,15 @@ class _ListaPacientePageState extends State<ListaPacientePage> {
               mainAxisSize: MainAxisSize.min,
               children: [
                 IconButton(
-                  icon: const Icon(Icons.message),
+                  icon: const Icon(Icons.add_card),
                   onPressed: () {
                     cargarPreguntaDesdeExcel(); // Llama a la función para enviar el mensaje al paciente
                   },
                 ),
                 IconButton(
-                  icon: const Icon(Icons.message),
+                  icon: const Icon(Icons.add_chart),
                   onPressed: () {
                     cargarEncuestaDesdeExcel(); // Llama a la función para enviar el mensaje al paciente
-                  },
-                ),
-                IconButton(
-                  icon: const Icon(Icons.message),
-                  onPressed: () {
-                    enviarMensaje(paciente); // Llama a la función para enviar el mensaje al paciente
                   },
                 ),
                 IconButton(

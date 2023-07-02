@@ -6,8 +6,11 @@ import 'package:provider/provider.dart';
 
 import '../../main.dart';
 import '../../modelos/paciente_provider.dart';
+import '../../modelos/provider/profesional_provider.dart';
+import '../../pantallas/ListaPacientesPage.dart';
 import '../../pantallas/add_pacientes_page.dart';
 import '../../pantallas/add_profesional_page.dart';
+import '../../pantallas/agregarPacientes.dart';
 import '../../pantallas/auth_page.dart';
 import '../../pantallas/edit_paciente_page.dart';
 import '../../pantallas/homePacientes.dart';
@@ -92,31 +95,31 @@ class MyAppState extends State<MyApp> {
     });
   }
 
-  @override
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider(create: (_) => PacienteProvider(),)
+        ChangeNotifierProvider(create: (_) => PacienteProvider(),),
+        ChangeNotifierProvider(create: (_)=> ProfesionalProvider(),),
       ],
-
       child: MaterialApp(
         title: 'Flutter AppMental',
         debugShowCheckedModeBanner: false,
-        initialRoute: '/auth_page',
+        initialRoute:  '/auth_page',
         routes: {
           //      '/login':(context) => const LoginPage(),
-          '/listaPaciente': (context) => const Home(),
-          '/edit': (context) => const editPacientePage(),
-          '/addProfesional': (context) => const AddProfesionalPage(),
-          '/addPaciente': (context) => const AddPacientesPage(),
-          '/lisProfesional': (context) => const ListaProfesionales(),
-          '/auth_page': (context) => const AuthPage(),
-          '/loginOrRegister': (context) => const LoginOrRegisterPage(),
+          '/listaPaciente':(context)=>const Home(),
+          '/edit':(context)=>const editPacientePage(),
+          '/addProfesional':(context)=>const AddProfesionalPage(),
+          '/addPaciente':(context)=>const AddPacientesPage(),
+          '/lisProfesional':(context)=> const ListaProfesionales(),
+          '/auth_page':(context) => const AuthPage(),
+          '/loginOrRegister':(context) => const LoginOrRegisterPage(),
           //    '/testpage':(context) =>  testPage(),
-          '/HomePaciente': (context) => const HomePaciente(),
+          '/HomePaciente':(context) => const HomePaciente(),
+          '/AgragarPaciente':(context) => const AgregarPacientePage(),
+          '/ListaPacientePage':(context) => const  ListaPacientePage(),
           // '/google':(context) => const SignInDemo(),// <---hay que camviar el puerto a 5000 para que ande con el comando[ flutter run -d chrome --web-hostname localhost --web-port 5000 ]
         },
-
       ),
     );
   }
