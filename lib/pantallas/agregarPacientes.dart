@@ -15,7 +15,7 @@ class AgregarPacientePage extends StatefulWidget {
 
 class _AgregarPacientePageState extends State<AgregarPacientePage> {
   List<String> pacientesSeleccionados = [];
-
+  
  @override
   void initState() { 
     super.initState();

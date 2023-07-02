@@ -28,7 +28,7 @@ class _ListaPacientePageState extends State<ListaPacientePage> {
       body: ListView.builder(
         itemCount: pacientes.length,
         itemBuilder: (context, index) {
-          final paciente = pacientes[index]; // Carga para mostrar la info en pantalla
+          Paciente paciente = pacientes[index]; // Carga para mostrar la info en pantalla
             return ListTile(
             title: Text(paciente.nombre ?? ''),
             subtitle: Text(paciente.apellido ?? ''),

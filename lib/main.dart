@@ -18,32 +18,27 @@ import 'package:flutter_application_app/pantallas/auth_page.dart';
 import 'package:flutter_application_app/pantallas/edit_paciente_page.dart';
 import 'package:flutter_application_app/pantallas/lista_profesionales.dart';
 import 'package:flutter_application_app/pantallas/login_or_register.dart';
-
 import 'modelos/paciente_provider.dart';
 import 'modelos/provider/profesional_provider.dart';
 // --------------------------------------------------------
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform, 
-    
+    options: DefaultFirebaseOptions.currentPlatform,    
   );
   runApp( MyApp()); // <-----Arranca la App
 }
-
 class MyApp extends StatelessWidget {
    MyApp({super.key});
  final PacienteProvider pacienteProvider = PacienteProvider(); // <--- ver
  final ProfesionalProvider profesionalProvider = ProfesionalProvider();// <--- ver
   @override
   Widget build(BuildContext context) {
-
     return MultiProvider(
       providers: [
                 ChangeNotifierProvider(create: (_) => PacienteProvider(),),
                 ChangeNotifierProvider(create: (_)=> ProfesionalProvider(),),
-                 ],
-     
+                 ],    
       child: MaterialApp(
           title: 'Flutter AppMental',
           debugShowCheckedModeBanner: false,
@@ -62,11 +57,8 @@ class MyApp extends StatelessWidget {
                      '/AgragarPaciente':(context) => const AgregarPacientePage(),
                      '/ListaPacientePage':(context) => const  ListaPacientePage(),
                      // '/google':(context) => const SignInDemo(),// <---hay que camviar el puerto a 5000 para que ande con el comando[ flutter run -d chrome --web-hostname localhost --web-port 5000 ]
-                  },
-                
+                  },                
           ),
     );
-
   }
-
 }
