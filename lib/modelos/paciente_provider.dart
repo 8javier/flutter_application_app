@@ -8,26 +8,25 @@ class PacienteProvider extends ChangeNotifier {
   Paciente? _pacienteEspecifico;
   bool isLoading = false;
 
-  void cargarPacientes() {
+  Future<void> cargarPacientes() async {
     isLoading = true;
 
-    FirebaseFirestore.instance
-        .collection('pacientes')
-        .get()
-        .then((querySnapshot) {
-      final pacientes = querySnapshot.docs.map((doc) {
-        return Paciente.fromMap(doc.data());
-      }).toList();
-      _pacientes = pacientes;
-      isLoading = false;
-      notifyListeners();
-    }).catchError((error) {
-      print('Error al cargar los pacientes: $error');
-    });
+     try {
+    final querySnapshot = await FirebaseFirestore.instance.collection('paciente').get();
+    final pacientes = querySnapshot.docs.map((doc) {
+      return Paciente.fromMap(doc.data());
+    }).toList();
+    _pacientes = pacientes;
+    isLoading = false;
+    notifyListeners();
+  } catch (error) {
+    print('Error al cargar los pacientes: $error');
+  }
   }
 
-  void cargarPacienteEspecifico(String pacienteId) {
+  void cargarPacienteEspecifico(String pacienteId) async{
     isLoading = true;
+    await cargarPacientes();
     _pacienteEspecifico = pacientes.firstWhereOrNull((paciente) => paciente.uid == pacienteId);
     isLoading = false;
     notifyListeners();

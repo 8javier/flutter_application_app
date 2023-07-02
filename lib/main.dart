@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 //--------------  Paquetes que usa para la conexion a Firebase
 import 'package:firebase_core/firebase_core.dart';
-import 'package:flutter_application_app/pantallas/homePacientes.dart';
-import 'package:flutter_application_app/servicios/backgroundFetch/MyAppState.dart';
 import 'package:provider/provider.dart';
 import 'firebase_options.dart';
 //-------------- ------------------------------------------------------
@@ -14,15 +12,8 @@ import 'package:flutter_application_app/pantallas/auth_page.dart';
 import 'package:flutter_application_app/pantallas/edit_paciente_page.dart';
 import 'package:flutter_application_app/pantallas/lista_profesionales.dart';
 import 'package:flutter_application_app/pantallas/login_or_register.dart';
-
 import 'modelos/paciente_provider.dart';
 
-// Servicio de Background
-import 'dart:async';
-import 'package:background_fetch/background_fetch.dart';
-// Servicio de notificaciones
-
-import 'package:native_notify/native_notify.dart';
 // --------------------------------------------------------
 
 
@@ -48,25 +39,8 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform, 
-    
+    options: DefaultFirebaseOptions.currentPlatform,    
   );
   runApp( MyApp()); // <-----Arranca la App
 
-  // Register to receive BackgroundFetch events after app is terminated.
-  // Requires {stopOnTerminate: false, enableHeadless: true}
-  BackgroundFetch.registerHeadlessTask(backgroundFetchHeadlessTask);
-}
-
-class MyApp extends StatefulWidget {
-  MyApp({super.key});
-
-  final PacienteProvider pacienteProvider = PacienteProvider();
-
-  @override
-  MyAppState createState() => new MyAppState();
-}
-
-void procesoBackground() {
-  NativeNotify.initialize(3130, 'A1zT3zHBX8id4yfogpqoGW');
 }
