@@ -1,10 +1,10 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_application_app/servicios/FirebaseServiceEncuestas.dart';
 import '../modelos/encuestas/EncuestasDinamica.dart';
 import '../modelos/encuestas/Opcion.dart';
 import '../modelos/encuestas/Pregunta.dart';
 import '../servicios/firebase_service.dart';
-import '../servicios/FirebaseServiceEncuestas.dart';
 
 class EncuestaScreen extends StatefulWidget {
 
@@ -15,13 +15,19 @@ class EncuestaScreen extends StatefulWidget {
 
 class EncuestaScreenState extends State<EncuestaScreen> {
   Pregunta? preguntaActual;
-  static String user_id = FirebaseAuth.instance.currentUser!.uid;
-  static Future<List<String>> encuestas_id = obtenerEncuestasDePaciente(user_id);
-  static EncuestaDinamica encuesta = EncuestaService().obtenerEncuestaPorId(encuestas_id as String) as EncuestaDinamica;
+  EncuestaService encuestaService = new EncuestaService();
+  EncuestaDinamica encuesta = new EncuestaDinamica(id: '', nombre: '', preguntas: [], pesoTotal: 0);
 
   @override
-  void initState() {
+  void initState(){
     super.initState();
+    traerEncuesta();
+  }
+
+  void traerEncuesta() async {
+    String user_id = FirebaseAuth.instance.currentUser!.uid;
+    List<String> encuestas_id = await obtenerEncuestasDePaciente(user_id);
+    encuesta = (await encuestaService.obtenerEncuestaPorId(encuestas_id[1]))!;
     encuesta.ordenarPreguntasPorPeso();
     preguntaActual = encuesta.obtenerSiguientePregunta();
   }

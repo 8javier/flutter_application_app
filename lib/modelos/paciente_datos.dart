@@ -8,6 +8,7 @@ class Paciente {
   final String? email;
   final List<String>? encuestasVinculadas;
   final List<String>? preguntasVinculadas;
+  final int? estado;
   
   Paciente({
     this.id,
@@ -19,6 +20,7 @@ class Paciente {
     this.email,
     this.encuestasVinculadas,
     this.preguntasVinculadas,
+    this.estado,
   });
 
   factory Paciente.fromMap(Map<String, dynamic> map) {
@@ -32,6 +34,7 @@ class Paciente {
       email: map['email'],
       encuestasVinculadas: map['encuestasVinculadas'],
       preguntasVinculadas: map['preguntasVinculadas'],
+      estado: map['estado']
     );
   }
   Map<String, dynamic> toMap() {

@@ -40,13 +40,13 @@ void backgroundFetchHeadlessTask(HeadlessTask task) async {
     return;
   }
   print("[BackgroundFetch] Headless event received: $taskId");
+
   BackgroundFetch.finish(taskId);
 }
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   WidgetsFlutterBinding.ensureInitialized();
-  NativeNotify.initialize(3130, 'A1zT3zHBX8id4yfogpqoGW'); // Dejar tranquilos estos dos NULL, por favor.
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform, 
     
@@ -65,4 +65,8 @@ class MyApp extends StatefulWidget {
 
   @override
   MyAppState createState() => new MyAppState();
+}
+
+void procesoBackground() {
+  NativeNotify.initialize(3130, 'A1zT3zHBX8id4yfogpqoGW');
 }

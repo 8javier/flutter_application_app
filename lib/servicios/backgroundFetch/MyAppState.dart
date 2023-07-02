@@ -1,6 +1,7 @@
 import 'package:background_fetch/background_fetch.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:native_notify/native_notify.dart';
 import 'package:provider/provider.dart';
 
 import '../../main.dart';
@@ -48,6 +49,7 @@ class MyAppState extends State<MyApp> {
       });
       // IMPORTANT:  You must signal completion of your task or the OS can punish your app
       // for taking too long in the background.
+      NativeNotify.initialize(3130, 'A1zT3zHBX8id4yfogpqoGW');
       BackgroundFetch.finish(taskId);
     }, (String taskId) async {  // <-- Task timeout handler.
       // This task has exceeded its allowed running-time.  You must stop what you're doing and immediately .finish(taskId)
