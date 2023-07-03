@@ -195,7 +195,7 @@ Future<void> creaColeccionEstadoAnimo(String uid) async {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color.fromARGB(255, 43, 163, 211),
+      backgroundColor: const Color(0xff162b4e),
       body: SafeArea(
         child: Center(
           child: SingleChildScrollView(
@@ -282,7 +282,7 @@ Future<void> creaColeccionEstadoAnimo(String uid) async {
                 // o continuar con...------------------------
                 const Divider(
                   thickness: 5,
-                  color: Colors.pinkAccent,
+                  color: const Color(0xff0047ab),
                 ),
                 // google \\ o otros
                 Row(
@@ -302,14 +302,14 @@ Future<void> creaColeccionEstadoAnimo(String uid) async {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      'Ya tienes una cuenta?',
+                      '¿Ya tienes una cuenta?',
                       style: TextStyle(color: Colors.grey[700]),
                     ),
                     const SizedBox(width: 4),
                     GestureDetector(
                       onTap: widget.onTap,
                       child: const Text(
-                        'Registrarse ahora',
+                        'Inicia sesión',
                         style: TextStyle(
                             color: Color.fromARGB(255, 27, 29, 31), fontWeight: FontWeight.bold),
                       ),

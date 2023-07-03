@@ -126,13 +126,13 @@ class _HomeInicioState extends State<HomeInicio> {
     return ScaffoldMessenger(
       key: scaffoldMessengerKey,
       child: Scaffold(
-        backgroundColor: const Color.fromARGB(255, 128, 142, 224),
+        backgroundColor: const Color(0xff162b4e),
         appBar: AppBar(
           actions: const [
             IconButton(onPressed: (signUserOut), icon: Icon(Icons.logout))
           ],
           title: const Text('Inicio'),
-          backgroundColor: const Color.fromARGB(255, 35, 63, 87),
+          backgroundColor: const Color(0xff0047ab),
         ),
         //----------------------------------------------------------------------
         body: Column(

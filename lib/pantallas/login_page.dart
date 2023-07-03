@@ -120,7 +120,7 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey[300],
+      backgroundColor: const Color(0xff162b4e),
       body: SafeArea(
         child: Center(
           child: SingleChildScrollView(
@@ -178,7 +178,7 @@ class _LoginPageState extends State<LoginPage> {
                 // o continuar con...------------------------
                 const Divider(
                   thickness: 5,
-                  color: Colors.pinkAccent,
+                  color: const Color(0xff0047ab),
                 ),
                 // Registro con google ------------------------
                 Row(
@@ -199,14 +199,14 @@ class _LoginPageState extends State<LoginPage> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      'No Registrado',
+                      '¿No está Registrado?',
                       style: TextStyle(color: Colors.grey[700]),
                     ),
                     const SizedBox(width: 4),
                     GestureDetector(  
                        onTap: widget.onTap,
                        child:  const Text(
-                        'Registrarse ahora',
+                        'Registrese ahora',
                         style: TextStyle(
                             color: Colors.blue, 
                             fontWeight: FontWeight.bold,
