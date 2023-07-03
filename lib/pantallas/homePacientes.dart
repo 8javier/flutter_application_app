@@ -19,15 +19,15 @@ class _HomePacienteState extends State<HomePaciente> {
   var alerta = false;
   var page = 0;
   List<Widget> pages = [
-    const MainPaciente(),
-    const QuestionPaciente(),
-    const QuizPaciente(),
+     MainPaciente(),
+     QuestionPaciente(),
+    QuizPaciente(),
   ];
  // --------------------------------------------- Funciones ------->
    User? currentUser;
    String pacienteId = '';
-  late PacienteProvider pacienteProvider;
-   late String uidPaciente; // Variable para almacenar el UID del paciente
+   late PacienteProvider pacienteProvider;
+   late String uidPaciente;
   // ---
     Future<void> loadCurrentUser() async {  // --
     User? user = FirebaseAuth.instance.currentUser;
@@ -37,7 +37,6 @@ class _HomePacienteState extends State<HomePaciente> {
         pacienteId = currentUser!.uid;
         pacienteProvider.cargarPacienteEspecifico(pacienteId);
          uidPaciente = pacienteId;
-        // ... 
       }
     });
   }
@@ -60,10 +59,10 @@ class _HomePacienteState extends State<HomePaciente> {
           if (pacienteProvider.isLoading) {
             return const CircularProgressIndicator();
           } else {
-            String nombrePaciente=pacienteProvider.pacienteEspecifico?.nombre ?? '';
-            String apellidoPaciente=pacienteProvider.pacienteEspecifico?.apellido ?? '';
-             print('UID del Paciente: $uidPaciente');
-            return Text("Paciente:$nombrePaciente $apellidoPaciente");
+              Paciente? paciente = pacienteProvider.pacienteEspecifico;
+              String nombrePaciente = paciente?.nombre ?? '';
+              String apellidoPaciente = paciente?.apellido ?? '';
+              return Text("Paciente: $nombrePaciente $apellidoPaciente");
           }
         },
       ),
@@ -74,10 +73,8 @@ class _HomePacienteState extends State<HomePaciente> {
         onTap: (index){
           setState(() {
             page = index;
-
           });
         },
-
         currentIndex: page,
         items: [
           if(alerta)

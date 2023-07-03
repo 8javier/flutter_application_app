@@ -10,7 +10,6 @@ class PacienteProvider extends ChangeNotifier {
 
   Future<void> cargarPacientes() async {
     isLoading = true;
-
      try {
     final querySnapshot = await FirebaseFirestore.instance.collection('paciente').get();
     final pacientes = querySnapshot.docs.map((doc) {
@@ -29,6 +28,11 @@ class PacienteProvider extends ChangeNotifier {
     await cargarPacientes();
     _pacienteEspecifico = pacientes.firstWhereOrNull((paciente) => paciente.uid == pacienteId);
     isLoading = false;
+    notifyListeners();
+  }
+
+    void setPacienteEspecifico(Paciente? paciente) {
+    _pacienteEspecifico = paciente;
     notifyListeners();
   }
 

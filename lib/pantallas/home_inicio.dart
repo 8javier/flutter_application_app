@@ -9,49 +9,6 @@ import 'package:collection/collection.dart';
 import '../modelos/paciente_datos.dart';
 import '../modelos/paciente_provider.dart';
 import 'package:provider/provider.dart';
-
-//---------[ Funcion que trae los pacientes] <- no  se usa esta funcion se usa la funcion del 'Paciente_provider'\
-List<Paciente> cargarPacientes() {
-  List<Paciente> pacientes = [];
-  FirebaseFirestore.instance
-      .collection('pacientes')
-      .get()
-      .then((querySnapshot) {
-    for (var doc in querySnapshot.docs) {
-      Paciente paciente = Paciente.fromMap(doc.data());
-      pacientes.add(paciente);
-    }
-  });
-  return pacientes;
-}
-//---------[ Funcion que trae los profesionales] <- no  se usa esta funcion se usa la funcion del 'Profesional_provider'\
-List<Profesional> cargaProfesional() {
-  List<Profesional> profesionales = [];
-  FirebaseFirestore.instance
-      .collection('profecional')
-      .get()
-      .then((QuerySnapshot) {
-    for (var doc in QuerySnapshot.docs) {
-      Profesional profesional = Profesional.fromMap(doc.data());
-      profesionales.add(profesional);
-    }
-  });
-  return profesionales;
-}
-//---------[ Funcion que trae al profesional que inicio sesion con el uid] <- no  se usa esta funcion se usa la funcion del 'Profesional_provider'\
-Profesional? cargaProfesionalEspecifico(String profesionalUid) {
-  List<Profesional> profesionales = cargaProfesional();
-  Profesional? profesionalEspecifico = profesionales
-      .firstWhereOrNull((profesional) => profesional.uid == profesionalUid);
-  return profesionalEspecifico; //-- Trae al Profesional
-}
-//---------[ Funcion que trae al paciente que inicio sesion con el uid] <- no  se usa esta funcion se usa la funcion del 'Paciente_provider'\
-Paciente? cargarPacienteEspecifico(String pacienteUid) {
-  List<Paciente> pacientes = cargarPacientes();
-  Paciente? pacienteEspecifico =
-      pacientes.firstWhereOrNull((paciente) => paciente.uid == pacienteUid);
-  return pacienteEspecifico;
-}
 // <-----------------------------[ ESTA PAGINA ES SE MUESTRA SOLO SI INICIO SESION ] ------------------------
 class HomeInicio extends StatefulWidget {
   const HomeInicio({super.key});
@@ -72,35 +29,26 @@ class _HomeInicioState extends State<HomeInicio> {
   void initState() {
     super.initState();
   }
-  String userId=FirebaseAuth.instance.currentUser!.uid;// <---- Carga el ID actual del usuario del la App.
+  String userId=FirebaseAuth.instance.currentUser!.uid;
   Profesional? datosProfesional;
+   Paciente? datosPaciente;
    Profesional? _profesionalEspecifico;
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
- 
-      // String user_id = FirebaseAuth.instance.currentUser!.uid;  
-      final pacienteProvider = Provider.of<PacienteProvider>(context,listen: false); // <----- checar inicialización de la variable
-      final profesionalProvider = Provider.of<ProfesionalProvider>(context,listen: false); // <-----  checar inicialización de la variable
+      final pacienteProvider = Provider.of<PacienteProvider>(context,listen: false);
+      final profesionalProvider = Provider.of<ProfesionalProvider>(context,listen: false);
 
-      if (!pacienteProvider.isLoading && pacienteProvider.pacienteEspecifico == null) {
+      if (!pacienteProvider.isLoading ) {
         pacienteProvider.cargarPacientes();
-        pacienteProvider.cargarPacienteEspecifico(userId);
+        cargarPacienteEspecifico1(pacienteProvider,userId);
       }
-      /*
-      if (!profesionalProvider.isLoading && profesionalProvider.profesionalEspecifico == null) {// <----- ver valor inicial de la variable!!
-        profesionalProvider.cargarProfesional();
-        profesionalProvider.cargarProfesionalEspecifico(userId);
-      datosProfesional = profesionalProvider.profesionalEspecifico; // ----verrr
-      }
-      */ 
         if (!profesionalProvider.isLoading) {
          profesionalProvider.cargarProfesional();
-      // Esperar a que se carguen los profesionales antes de buscar el profesional específico
-      cargarProfesionalEspecifico(profesionalProvider, userId);
+      cargarProfesionalEspecifico1(profesionalProvider, userId);
      }
   }
-     Future<void> cargarProfesionalEspecifico(
+     Future<void> cargarProfesionalEspecifico1(
      ProfesionalProvider profesionalProvider, String profesionalId) async {
     await profesionalProvider.cargarProfesional();
     final profesionalEspecifico = profesionalProvider.profesional
@@ -111,13 +59,24 @@ class _HomeInicioState extends State<HomeInicio> {
       _profesionalEspecifico = profesionalEspecifico;
     });
   }
-  @override //------ FALTA HACER LOS CAMBIOS A LA CESION DEL PACIENTE!!
+   Future<void> cargarPacienteEspecifico1(
+     PacienteProvider pacienteProvider, String pacienteId) async {
+    await pacienteProvider.cargarPacientes();
+    final pacienteEspecifico= pacienteProvider.pacientes
+        .firstWhereOrNull((paciente) => paciente.id == pacienteId);
+        pacienteProvider.setPacienteEspecifico(pacienteEspecifico);
+    setState(() {
+      datosPaciente = pacienteEspecifico;
+    });
+  }
+  @override
   void dispose() {
     nombreController.dispose();
     apellidoController.dispose();
     celularController.dispose();
     dniController.dispose();
     datosProfesional=null;
+    datosPaciente=null;
     super.dispose();
   }
 
@@ -131,7 +90,7 @@ class _HomeInicioState extends State<HomeInicio> {
           actions: const [
             IconButton(onPressed: (signUserOut), icon: Icon(Icons.logout))
           ],
-          title: const Text('Inicio'),
+          title: const Text('Home'),
           backgroundColor: const Color.fromARGB(255, 35, 63, 87),
         ),
         //----------------------------------------------------------------------
@@ -145,39 +104,38 @@ class _HomeInicioState extends State<HomeInicio> {
                     child: CircularProgressIndicator(),
                   ); 
                 } else {
-                  Paciente? datosPaciente = pacienteProvider.pacienteEspecifico;
-                  if (datosPaciente != null) {
+                  if (datosPaciente != null && datosPaciente?.id== userId) {
                     return ListView(
                       padding: const EdgeInsets.all(16),
                       children: [
                         Card(
                           child: ListTile(
                             leading: const Icon(Icons.person),
-                            title: Text('Nombre: ${datosPaciente.nombre}'),
+                            title: Text('Nombre: ${datosPaciente?.nombre}'),
                           ),
                         ),
                         Card(
                           child: ListTile(
                             leading: const Icon(Icons.person),
-                            title: Text('Apellido: ${datosPaciente.apellido}'),
+                            title: Text('Apellido: ${datosPaciente?.apellido}'),
                           ),
                         ),
                         Card(
                           child: ListTile(
                             leading: const Icon(Icons.phone),
-                            title: Text('Celular: ${datosPaciente.celular}'),
+                            title: Text('Celular: ${datosPaciente?.celular}'),
                           ),
                         ),
                         Card(
                           child: ListTile(
                             leading: const Icon(Icons.credit_card),
-                            title: Text('DNI: ${datosPaciente.dni}'),
+                            title: Text('DNI: ${datosPaciente?.dni}'),
                           ),
                         ),
                         Card(
                           child: ListTile(
                             leading: const Icon(Icons.email),
-                            title: Text('Email: ${datosPaciente.email}'),
+                            title: Text('Email: ${datosPaciente?.email}'),
                           ),
                         ),
                         Card(
@@ -202,8 +160,8 @@ class _HomeInicioState extends State<HomeInicio> {
                             child: CircularProgressIndicator(),
                           ); 
                         } else {
-                            //  datosProfesional = profesionalProvider.profesionalEspecifico;
-                          if (datosProfesional != null && datosProfesional?.id== userId) {// <--- cambios para prueva
+                           
+                          if (datosProfesional != null && datosProfesional?.id== userId) {
                             return ListView(
                               padding: const EdgeInsets.all(16),
                               children: [

@@ -59,7 +59,7 @@ Future<void> enviarMensaje(Paciente paciente) async {
   final profesionalProvider = Provider.of<ProfesionalProvider>(context, listen: false);
   // Captura la información del paciente seleccionado
   final pacienteId = paciente.id;
-  final collectionReference = FirebaseFirestore.instance.collection("paciente/$pacienteId");
+  final collectionReference = FirebaseFirestore.instance.collection("paciente/$pacienteId");// verr
   // Verifica si la subcolección "mensajeProfesional" existe
   final subcollectionReference = collectionReference.doc(pacienteId).collection("mensajeProfesional");
   final snapshot = await subcollectionReference.get();
