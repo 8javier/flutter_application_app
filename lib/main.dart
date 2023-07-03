@@ -94,7 +94,7 @@ class MyApp extends StatefulWidget {
     var profesionalId = paciente?.getProfesional();
     var nombrePaciente = paciente?.getName();
     enviarNotificacion(profesionalId!, 'Alerta ' + nombrePaciente!, 'Se detecto que pueda necesitar atencion!');
-  } 
+  }
  }
 
 

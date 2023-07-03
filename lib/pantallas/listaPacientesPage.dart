@@ -237,12 +237,13 @@ class _ListaPacientePageState extends State<ListaPacientePage> {
           for (var j = 0; j < opcionesRow.length; j += 2) {
             if (opcionesRow[j]?.value != null && opcionesRow[j + 1]?.value != null) {
               var opcionTexto = opcionesRow[j]?.value.toString();
-              int opcionPeso = opcionesRow[j + 1]?.value;
+              print(opcionesRow[j + 1]?.value);
+              int opcionPeso = opcionesRow[j + 1]?.value.round();
 
               // Crea una nueva opción y la agrega a la pregunta
               Opcion opcion = Opcion(
                 id: uuid.v4(),
-                peso: opcionPeso as int,
+                peso: opcionPeso,
                 texto: opcionTexto!,
 
               );

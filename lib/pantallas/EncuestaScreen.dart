@@ -4,6 +4,7 @@ import 'package:flutter_application_app/servicios/FirebaseServiceEncuestas.dart'
 import '../modelos/encuestas/EncuestasDinamica.dart';
 import '../modelos/encuestas/Opcion.dart';
 import '../modelos/encuestas/Pregunta.dart';
+import '../modelos/paciente_datos.dart';
 import '../servicios/firebase_service.dart';
 
 class EncuestaScreen extends StatefulWidget {
@@ -17,6 +18,8 @@ class EncuestaScreenState extends State<EncuestaScreen> {
   Pregunta? preguntaActual;
   EncuestaService encuestaService = new EncuestaService();
   EncuestaDinamica encuesta = new EncuestaDinamica(id: '', nombre: '', preguntas: [], pesoTotal: 0);
+  String user_id = FirebaseAuth.instance.currentUser!.uid;
+  Paciente paciente = Paciente();
 
   @override
   void initState(){
@@ -25,7 +28,7 @@ class EncuestaScreenState extends State<EncuestaScreen> {
   }
 
   void traerEncuesta() async {
-    String user_id = FirebaseAuth.instance.currentUser!.uid;
+    paciente = (await obtenerPacientePorId(user_id))!;
     List encuestas_id = await obtenerEncuestasDePaciente(user_id);
     print(encuestas_id);
     print('asfafdfafa');
@@ -44,7 +47,10 @@ class EncuestaScreenState extends State<EncuestaScreen> {
     });
 
     if (preguntaActual?.esFinal == true) {
-      // Realizar alguna acción cuando se llega a la pregunta final
+      print('Pregunta es Final');
+      var estado = paciente.getEstado()! + encuesta.getPesoTotal();
+      actualizaEstadoPaciente(user_id, estado);
+      eliminaEncuestaDePaciente(user_id, encuesta.getId());
     }
   }
 

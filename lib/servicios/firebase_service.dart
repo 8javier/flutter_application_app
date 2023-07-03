@@ -156,7 +156,7 @@ Future<List> obtenerEncuestasDePaciente(String pacienteId) async {
     //if (pacienteDoc.exists && pacienteDoc.data()!.containsKey('encuestasVinculadas')) {
     if (pacienteDoc.exists) {
       // Recuperamos las referencias de las encuestas respondidas por el paciente
-      final encuestasVinculadas = pacienteDoc['esncuestasVinculadas'] as List<dynamic>;
+      final encuestasVinculadas = pacienteDoc['encuestasVinculadas'] as List<dynamic>;
 
       // Convertimos las referencias a sus IDs correspondientes
       final encuestasIds = encuestasVinculadas.toList();
@@ -272,4 +272,19 @@ void agregarProfesionalAlPaciente(String pacienteId, String profesionalId) async
       db.collection('paciente').doc(pacienteId).set({'profesional': profesionalId});
     }
   });
+}
+
+Future<void> eliminaEncuestaDePaciente(String pacienteId, String encuestaId) async {
+  try {
+    // Obtenemos la referencia al documento del paciente
+    final pacienteRef = FirebaseFirestore.instance.collection('paciente').doc(pacienteId);
+
+    // Actualizamos el documento del paciente para remover la referencia de la encuesta
+    await pacienteRef.update({
+      'encuestasVinculadas': FieldValue.arrayRemove([encuestaId])
+    });
+  } catch (e) {
+    print('Error al eliminar encuesta del paciente: $e');
+    // Manejo de errores
+  }
 }
