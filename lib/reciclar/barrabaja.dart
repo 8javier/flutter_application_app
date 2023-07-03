@@ -19,7 +19,7 @@ class DemoBottomAppBarState extends State<DemoBottomAppBar> {
   @override
   Widget build(BuildContext context) {
     return BottomAppBar(
-      color: Colors.blue,
+      color: const Color(0xff0047ab),
       child: IconTheme(
         data: IconThemeData(color: Theme.of(context).colorScheme.onPrimary),
         child: Row(

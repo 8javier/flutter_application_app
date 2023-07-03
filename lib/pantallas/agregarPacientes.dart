@@ -27,6 +27,7 @@ class _AgregarPacientePageState extends State<AgregarPacientePage> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Agregar Paciente'),
+        backgroundColor: const Color(0xff0047ab),
       ),
       body: Consumer<PacienteProvider>(
         builder: (context, pacienteProvider, _) {
@@ -83,6 +84,7 @@ class _AgregarPacientePageState extends State<AgregarPacientePage> {
           Navigator.pop(context);
         },
         child: const Icon(Icons.add),
+        backgroundColor: const Color(0xff1b5583),
       ),
     );
   }

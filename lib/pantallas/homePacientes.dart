@@ -58,7 +58,7 @@ class _HomePacienteState extends State<HomePaciente> {
   Widget build(BuildContext context) {
     return Scaffold(
 
-      drawer: drawerpaciente(context),
+
       appBar: AppBar(
              title: Consumer<PacienteProvider>(
         builder: (context, pacienteProvider, _) {
@@ -72,7 +72,7 @@ class _HomePacienteState extends State<HomePaciente> {
           }
         },
       ),
-        actions:[ NavegarBoton(texto: 'volver', paginaDestino: const HomeInicio())],
+        backgroundColor: const Color(0xff0047ab),
       ),
       body: pages[page],
       bottomNavigationBar: BottomNavigationBar(

@@ -20,6 +20,7 @@ class _HomeState extends State<Home> {
     return Scaffold(
       appBar: AppBar(
                title: const Text('Lista de Pacientes'),
+               backgroundColor: const Color(0xff0047ab),
 
       ),
       body: FutureBuilder(

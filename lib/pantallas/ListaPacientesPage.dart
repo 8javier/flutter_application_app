@@ -34,6 +34,7 @@ class _ListaPacientePageState extends State<ListaPacientePage> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Lista de Pacientes'),
+        backgroundColor: const Color(0xff0047ab),
       ),
       body: ListView.builder(
         itemCount: pacientes.length,

@@ -33,6 +33,7 @@ class _editPacientePageState extends State<editPacientePage> {// <-el cuerpo de 
     dniControler.text=arguments5['dni'];
     return Scaffold(
       appBar: AppBar(title: const Text('Modificar Datos'),
+      backgroundColor: const Color(0xff0047ab),
       ),
       body:Padding(
         padding: const EdgeInsets.all(16.0),
