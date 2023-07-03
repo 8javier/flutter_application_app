@@ -271,18 +271,7 @@ class _HomeInicioState extends State<HomeInicio> {
           ],
         ),
         //----------------------------------------------------------------------
-        bottomNavigationBar: BottomNavigationBar(
-          items: const <BottomNavigationBarItem>[
-            BottomNavigationBarItem(
-              icon: Icon(Icons.home),
-              label: 'Inicio',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.business),
-              label: 'Otra',
-            ),
-          ],
-        ),
+        
       ),
     );
   }

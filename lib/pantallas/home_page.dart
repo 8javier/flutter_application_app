@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_app/servicios/firebase_service.dart';
 
+import '../reciclar/barrabaja.dart';
+
 
 // <-----------------------------[ ESTA PAGINA ES SOLO PARA TESTING  ] ------------------------
 class Home extends StatefulWidget {
@@ -123,37 +125,9 @@ class _HomeState extends State<Home> {
             }            
           }),
 
-      floatingActionButton: FloatingActionButton(
-        heroTag: 'AGREGAR PROFESIONAL',
-        onPressed: () async {
-          //<-agrega un async por que se interactua con la base de datos
-          await Navigator.pushNamed(context,
-              '/addProfesional'); //<-agrega await para que pause la sincronia con la base y hace una actualizacion de los datos que hay en la base aca va '/add' de paciente
+      
 
-          setState(
-              () {}); //<-- actualiza la info del Home_page para que muestre los datos da la base de datos
-        },
-        child: const Icon(Icons.add),
-      ),
-
-      bottomSheet: FloatingActionButton(
-        heroTag: 'AGREGAR PACIENTE',
-        onPressed: () async {
-          await Navigator.pushNamed(context, '/addPaciente');
-
-          setState(() {});
-        },
-        child: const Icon(Icons.accessibility_new),
-      ),
-
-      bottomNavigationBar: FloatingActionButton.large(
-        heroTag: 'LISTAR PROFESIONALES',
-        onPressed: () async {
-          await Navigator.pushNamed(context, '/lisProfesional');
-          setState(() {});
-        },
-        child: const Icon(Icons.list_alt_sharp),
-      ),
+      bottomNavigationBar: DemoBottomAppBar()
 
     );
    
