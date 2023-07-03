@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_app/componentes/botonNavegapaginas.dart';
+import 'package:flutter_application_app/modelos/encuestas/Pregunta.dart';
 import 'package:flutter_application_app/pantallas/EncuestaScreen.dart';
 import 'package:flutter_application_app/pantallas/PreguntaDinamicaScreen.dart';
 import 'package:flutter_application_app/pantallas/home_inicio.dart';
@@ -10,6 +11,7 @@ import 'package:flutter_application_app/reciclar/drawerpaciente.dart';
 import 'package:provider/provider.dart';
 import '../modelos/paciente_datos.dart';
 import '../modelos/paciente_provider.dart';
+import '../servicios/firebase_service.dart';
 import 'mainPaciente.dart';
 class HomePaciente extends StatefulWidget {
   const HomePaciente({super.key});
@@ -20,9 +22,10 @@ class HomePaciente extends StatefulWidget {
 class _HomePacienteState extends State<HomePaciente> {
   var alerta = false;
   var page = 0;
+
   List<Widget> pages = [
     const MainPaciente(),
-    PreguntasDinamicasScreen(preguntas: []),
+    PreguntasDinamicasScreen(),
     EncuestaScreen(),
   ];
  // --------------------------------------------- Funciones ------->

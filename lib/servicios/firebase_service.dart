@@ -145,19 +145,21 @@ Future<void> vincularEncuestaAPaciente(String pacienteId, String encuestaId) asy
 }
 
 // Función para obtener las encuestas de un paciente
-Future<List<String>> obtenerEncuestasDePaciente(String pacienteId) async {
+Future<List> obtenerEncuestasDePaciente(String pacienteId) async {
   try {
     // Obtenemos el documento del paciente
     final pacienteDoc = await FirebaseFirestore.instance.collection('paciente').doc(pacienteId).get();
 
     // Verificamos si el paciente tiene encuestas asociadas
-    if (pacienteDoc.exists && pacienteDoc.data()!.containsKey('encuestasVinculadas')) {
+    print(pacienteDoc.exists);
+    print(pacienteDoc.data()!.containsKey('encuestasVinculadas'));
+    //if (pacienteDoc.exists && pacienteDoc.data()!.containsKey('encuestasVinculadas')) {
+    if (pacienteDoc.exists) {
       // Recuperamos las referencias de las encuestas respondidas por el paciente
-      final encuestasVinculadas = pacienteDoc['encuestasVinculadas'] as List<dynamic>;
+      final encuestasVinculadas = pacienteDoc['esncuestasVinculadas'] as List<dynamic>;
 
       // Convertimos las referencias a sus IDs correspondientes
-      final encuestasIds = encuestasVinculadas.map((ref) => ref.id.toString()).toList();
-
+      final encuestasIds = encuestasVinculadas.toList();
       return encuestasIds;
     } else {
       // El paciente no tiene encuestas asociadas
@@ -242,7 +244,7 @@ Future<void> eliminaPreguntasDePaciente(String pacienteId, String preguntaId) as
 }
 
 Future<void> actualizaEstadoPaciente(String? uid,int estado)async {
-  await db.collection('paciente').doc(uid).set({'estado': estado});
+  await db.collection('paciente').doc(uid).update({'estado': estado});
 }
 
 Future<Paciente?> obtenerPacientePorId(String pacienteId) async {

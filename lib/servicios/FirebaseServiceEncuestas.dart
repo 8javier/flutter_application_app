@@ -1,6 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_application_app/modelos/encuestas/preguntaDinamica.dart';
 import '../modelos/encuestas/EncuestasDinamica.dart';
+import '../reciclar/estado.dart';
+import 'firebase_service.dart';
 
 class EncuestaService {
   final FirebaseFirestore firestore = FirebaseFirestore.instance;
@@ -80,7 +82,7 @@ class EncuestaService {
     }
   }
 
-  Future<PreguntaDinamica?> obtenerPreguntasPorId(String preguntaId) async {
+  Future<PreguntaDinamica?> obtenerPreguntaPorId(String preguntaId) async {
     try {
       final DocumentSnapshot<Map<String, dynamic>> snapshot =
       await firestore.collection(preguntasCollection).doc(preguntaId).get();
@@ -95,5 +97,12 @@ class EncuestaService {
       // Manejo de errores
       return null;
     }
+  }
+  Future<void> cargarEncuestaAlPaciente(String? uid, String encuestaId) async {
+    await db.collection('paciente').doc(uid).update({'encuestasVinculadas': encuestaId});
+  }
+
+  Future<void> cargarPreguntasAlPaciente(String? uid, String encuestaId) async {
+    await db.collection('paciente').doc(uid).update({'preguntasVinculadas': encuestaId});
   }
 }

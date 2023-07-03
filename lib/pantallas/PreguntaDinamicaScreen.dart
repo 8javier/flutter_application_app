@@ -1,11 +1,11 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_application_app/servicios/firebase_service.dart';
 import '../modelos/encuestas/Opcion.dart';
 import '../modelos/encuestas/preguntaDinamica.dart';
+import '../servicios/FirebaseServiceEncuestas.dart';
 
 class PreguntasDinamicasScreen extends StatefulWidget {
-  final List<PreguntaDinamica> preguntas;
-
-  PreguntasDinamicasScreen({required this.preguntas});
 
   @override
   PreguntasDinamicasScreenState createState() => PreguntasDinamicasScreenState();
@@ -13,6 +13,16 @@ class PreguntasDinamicasScreen extends StatefulWidget {
 
 class PreguntasDinamicasScreenState extends State<PreguntasDinamicasScreen> {
   late List<int?> respuestas;
+  EncuestaService encuestaService = new EncuestaService();
+  late List<PreguntaDinamica> preguntas;
+  late List<dynamic> preguntasJson;
+
+  void traerEncuesta() async {
+    String user_id = FirebaseAuth.instance.currentUser!.uid;
+    preguntasJson = await obtenerPreguntasDePaciente(user_id);
+    preguntas = List<PreguntaDinamica>.from(PreguntaDinamica.fromData(preguntasJson as Map<String, dynamic>) as Iterable);
+    setState(() {});
+  }
 
   void seleccionarOpcion(int preguntaIndex, int opcionIndex) {
     setState(() {
@@ -24,7 +34,7 @@ class PreguntasDinamicasScreenState extends State<PreguntasDinamicasScreen> {
     final List<Opcion> opcionesSeleccionadas = [];
 
     for (int i = 0; i < respuestas.length; i++) {
-      final pregunta = widget.preguntas[i];
+      final pregunta = preguntas[i];
       final opcionIndex = respuestas[i];
       if (opcionIndex != null) {
         final opcion = pregunta.opciones[opcionIndex];
@@ -38,7 +48,7 @@ class PreguntasDinamicasScreenState extends State<PreguntasDinamicasScreen> {
   @override
   void initState() {
     super.initState();
-    respuestas = List.generate(widget.preguntas.length, (_) => null);
+    respuestas = List.generate(preguntas.length, (_) => null);
   }
 
   @override
@@ -48,9 +58,9 @@ class PreguntasDinamicasScreenState extends State<PreguntasDinamicasScreen> {
         title: Text('Preguntas Dinámicas'),
       ),
       body: ListView.builder(
-        itemCount: widget.preguntas.length,
+        itemCount: preguntas.length,
         itemBuilder: (context, index) {
-          final pregunta = widget.preguntas[index];
+          final pregunta = preguntas[index];
           return Card(
             margin: EdgeInsets.all(16.0),
             child: Padding(

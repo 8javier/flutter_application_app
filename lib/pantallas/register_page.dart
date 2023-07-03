@@ -4,6 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_application_app/componentes/boton_1.dart';
 import 'package:flutter_application_app/componentes/campo_texto.dart';
 import 'package:flutter_application_app/componentes/encuadre_img.dart';
+import 'package:flutter_application_app/reciclar/estado.dart';
 import '../modelos/auth.dart';
 import '../servicios/auth_service.dart';
 
@@ -84,6 +85,9 @@ class _RegisterPageState extends State<RegisterPage> {
                 emailController.text,
                 user_id,
                 tipoUserController.text,
+                0,
+                [],
+                [],
               );
             }
       } 
@@ -102,7 +106,7 @@ class _RegisterPageState extends State<RegisterPage> {
 
   // ------ funcion Agrega los datos del Paciente a la base con sus Datos  -----------
   Future addUserData(String nombre, String apellido, String celular, String dni,
-      String email,String uid,String rol) async {
+      String email,String uid,String rol,int estado, List<String> encustasVinculadas, List<String> preguntasVinculadas) async {
     await FirebaseFirestore.instance.collection("paciente").doc(uid).set({
       'id':uid,
       'uid':uid,
@@ -112,6 +116,9 @@ class _RegisterPageState extends State<RegisterPage> {
       'dni': dni,
       'email': email,
       'rol': rol,
+      'estado': estado,
+      'esncuestasVinculadas': encustasVinculadas,
+      'preguntasVinculadas': preguntasVinculadas
     });
     creaColeccionDiarioDelPaciente(uid);
     creaColeccionEstadoAnimo(uid);

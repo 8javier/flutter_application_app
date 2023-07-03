@@ -35,8 +35,6 @@ class Paciente {
       celular: map['celular'],
       dni: map['dni'],
       email: map['email'],
-      encuestasVinculadas: map['encuestasVinculadas'],
-      preguntasVinculadas: map['preguntasVinculadas'],
       estado: map['estado'],
       rol: map['rol'],
     );

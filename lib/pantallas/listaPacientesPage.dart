@@ -48,13 +48,13 @@ class _ListaPacientePageState extends State<ListaPacientePage> {
                 IconButton(
                   icon: const Icon(Icons.add_card),
                   onPressed: () {
-                    cargarPreguntaDesdeExcel(); // Llama a la función para enviar el mensaje al paciente
+                    cargarPreguntaDesdeExcel(paciente.id); // Llama a la función para enviar el mensaje al paciente
                   },
                 ),
                 IconButton(
                   icon: const Icon(Icons.add_chart),
                   onPressed: () {
-                    cargarEncuestaDesdeExcel(); // Llama a la función para enviar el mensaje al paciente
+                    cargarEncuestaDesdeExcel(paciente.id); // Llama a la función para enviar el mensaje al paciente
                   },
                 ),
                 IconButton(
@@ -97,11 +97,11 @@ class _ListaPacientePageState extends State<ListaPacientePage> {
     profesionalProvider.eliminarPaciente(paciente);
   }
 
-  Future<bool> cargarEncuestaDesdeExcel() async {
+  Future<bool> cargarEncuestaDesdeExcel(String? id) async {
     // Abre el selector de archivos para seleccionar un archivo Excel
     FilePickerResult? result = await FilePicker.platform.pickFiles(
       type: FileType.custom,
-      allowedExtensions: ['xlsx'],
+      allowedExtensions: ['xlsx', 'xls'],
     );
 
     var uuid = Uuid();
@@ -138,12 +138,13 @@ class _ListaPacientePageState extends State<ListaPacientePage> {
         // Verifica si la fila de preguntas y la fila de opciones tienen datos
         if (preguntaRow[0]?.value != null && opcionesRow[0]?.value != null) {
           var preguntaTexto = preguntaRow[0]?.value.toString();
-          var preguntaPeso = double.parse(preguntaRow[1]?.value);
-          var pregunraFinal = preguntaRow[2]?.value.toString();
+          print(preguntaTexto);
+          int preguntaPeso = preguntaRow[1]?.value;
+          print(preguntaPeso);
+          var preguntaFinal = preguntaRow[2]?.value.toString();
           var esFinal = false;
-
-          if (pregunraFinal == 'X' || pregunraFinal == 'x') {
-            var esFinal = true;
+          if (preguntaFinal != null) {
+            esFinal = true;
           }
 
           // Crea una nueva pregunta
@@ -156,10 +157,10 @@ class _ListaPacientePageState extends State<ListaPacientePage> {
           );
 
           // Itera sobre las columnas de opciones y pesos
-          for (var j = 0; j < opcionesRow.length; j += 1) {
+          for (var j = 0; j < opcionesRow.length; j += 2) {
             if (opcionesRow[j]?.value != null && opcionesRow[j + 1]?.value != null) {
               var opcionTexto = opcionesRow[j]?.value.toString();
-              var opcionPeso = double.parse(opcionesRow[j + 1]?.value);
+              int opcionPeso = opcionesRow[j + 1]?.value;
 
               // Crea una nueva opción y la agrega a la pregunta
               Opcion opcion = Opcion(
@@ -180,6 +181,7 @@ class _ListaPacientePageState extends State<ListaPacientePage> {
       // Guarda la encuesta en Firebase
       EncuestaService encuestaService = EncuestaService();
       await encuestaService.guardarEncuestaDinamica(encuesta);
+      await encuestaService.cargarEncuestaAlPaciente(id, encuesta.id);
 
       return true;
     } else {
@@ -188,7 +190,7 @@ class _ListaPacientePageState extends State<ListaPacientePage> {
     }
   }
 
-  Future<bool> cargarPreguntaDesdeExcel() async {
+  Future<bool> cargarPreguntaDesdeExcel(String? id) async {
     // Abre el selector de archivos para seleccionar un archivo Excel
     FilePickerResult? result = await FilePicker.platform.pickFiles(
       type: FileType.custom,
@@ -218,7 +220,6 @@ class _ListaPacientePageState extends State<ListaPacientePage> {
         // Verifica si la fila de preguntas y la fila de opciones tienen datos
         if (preguntaRow[0]?.value != null && opcionesRow[0]?.value != null) {
           var preguntaTexto = preguntaRow[0]?.value.toString();
-          var preguntaPeso = double.parse(preguntaRow[1]?.value);
 
 
           // Crea una nueva pregunta
@@ -229,10 +230,10 @@ class _ListaPacientePageState extends State<ListaPacientePage> {
           );
 
           // Itera sobre las columnas de opciones y pesos
-          for (var j = 0; j < opcionesRow.length; j += 1) {
+          for (var j = 0; j < opcionesRow.length; j += 2) {
             if (opcionesRow[j]?.value != null && opcionesRow[j + 1]?.value != null) {
               var opcionTexto = opcionesRow[j]?.value.toString();
-              var opcionPeso = double.parse(opcionesRow[j + 1]?.value);
+              int opcionPeso = opcionesRow[j + 1]?.value;
 
               // Crea una nueva opción y la agrega a la pregunta
               Opcion opcion = Opcion(
@@ -244,11 +245,13 @@ class _ListaPacientePageState extends State<ListaPacientePage> {
               pregunta.opciones.add(opcion);
             }
           }
-
+          EncuestaService encuestaService = EncuestaService();
+          await encuestaService.guardarPreguntaDinamica(pregunta);
+          await encuestaService.cargarPreguntasAlPaciente(id, pregunta.id);
         }
       }
 
-      // Calcula el peso total de la encuesta
+
 
       return true;
     } else {

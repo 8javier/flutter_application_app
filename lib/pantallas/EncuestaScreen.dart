@@ -26,16 +26,21 @@ class EncuestaScreenState extends State<EncuestaScreen> {
 
   void traerEncuesta() async {
     String user_id = FirebaseAuth.instance.currentUser!.uid;
-    List<String> encuestas_id = await obtenerEncuestasDePaciente(user_id);
-    encuesta = (await encuestaService.obtenerEncuestaPorId(encuestas_id[1]))!;
+    List encuestas_id = await obtenerEncuestasDePaciente(user_id);
+    print(encuestas_id);
+    print('asfafdfafa');
+    encuesta = (await encuestaService.obtenerEncuestaPorId(encuestas_id[0]))!;
     encuesta.ordenarPreguntasPorPeso();
     preguntaActual = encuesta.obtenerSiguientePregunta();
+    print(preguntaActual?.texto);
+    setState(() {});
   }
 
   void responderPregunta(Opcion opcion) {
     setState(() {
       encuesta.sumarPesoOpcion(opcion.peso);
       preguntaActual = encuesta.obtenerSiguientePregunta();
+      setState(() {});
     });
 
     if (preguntaActual?.esFinal == true) {

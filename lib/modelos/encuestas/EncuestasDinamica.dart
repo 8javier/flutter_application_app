@@ -59,7 +59,7 @@ class EncuestaDinamica {
     int inicio = 0;
     int fin = preguntas.length - 1;
     Pregunta? siguientePregunta;
-    int diferenciaMinima = double.infinity.toInt();
+    int diferenciaMinima = 1000000;
 
     while (inicio <= fin) {
       int medio = inicio + ((fin - inicio) ~/ 2);

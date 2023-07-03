@@ -10,7 +10,6 @@ class PacienteProvider extends ChangeNotifier {
 
   Future<void> cargarPacientes() async {
     isLoading = true;
-
      try {
     final querySnapshot = await FirebaseFirestore.instance.collection('paciente').get();
     final pacientes = querySnapshot.docs.map((doc) {
