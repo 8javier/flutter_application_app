@@ -13,7 +13,7 @@ Future<List>getPacientes() async{
 List personas = [];// <-- variable para almacenar lista de datos pedidos
 // Haciendo referencias para la base de datos(pide los datos a la base )
 
-CollectionReference collectionReferencePersonas = db.collection('pacientes');// <-- variable para almacenar los datos pedidos[de una colleccion existente en la base]
+CollectionReference collectionReferencePersonas = db.collection('paciente');// <-- variable para almacenar los datos pedidos[de una colleccion existente en la base]
 
 QuerySnapshot queryPacientes = await collectionReferencePersonas.get();// <-- pide todos los pacientes esperando que la DB se los envie
 for (var doc in queryPacientes.docs) { 
@@ -33,7 +33,7 @@ return personas;
 //------- Funcion q carga Profesionales de la base  ----------------------------------------------
 
 Future<List>getProfesionles()async{
-  CollectionReference collectionReferenceProfesionales = db.collection('Profesionales');
+  CollectionReference collectionReferenceProfesionales = db.collection('profesional');
   QuerySnapshot queryProfesionales = await collectionReferenceProfesionales.get();
  List profesionales = [];
       for (var doc in queryProfesionales.docs) {
@@ -80,26 +80,26 @@ Future<void> addPacientes(String name, String apellido,String celular,String dni
 // ---------------------------------------------------[BORRADO]------------------e-----------
 // -----funcion que Borra Pacientess en la base-----------
 Future<void>borradoPaciente(String uid) async{
-await db.collection('pacientes').doc(uid).delete();
+await db.collection('paciente').doc(uid).delete();
 }
 // -----funcion que Borra Profesional en la base-----------
 Future<void>borradoProfesional(String uid) async{
-await db.collection('Profesional').doc(uid).delete();
+await db.collection('profesional').doc(uid).delete();
 }
 // ---------------------------------------------------[MODIFICA]-----------------------------------
 Future<void>actualizaPaciente(String uid,String newApellido,String newNombre,String newCelular,String dni)async{
-  await db.collection('pacientes').doc(uid).set({'apellido':newApellido,'nombre':newNombre,'celular':newCelular,'dni':dni});
+  await db.collection('paciente').doc(uid).update({'apellido':newApellido,'nombre':newNombre,'celular':newCelular,'dni':dni});
 }
 
 Future<void>actualizaProfesional(String uid,String newApellido,String newNombre,String newCelular, String newDNI,String newMatricula)async{
-  await db.collection('Profesional').doc(uid).set({'apellido':newApellido,'nombre':newNombre,'celular':newCelular,'dni':newDNI,'matricula':newMatricula});
+  await db.collection('profesional').doc(uid).update({'apellido':newApellido,'nombre':newNombre,'celular':newCelular,'dni':newDNI,'matricula':newMatricula});
 }
 // ---------------------------------------------------[]--------------------------------------------
 //---------[ Funcion que trae los pacientes]-----
 List<Paciente> cargarPacientes() {
   List<Paciente> pacientes = [];
   FirebaseFirestore.instance
-      .collection('pacientes')
+      .collection('paciente')
       .get()
       .then((querySnapshot) {
     for (var doc in querySnapshot.docs) {
@@ -119,7 +119,7 @@ Paciente? cargarPacienteEspecifico(String pacienteUid) {
 //--------------------
   Future<Map<String, dynamic>> cargarDatosPaciente(String pacienteId) async {
     DocumentSnapshot snapshot = await FirebaseFirestore.instance
-        .collection("pacientes")
+        .collection("paciente")
         .doc(pacienteId)
         .get();
     return snapshot.data() as Map<String, dynamic>;

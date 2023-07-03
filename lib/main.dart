@@ -11,7 +11,7 @@ import 'package:provider/provider.dart';
 import 'firebase_options.dart';
 //-------------- ------------------------------------------------------
 //  Paginas
-import 'package:flutter_application_app/pantallas/home_page.dart';
+import 'package:flutter_application_app/pantallas/lisPaciente_page.dart';
 import 'package:flutter_application_app/pantallas/add_pacientes_page.dart';
 import 'package:flutter_application_app/pantallas/add_profesional_page.dart';
 import 'package:flutter_application_app/pantallas/auth_page.dart';
@@ -45,7 +45,7 @@ class MyApp extends StatelessWidget {
           initialRoute:  '/auth_page', 
           routes: {
                     //      '/login':(context) => const LoginPage(),
-                          '/listaPaciente':(context)=>const Home(),
+                          '/listaPaciente':(context)=>const TodosPaciente(),
                           '/edit':(context)=>const editPacientePage(),
                             '/addProfesional':(context)=>const AddProfesionalPage(),
                           '/addPaciente':(context)=>const AddPacientesPage(),

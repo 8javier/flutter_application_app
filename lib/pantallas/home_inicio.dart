@@ -32,7 +32,7 @@ class _HomeInicioState extends State<HomeInicio> {
   String userId=FirebaseAuth.instance.currentUser!.uid;
   Profesional? datosProfesional;
    Paciente? datosPaciente;
-   Profesional? _profesionalEspecifico;
+ //   Profesional? _profesionalEspecifico;
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
@@ -56,7 +56,7 @@ class _HomeInicioState extends State<HomeInicio> {
         profesionalProvider.setProfesionalEspecifico(profesionalEspecifico);
     setState(() {
       datosProfesional = profesionalEspecifico;
-      _profesionalEspecifico = profesionalEspecifico;
+   //    _profesionalEspecifico = profesionalEspecifico;
     });
   }
    Future<void> cargarPacienteEspecifico1(

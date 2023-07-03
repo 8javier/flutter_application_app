@@ -3,21 +3,21 @@ import 'package:flutter_application_app/servicios/firebase_service.dart';
 
 
 // <-----------------------------[ ESTA PAGINA ES SOLO PARA TESTING  ] ------------------------
-class Home extends StatefulWidget {
+class TodosPaciente extends StatefulWidget {
   // <-es una extraccion de home:home()
-  const Home({
+  const TodosPaciente({
     super.key,
   });
 
   @override
-  State<Home> createState() => _HomeState();
+  State<TodosPaciente> createState() => _TodosPacienteState();
 }
-class _HomeState extends State<Home> {
+class _TodosPacienteState extends State<TodosPaciente> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-               title: const Text('Lista de Pacientes'),
+               title: const Text('Lista de Todos los Pacientes'),
 
       ),
       body: FutureBuilder(
