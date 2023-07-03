@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_application_app/modelos/profesional_datos.dart';
 import 'package:flutter_application_app/pantallas/agregarPacientes.dart';
+import 'package:flutter_application_app/pantallas/edit_profesional_page.dart';
 import 'package:flutter_application_app/pantallas/google_inicio.dart';
 import 'package:flutter_application_app/pantallas/homePacientes.dart';
 import 'package:flutter_application_app/pantallas/listaPacientesPage.dart';
@@ -12,8 +13,6 @@ import 'firebase_options.dart';
 //-------------- ------------------------------------------------------
 //  Paginas
 import 'package:flutter_application_app/pantallas/lisPaciente_page.dart';
-import 'package:flutter_application_app/pantallas/add_pacientes_page.dart';
-import 'package:flutter_application_app/pantallas/add_profesional_page.dart';
 import 'package:flutter_application_app/pantallas/auth_page.dart';
 import 'package:flutter_application_app/pantallas/edit_paciente_page.dart';
 import 'package:flutter_application_app/pantallas/lista_profesionales.dart';
@@ -47,8 +46,7 @@ class MyApp extends StatelessWidget {
                     //      '/login':(context) => const LoginPage(),
                           '/listaPaciente':(context)=>const TodosPaciente(),
                           '/edit':(context)=>const editPacientePage(),
-                            '/addProfesional':(context)=>const AddProfesionalPage(),
-                          '/addPaciente':(context)=>const AddPacientesPage(),
+                          'editProfesional':(context) => const editProfesional(),
                           '/lisProfesional':(context)=> const ListaProfesionales(),
                           '/auth_page':(context) => const AuthPage(),
                           '/loginOrRegister':(context) => const LoginOrRegisterPage(),

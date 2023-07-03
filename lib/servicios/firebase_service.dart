@@ -44,38 +44,10 @@ Future<List>getProfesionles()async{
           'apellido':data['apellido'],
           'celular':data['celular'],
           'dni':data['dni'],
-          'matricula':data['matricula'],
-              
         };
         profesionales.add(profesional);
       }
       return profesionales;
-}
-// ---------------------------------------------------[Funciones para uso de pruevas]-----------------------------------
-// -----funcion que guarda Pacientes en la base-----------PARA TESTING---------  
-Future<void> addPaciente(String name, String apellido)async{
-  await db.collection('pacientes').add({'nombre':name,'apellido':apellido},);
-}
-
-// -----funcion que Actualiza Pacientes en la base-----------------PARA TESTING
-Future<void>actualizaPersonas(String uid,String newApellido,String newNombre)async{
-  await db.collection('pacientes').doc(uid).set({'apellido':newApellido,'nombre':newNombre});
-}
-// -----funcion que Borra Pacientes en la base-----------------PARA TESTING
-Future<void>borradoPersona(String uid) async{
-await db.collection('pacientes').doc(uid).delete();
-}
-// ---------------------------------------------------[]--------------------------------------------
-
-// ---------------------------------------------------[ ABM ]------------------e-----------
-// -----funcion que guarda Profesional en la base----------  <---!! no usar porque genera al profesional con un ID distinto al del Login,
-Future<void> addProfesional(String nombre, String apellido,String celular,String dni,String matricula)async{
-  await db.collection('Profesionales').add({'nombre':nombre,'apellido':apellido,'celular':celular,'dni':dni,'matricula':matricula},);
-}
-
-// -----funcion que guarda Paciente en la base-----------  <---!! no usar porque genera al Paciente con un ID distinto al del Login,
-Future<void> addPacientes(String name, String apellido,String celular,String dni)async{
-  await db.collection('pacientess').add({'nombre':name,'apellido':apellido,'celular':celular,'dni':dni},);
 }
 // ---------------------------------------------------[BORRADO]------------------e-----------
 // -----funcion que Borra Pacientess en la base-----------
@@ -91,8 +63,8 @@ Future<void>actualizaPaciente(String uid,String newApellido,String newNombre,Str
   await db.collection('paciente').doc(uid).update({'apellido':newApellido,'nombre':newNombre,'celular':newCelular,'dni':dni});
 }
 
-Future<void>actualizaProfesional(String uid,String newApellido,String newNombre,String newCelular, String newDNI,String newMatricula)async{
-  await db.collection('profesional').doc(uid).update({'apellido':newApellido,'nombre':newNombre,'celular':newCelular,'dni':newDNI,'matricula':newMatricula});
+Future<void>actualizaProfesional(String uid,String newApellido,String newNombre,String newCelular, String newDNI,)async{
+  await db.collection('profesional').doc(uid).update({'apellido':newApellido,'nombre':newNombre,'celular':newCelular,'dni':newDNI,});
 }
 // ---------------------------------------------------[]--------------------------------------------
 //---------[ Funcion que trae los pacientes]-----
