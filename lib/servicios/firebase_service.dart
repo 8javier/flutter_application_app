@@ -263,3 +263,13 @@ Future<Paciente?> obtenerPacientePorId(String pacienteId) async {
     return null;
   }
 }
+
+void agregarProfesionalAlPaciente(String pacienteId, String profesionalId) async {
+  await db.collection('paciente').doc(pacienteId + '/profesional').snapshots().listen((event) {
+    if (event.exists) {
+    }
+    else {
+      db.collection('paciente').doc(pacienteId).set({'profesional': profesionalId});
+    }
+  });
+}

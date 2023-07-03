@@ -52,7 +52,7 @@ class MyAppState extends State<MyApp> {
       });
       // IMPORTANT:  You must signal completion of your task or the OS can punish your app
       // for taking too long in the background.
-      NativeNotify.initialize(3130, 'A1zT3zHBX8id4yfogpqoGW');
+      NativeNotify.initialize(3130, 'A1zT3zHBX8id4yfogpqoGW', 'your-firebase-server-key', null);
       BackgroundFetch.finish(taskId);
     }, (String taskId) async {  // <-- Task timeout handler.
       // This task has exceeded its allowed running-time.  You must stop what you're doing and immediately .finish(taskId)

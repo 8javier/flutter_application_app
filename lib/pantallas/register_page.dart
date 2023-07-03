@@ -106,7 +106,7 @@ class _RegisterPageState extends State<RegisterPage> {
 
   // ------ funcion Agrega los datos del Paciente a la base con sus Datos  -----------
   Future addUserData(String nombre, String apellido, String celular, String dni,
-      String email,String uid,String rol,int estado, List<String> encustasVinculadas, List<String> preguntasVinculadas) async {
+      String email,String uid,String rol,int estado, List<String> encuestasVinculadas, List<String> preguntasVinculadas) async {
     await FirebaseFirestore.instance.collection("paciente").doc(uid).set({
       'id':uid,
       'uid':uid,
@@ -117,7 +117,7 @@ class _RegisterPageState extends State<RegisterPage> {
       'email': email,
       'rol': rol,
       'estado': estado,
-      'esncuestasVinculadas': encustasVinculadas,
+      'encuestasVinculadas': encuestasVinculadas,
       'preguntasVinculadas': preguntasVinculadas
     });
     creaColeccionDiarioDelPaciente(uid);

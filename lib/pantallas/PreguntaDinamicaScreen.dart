@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_application_app/modelos/paciente_datos.dart';
 import 'package:flutter_application_app/servicios/firebase_service.dart';
 import '../modelos/encuestas/Opcion.dart';
 import '../modelos/encuestas/preguntaDinamica.dart';
@@ -12,43 +13,47 @@ class PreguntasDinamicasScreen extends StatefulWidget {
 }
 
 class PreguntasDinamicasScreenState extends State<PreguntasDinamicasScreen> {
-  late List<int?> respuestas;
+  List<int?> respuestas = [];
   EncuestaService encuestaService = new EncuestaService();
-  late List<PreguntaDinamica> preguntas;
-  late List<dynamic> preguntasJson;
+  List<PreguntaDinamica?> preguntas = [];
+  List<dynamic> preguntasJson = [];
+  List<PreguntaDinamica> preguntasSeleccionadas = [];
+  String user_id = FirebaseAuth.instance.currentUser!.uid;
+  Paciente paciente = Paciente();
 
   void traerEncuesta() async {
-    String user_id = FirebaseAuth.instance.currentUser!.uid;
+    paciente = (await obtenerPacientePorId(user_id))!;
     preguntasJson = await obtenerPreguntasDePaciente(user_id);
-    preguntas = List<PreguntaDinamica>.from(PreguntaDinamica.fromData(preguntasJson as Map<String, dynamic>) as Iterable);
-    setState(() {});
-  }
-
-  void seleccionarOpcion(int preguntaIndex, int opcionIndex) {
-    setState(() {
-      respuestas[preguntaIndex] = opcionIndex;
-    });
-  }
-
-  List<Opcion> obtenerOpcionesSeleccionadas() {
-    final List<Opcion> opcionesSeleccionadas = [];
-
-    for (int i = 0; i < respuestas.length; i++) {
-      final pregunta = preguntas[i];
-      final opcionIndex = respuestas[i];
-      if (opcionIndex != null) {
-        final opcion = pregunta.opciones[opcionIndex];
-        opcionesSeleccionadas.add(opcion);
-      }
+    List<String> preguntasIds = preguntasJson.cast<String>();
+    for (int i = 0; i < preguntasIds.length; i++ ) {
+      print(preguntasIds[i]);
+      preguntas.add( await encuestaService.obtenerPreguntaPorId(preguntasIds[i]));
+      print(preguntas[i]?.texto);
     }
-
-    return opcionesSeleccionadas;
+    setState(() {});
   }
 
   @override
   void initState() {
     super.initState();
-    respuestas = List.generate(preguntas.length, (_) => null);
+    traerEncuesta();
+  }
+
+  void mostrarOpciones(PreguntaDinamica pregunta) {
+    setState(() {
+      preguntasSeleccionadas = [pregunta];
+    });
+  }
+
+  void seleccionarOpcion(Opcion opcion) {
+    actualizaEstadoPaciente(user_id, paciente.getEstado()! + opcion.getPeso());
+    eliminaPreguntasDePaciente(user_id, preguntasSeleccionadas[0].id);
+    preguntas.remove(preguntasSeleccionadas[0]);
+    preguntasSeleccionadas = [];
+    setState(() {
+    });
+    // Implementa la lógica para manejar la selección de la opción
+    // ...
   }
 
   @override
@@ -61,38 +66,38 @@ class PreguntasDinamicasScreenState extends State<PreguntasDinamicasScreen> {
         itemCount: preguntas.length,
         itemBuilder: (context, index) {
           final pregunta = preguntas[index];
-          return Card(
-            margin: EdgeInsets.all(16.0),
-            child: Padding(
-              padding: EdgeInsets.all(16.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    pregunta.texto,
-                    style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold),
-                  ),
-                  SizedBox(height: 8.0),
-                  ListView.builder(
-                    shrinkWrap: true,
-                    itemCount: pregunta.opciones.length,
-                    itemBuilder: (context, opcionIndex) {
-                      final opcion = pregunta.opciones[opcionIndex];
-                      return RadioListTile<int>(
-                        title: Text(opcion.texto),
-                        value: opcionIndex,
-                        groupValue: respuestas[index],
-                        onChanged: (_) => seleccionarOpcion(index, opcionIndex),
-                      );
-                    },
-                  ),
-                ],
+          return Column(
+            children: [
+              ListTile(
+                title: Text(pregunta!.texto),
+                onTap: () {
+                  mostrarOpciones(pregunta);
+                  // Acción al seleccionar la pregunta
+                  // Puedes agregar aquí la lógica para mostrar las opciones y manejar la respuesta
+                },
               ),
-            ),
+              if (preguntasSeleccionadas.contains(pregunta))
+                ListView.builder(
+                  shrinkWrap: true,
+                  physics: NeverScrollableScrollPhysics(),
+                  itemCount: pregunta.opciones.length,
+                  itemBuilder: (context, opcionIndex) {
+                    final opcion = pregunta.opciones[opcionIndex];
+                    return ListTile(
+                      title: Text(opcion.texto),
+                      onTap: () {
+                        seleccionarOpcion(opcion);
+                      },
+                    );
+                  },
+                ),
+            ],
           );
         },
       ),
-      floatingActionButton: FloatingActionButton(
+    );
+  }
+      /*floatingActionButton: FloatingActionButton(
         onPressed: () {
           final opcionesSeleccionadas = obtenerOpcionesSeleccionadas();
           // Aquí puedes hacer algo con las opciones seleccionadas, como guardarlas o procesarlas
@@ -101,5 +106,5 @@ class PreguntasDinamicasScreenState extends State<PreguntasDinamicasScreen> {
         child: Icon(Icons.done),
       ),
     );
-  }
+  }*/
 }

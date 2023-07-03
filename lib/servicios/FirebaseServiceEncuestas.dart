@@ -98,11 +98,19 @@ class EncuestaService {
       return null;
     }
   }
-  Future<void> cargarEncuestaAlPaciente(String? uid, String encuestaId) async {
-    await db.collection('paciente').doc(uid).update({'encuestasVinculadas': encuestaId});
+  Future<void> cargarEncuestaAlPaciente(String? uid,List<String> encuestaId) async {
+    await db.collection('paciente').doc(uid).update({'encuestasVinculadas': FieldValue.arrayUnion(encuestaId)});
   }
 
-  Future<void> cargarPreguntasAlPaciente(String? uid, String encuestaId) async {
-    await db.collection('paciente').doc(uid).update({'preguntasVinculadas': encuestaId});
+  Future<void> cargarPreguntasAlPaciente(String? uid, List<String> preguntaId) async {
+    await db.collection('paciente').doc(uid).update({'preguntasVinculadas': FieldValue.arrayUnion(preguntaId)});
+  }
+
+  Future<void> eliminarEncuestaAlPaciente(String? uid,List<String> encuestaId) async {
+    await db.collection('paciente').doc(uid).update({'encuestasVinculadas':  FieldValue.arrayRemove(encuestaId)});
+  }
+
+  Future<void> eliminarPreguntasAlPaciente(String? uid,List<String> preguntaId) async {
+    await db.collection('paciente').doc(uid).update({'preguntasVinculadas': FieldValue.arrayRemove(preguntaId)});
   }
 }

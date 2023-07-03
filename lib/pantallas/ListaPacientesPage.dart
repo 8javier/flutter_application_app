@@ -181,7 +181,8 @@ class _ListaPacientePageState extends State<ListaPacientePage> {
       // Guarda la encuesta en Firebase
       EncuestaService encuestaService = EncuestaService();
       await encuestaService.guardarEncuestaDinamica(encuesta);
-      await encuestaService.cargarEncuestaAlPaciente(id, encuesta.id);
+      List<String> encuestaId = [encuesta.id];
+      await encuestaService.cargarEncuestaAlPaciente(id, encuestaId);
 
       return true;
     } else {
@@ -205,6 +206,8 @@ class _ListaPacientePageState extends State<ListaPacientePage> {
       // Carga el archivo Excel utilizando la dependencia 'excel'
       var bytes = File(file.path!).readAsBytesSync();
       var excel = Excel.decodeBytes(bytes);
+      EncuestaService encuestaService = EncuestaService();
+      List<String> preguntasIds = [];
 
       // Obtiene la hoja de trabajo principal del libro de Excel
       var sheet = excel.tables[excel.tables.keys.first];
@@ -220,6 +223,7 @@ class _ListaPacientePageState extends State<ListaPacientePage> {
         // Verifica si la fila de preguntas y la fila de opciones tienen datos
         if (preguntaRow[0]?.value != null && opcionesRow[0]?.value != null) {
           var preguntaTexto = preguntaRow[0]?.value.toString();
+          print(preguntaTexto);
 
 
           // Crea una nueva pregunta
@@ -242,14 +246,17 @@ class _ListaPacientePageState extends State<ListaPacientePage> {
                 texto: opcionTexto!,
 
               );
+              print(opcionTexto);
               pregunta.opciones.add(opcion);
             }
           }
-          EncuestaService encuestaService = EncuestaService();
+
           await encuestaService.guardarPreguntaDinamica(pregunta);
-          await encuestaService.cargarPreguntasAlPaciente(id, pregunta.id);
+          preguntasIds.add(pregunta.id);
+
         }
       }
+      await encuestaService.cargarPreguntasAlPaciente(id, preguntasIds);
 
 
 

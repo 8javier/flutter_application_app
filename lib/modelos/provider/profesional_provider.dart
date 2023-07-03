@@ -3,6 +3,7 @@ import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_app/modelos/paciente_datos.dart';
 import 'package:flutter_application_app/modelos/profesional_datos.dart';
+import 'package:flutter_application_app/servicios/firebase_service.dart';
 class ProfesionalProvider extends ChangeNotifier {
   List<Profesional> _profesional = [];
   List<Profesional> get profesional => _profesional;
@@ -54,6 +55,7 @@ class ProfesionalProvider extends ChangeNotifier {
             final pacienteId=paciente.id;
             final pacienteReference = collectionReference.doc(pacienteId);
             await pacienteReference.set(paciente.toMap());
+            agregarProfesionalAlPaciente(pacienteId!, profesionalId);
             print('Paciente agregado a la lista su ID es: $pacienteId');
        }
       } else{

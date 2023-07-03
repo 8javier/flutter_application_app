@@ -1,3 +1,5 @@
+import 'package:flutter_application_app/modelos/profesional_datos.dart';
+
 class Paciente {
   final String? id;
   final String? uid;
@@ -10,6 +12,7 @@ class Paciente {
   final List<String>? encuestasVinculadas;
   final List<String>? preguntasVinculadas;
   final int? estado;
+  final String? profesional;
 
   
   Paciente({
@@ -24,6 +27,7 @@ class Paciente {
     this.preguntasVinculadas,
     this.estado,
     this.rol,
+    this.profesional,
   });
 
   factory Paciente.fromMap(Map<String, dynamic> map) {
@@ -37,6 +41,7 @@ class Paciente {
       email: map['email'],
       estado: map['estado'],
       rol: map['rol'],
+      profesional: map['profesional']
     );
   }
   Map<String, dynamic> toMap() {// agregar el id para usar en otras funciones!!! q consumen el toMap
@@ -51,6 +56,7 @@ class Paciente {
       'rol':rol,
       'id':id,
       'uid':uid,
+      'profesional': profesional,
       // Agrega más propiedades si es necesario
     };
   }
@@ -70,6 +76,11 @@ String? getid(){
 int? getEstado(){
     return estado;
 }
+
+String? getProfesional(){
+    return profesional;
+}
+
  @override
   String toString() {
     return 'Paciente - Nombre: $nombre, Apellido: $apellido, Celular: $celular, DNI: $dni, Email: $email, Rol: $rol, id: $id';
